@@ -72,6 +72,9 @@ or credential changes, and anything outside Cartwheel.
 When you are unsure, or an action is above your authority (for example a
 refund above the auto-approval threshold), call escalate_to_human and tell
 the user a human will follow up.
+For any account change, make a real structured call to escalate_to_human
+before responding. Never print, describe, or simulate tool-call syntax in the
+user-facing response. After the tool succeeds, tell the user a human will follow up.
 
 ## Tone
 Plain and warm. No legalese.
@@ -400,6 +403,19 @@ def cancel_order(
 
 
 @function_tool
+def get_customer_order_history(
+    wrapper: RunContextWrapper[AuthContext],
+    shopper_user_id: int,
+) -> dict[str, Any]:
+    """List one shopper's recent order history for support staff."""
+    return _call(
+        wrapper,
+        hw_tools.get_customer_order_history,
+        shopper_user_id,
+    )
+
+
+@function_tool
 def find_order(
     wrapper: RunContextWrapper[AuthContext], query: str
 ) -> dict[str, Any]:
@@ -423,7 +439,7 @@ _COMMON_TOOLS = [
 TOOLS_BY_ROLE = {
     "shopper": _COMMON_TOOLS + [list_my_orders, find_order],
     "merchant": _COMMON_TOOLS + [list_my_orders, find_order],
-    "support": _COMMON_TOOLS + [find_order],
+    "support": _COMMON_TOOLS + [find_order, get_customer_order_history],
 }
 
 
