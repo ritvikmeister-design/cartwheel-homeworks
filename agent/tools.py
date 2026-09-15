@@ -375,52 +375,53 @@ def find_order(ctx: AuthContext, query: str) -> dict[str, Any]:
     if not stripped_query:
         return {"ok": True, "orders": []}
 
-    with db.connection() as conn:
-        if ctx.role == "shopper":
-            orders = db.list_orders_for_user(conn, ctx.user_id, limit=10_000)
-        elif ctx.role == "merchant":
-            orders = db.list_orders_for_store(conn, ctx.store_id, limit=10_000)
-        else:
-            rows = conn.execute(
-                "SELECT id FROM orders "
-                "ORDER BY ordered_at DESC, id DESC"
-            ).fetchall()
-            orders = [
-                order
-                for row in rows
-                if (order := db.get_order(conn, row["id"])) is not None
-            ]
-
-        products_by_id = {
-            product.id: product
-            for product in db.list_products(conn)
+    if ctx.role == "shopper":
+        if ctx.user_id is None:
+            return {
+                "ok": False,
+                "error": "invalid_argument",
+                "reason": "a shopper order search requires an authenticated user id",
+            }
+        scope = {"user_id": ctx.user_id}
+    elif ctx.role == "merchant":
+        if ctx.store_id is None:
+            return {
+                "ok": False,
+                "error": "invalid_argument",
+                "reason": "a merchant order search requires an authenticated store id",
+            }
+        scope = {"store_id": ctx.store_id}
+    elif ctx.role == "support":
+        scope = {"all_orders": True}
+    else:
+        return {
+            "ok": False,
+            "error": "invalid_argument",
+            "reason": f"role '{ctx.role}' may not search orders",
         }
 
+    with db.connection() as conn:
+        orders = db.list_order_search_candidates(conn, **scope)
+        products_by_id = {
+            product.id: product for product in db.list_products(conn)
+        }
+
+    # Match on product name, preserving the helper's newest-first ordering,
+    # then truncate to five as the contract requires.
     matches = []
     for order in orders:
         product = products_by_id.get(order.product_id)
         if product is None:
             continue
 
-        score = fuzz.partial_ratio(
-            stripped_query.lower(),
-            product.title.lower(),
-        )
+        score = fuzz.partial_ratio(stripped_query.lower(), product.title.lower())
         if score >= 60:
-            matches.append((score, order))
+            matches.append(order)
 
-    matches.sort(
-        key=lambda match: (
-            -match[0],
-            -match[1].ordered_at.toordinal(),
-            -match[1].id,
-        )
-    )
+        if len(matches) == 5:
+            break
 
     return {
         "ok": True,
-        "orders": [
-            order.to_public_dict()
-            for _, order in matches[:5]
-        ],
+        "orders": [order.to_public_dict() for order in matches],
     }
