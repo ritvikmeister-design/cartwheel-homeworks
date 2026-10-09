@@ -152,6 +152,14 @@ def model_settings_for(model: Any) -> ModelSettings:
     model_id = getattr(model, "model", "") if not isinstance(model, str) else ""
     if model_id.startswith("together_ai/"):
         return ModelSettings(extra_args={"allowed_openai_params": ["tools"]})
+    if model_id.startswith("openai/"):
+        # MetaGen's OpenAI-compatible endpoint is reached through LiteLLM's
+        # "openai" provider, which refuses to forward reasoning_effort. The
+        # branch below assumes Anthropic's native API, so skip it here.
+        # Claude via MetaGen also rejects a null max_tokens, which the Agents
+        # SDK omits by default, so set it explicitly.
+        return ModelSettings(include_usage=True, max_tokens=4096)
+
     if "claude" in model_id or "anthropic" in model_id:
         return ModelSettings(
             reasoning={"effort": "high", "summary": "detailed"},
