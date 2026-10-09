@@ -1,0 +1,77 @@
+pilot-011	9
+pilot-028	9
+pilot-027	9
+pilot-001	7
+pilot-004	6
+pilot-021	6
+pilot-016	6
+pilot-030	6
+pilot-015	6
+pilot-019	6
+pilot-013	6
+pilot-029	3
+pilot-008	3
+pilot-025	3
+final-240	3
+pilot-006	3
+pilot-014	3
+pilot-017	3
+pilot-022	3
+pilot-005	3
+pilot-012	3
+pilot-024	3
+pilot-007	3
+pilot-023	3
+final-238	3
+final-242	3
+pilot-003	3
+final-165	3
+final-167	3
+final-161	3
+final-236	3
+pilot-018	3
+final-163	3
+final-169	3
+pilot-020	3
+pilot-010	3
+pilot-002	3
+pilot-009	3
+pilot-026	3
+final-054	2
+final-179	2
+final-183	2
+final-099	2
+final-182	2
+final-067	2
+final-010	2
+final-189	2
+final-095	2
+final-187	2
+final-087	2
+shopper	228
+merchant	138
+support	132
+	1
+cartwheel.session_message	2
+48
+0	0	\N
+a8241f13c124df9c3cff3020643bd08b	15	27527
+617702c9eca381a2482857b87568de40	15	23500
+35e747e80465f9a5c26e41c871f5270a	14	26003
+2683dfbac628d05d533c2359cbf30e38	14	20764
+7052a5c80d009f8deccfa56423a76ff5	14	21426
+e44ce884b527cf0d6b9b5886e9d04988	13	27184
+9e91a994b8c5bd5ce544076c5d9dff5c	13	18354
+593ca34a8ea736faabaf7025ff1ea061	13	18282
+917c4759d07bc68df84086eedf12410d	13	19809
+5c83562e2c483768fb1a48eebc17d1b0	12	17222
+search_help_center	171
+get_order	169
+search_products	96
+escalate_to_human	48
+find_order	30
+issue_refund	25
+cancel_order	23
+get_policy	21
+list_my_orders	9
+8
