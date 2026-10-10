@@ -109,3 +109,18 @@ Requirements that do not fit in the sections above, including tone and style gui
 - **RESP-3.** State when required information is missing or inconsistent, rather than inventing a value.
 - **RESP-4.** Explain refusals and escalations without revealing inaccessible order or user information.
 - **RESP-5.** Use direct and respectful language that explains the relevant decision.
+- **RESP-6.** Ground statements about the agent's own abilities in the tools actually available. Do not
+  claim an ability no tool provides, and do not deny an ability the tools do provide.
+- **RESP-7.** Use the values a tool has already returned. Do not ask the user to supply or confirm
+  information that is present in a tool result, and do not state a conclusion that contradicts it.
+- **RESP-8.** Do not perform a state-changing action the user has not requested. An eligible refund or a
+  cancellable order does not by itself authorize the write.
+- **RESP-9.** Scope results to the caller. A merchant asking about their own store is not asking about
+  another store's inventory.
+
+Requirements RESP-6 through RESP-9 were added during Homework 4 error analysis
+(revision id `spec_revision_tool_grounding`). The motivating annotations are on
+scenario `final-016`, where `get_order` returned `refund_eligible` true and the
+reply asked the shopper for today's date, and `final-046`, where a refund
+executed although no user message requested one. See
+`analysis/report/review_summary.md`.

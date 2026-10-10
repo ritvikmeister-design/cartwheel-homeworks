@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-10-10T00:58:42.561150+00:00",
+  "reviewed_sessions": 110,
+  "note": "Figures are SAMPLE FRACTIONS over a deliberately biased review set (clustering, stratification and depth searches changed its composition). They are not prevalence estimates; Homework 5 estimates prevalence over the full trace store.",
+  "modes": {
+    "unrequested_write_action": {
+      "fail": 10,
+      "pass": 100,
+      "n": 110,
+      "sample_fraction": 0.0909,
+      "pending_suggestions": 0
+    },
+    "misstated_capability": {
+      "fail": 11,
+      "pass": 99,
+      "n": 110,
+      "sample_fraction": 0.1,
+      "pending_suggestions": 0
+    },
+    "tool_result_not_used": {
+      "fail": 6,
+      "pass": 104,
+      "n": 110,
+      "sample_fraction": 0.0545,
+      "pending_suggestions": 3
+    },
+    "cross_store_results_to_merchant": {
+      "fail": 6,
+      "pass": 104,
+      "n": 110,
+      "sample_fraction": 0.0545,
+      "pending_suggestions": 2
+    },
+    "role_blind_reply": {
+      "fail": 4,
+      "pass": 106,
+      "n": 110,
+      "sample_fraction": 0.0364,
+      "pending_suggestions": 4
+    },
+    "incorrect_eligibility_conclusion": {
+      "fail": 4,
+      "pass": 106,
+      "n": 110,
+      "sample_fraction": 0.0364,
+      "pending_suggestions": 0
+    },
+    "unsolicited_action_offer": {
+      "fail": 3,
+      "pass": 107,
+      "n": 110,
+      "sample_fraction": 0.0273,
+      "pending_suggestions": 18
+    },
+    "missed_escalation": {
+      "fail": 3,
+      "pass": 107,
+      "n": 110,
+      "sample_fraction": 0.0273,
+      "pending_suggestions": 0
+    }
+  }
+}

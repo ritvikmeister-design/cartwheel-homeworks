@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cartwheel review</title>
+<style>
+:root{--bg:#14161a;--panel:#1c1f26;--line:#2c313b;--ink:#e6e8ec;--dim:#9aa3b2;
+--user:#4c8dff;--agent:#39c07a;--tool:#d79a3a;--warn:#e06c6c;--sug:#b07cf0;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+#top{display:flex;gap:8px;align-items:center;padding:8px 12px;background:var(--panel);
+border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;flex-wrap:wrap}
+button{background:#262b34;color:var(--ink);border:1px solid var(--line);border-radius:6px;
+padding:5px 10px;cursor:pointer;font-size:13px}
+button:hover{background:#30363f}
+button.on{background:var(--user);border-color:var(--user);color:#fff}
+select,input[type=text]{background:#262b34;color:var(--ink);border:1px solid var(--line);
+border-radius:6px;padding:5px 8px;font-size:13px}
+.sp{flex:1}
+.view{display:none;padding:14px}
+.view.on{display:block}
+#hdr{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:10px}
+#hdr .t{font-weight:700;font-size:15px}
+#hdr .m{color:var(--dim);font-size:12px;margin-top:3px}
+.badge{display:inline-block;background:#262b34;border:1px solid var(--line);border-radius:20px;
+padding:1px 9px;margin-right:5px;font-size:11px;color:var(--dim)}
+.badge.ch{border-color:var(--warn);color:#f0a0a0}
+.badge.dq{border-color:var(--sug);color:#d9b8ff}
+#wrap{display:flex;gap:14px;align-items:flex-start}
+#body{flex:1;max-width:760px}
+#margin{width:250px;position:relative;flex-shrink:0}
+#key{width:330px;flex-shrink:0;position:sticky;top:60px;max-height:85vh;overflow:auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.card h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim)}
+.turn{border-top:1px dashed var(--line);margin:14px 0 6px;padding-top:6px;color:var(--dim);font-size:11px}
+.blk{border-left:3px solid var(--line);background:var(--panel);border-radius:0 8px 8px 0;
+padding:8px 12px;margin:8px 0}
+.blk.u{border-left-color:var(--user)}
+.blk.a{border-left-color:var(--agent)}
+.blk .role{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.blk.u .role{color:var(--user)} .blk.a .role{color:var(--agent)}
+.txt{white-space:pre-wrap;word-break:break-word}
+.tool{border:1px solid var(--line);border-left:3px solid var(--tool);border-radius:0 8px 8px 0;
+margin:6px 0;background:#191c22}
+.tool .th{padding:6px 10px;cursor:pointer;display:flex;gap:8px;align-items:center}
+.tool .tn{font-weight:700;color:var(--tool);font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.tool .sum{color:var(--dim);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.tool pre{margin:0;padding:8px 10px;background:#11141a;overflow:auto;max-height:260px;
+font-size:12px;font-family:ui-monospace,Menlo,monospace;border-top:1px solid var(--line)}
+.hid{display:none}
+mark.hl{background:#3a4a2e;border-bottom:2px solid var(--agent);cursor:pointer;border-radius:2px}
+mark.hl.sg{background:#342a44;border-bottom:2px dashed var(--sug)}
+mark.hl.act{outline:2px solid var(--agent)}
+mark.pending{background:#4a3f1e;border-bottom:2px solid var(--tool)}
+.mn{position:absolute;width:244px;background:var(--panel);border:1px solid var(--line);
+border-left:3px solid var(--agent);border-radius:0 6px 6px 0;padding:7px 9px;font-size:12px}
+.mn.sg{border-left-color:var(--sug)}
+.mn.act{outline:2px solid var(--agent)}
+.mn .q{color:var(--dim);font-style:italic;font-size:11px;margin-bottom:3px;
+display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mn .acts{margin-top:5px;display:flex;gap:5px}
+.mn .acts button{padding:2px 7px;font-size:11px}
+.mn .hv{visibility:hidden}
+.mn:hover .hv{visibility:visible}
+.tag{display:inline-block;background:#342a44;color:#d9b8ff;border-radius:3px;padding:0 5px;font-size:10px;margin-bottom:3px}
+#pop{position:absolute;z-index:200;background:var(--panel);border:1px solid var(--user);
+border-radius:8px;padding:8px;display:none;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+#pop input{width:330px}
+#pop .h{font-size:11px;color:var(--dim);margin-bottom:5px}
+kbd{background:#262b34;border:1px solid var(--line);border-radius:3px;padding:0 4px;font-size:11px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+th{background:var(--panel);position:sticky;top:48px;font-size:12px}
+td.c{text-align:center;white-space:nowrap}
+.pill{border-radius:5px;padding:1px 7px;font-size:11px;border:1px solid var(--line);cursor:pointer}
+.pill.f{background:#4a2020;border-color:var(--warn);color:#ffc9c9}
+.pill.p{background:#1f3a28;border-color:var(--agent);color:#bff0d0}
+.pill.none{background:#2a2a2a;color:var(--dim)}
+.tm{display:flex;flex-wrap:wrap;gap:8px}
+.tmb{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 11px;min-width:190px}
+.tmb h5{margin:0 0 4px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+.tmb .n{color:var(--dim);font-size:11px}
+#toast{position:fixed;right:14px;bottom:14px;background:var(--user);color:#fff;padding:9px 13px;
+border-radius:8px;display:none;z-index:300;font-size:13px}
+#dot{width:7px;height:7px;border-radius:50%;background:var(--agent);display:inline-block}
+svg{background:#11141a;border:1px solid var(--line);border-radius:8px}
+</style>
+</head>
+<body>
+<div id="top">
+  <strong>Cartwheel review</strong>
+  <button id="vTrace" class="on">Trace</button>
+  <button id="vMap">Map</button>
+  <button id="vProg">Progress</button>
+  <button id="vLab">Labels</button>
+  <span class="sp"></span>
+  <select id="filt"></select>
+  <button id="prev">&larr;</button>
+  <span id="pos" style="color:var(--dim);font-size:12px"></span>
+  <button id="next">&rarr;</button>
+  <span id="dot" title="saved"></span>
+</div>
+
+<div id="trace" class="view on">
+  <div id="hdr"></div>
+  <div id="wrap">
+    <div id="body"></div>
+    <div id="margin"></div>
+    <div id="key"></div>
+  </div>
+</div>
+<div id="map" class="view"><div id="mapwrap"></div></div>
+<div id="prog" class="view"></div>
+<div id="lab" class="view"></div>
+
+<div id="pop">
+  <div class="h">open code &mdash; describe the failure and its evidence &middot; <kbd>Enter</kbd> saves &middot; <kbd>Esc</kbd> cancels</div>
+  <input id="popin" type="text" placeholder="e.g. reply claims the refund completed though the tool only queued it">
+</div>
+<div id="toast"></div>
+
+<script>
+const S={samples:[],annotations:[],patterns:{modes:[]},suggestions:[],graph:{nodes:[]},i:0,filter:"batchtodo"};
+const $=id=>document.getElementById(id);
+const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const now=()=>new Date().toISOString();
+function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2600);}
+function flash(ok){$("dot").style.background=ok?"#39c07a":"#e06c6c";}
+
+async function get(n){const r=await fetch("/api/"+n);return r.json();}
+async function post(n,p){try{const r=await fetch("/api/"+n,{method:"POST",headers:{"Content-Type":"application/json"},
+  body:JSON.stringify(p)});flash(r.ok);return r.ok;}catch(e){flash(false);return false;}}
+function backup(){try{localStorage.setItem("cw_annotations",JSON.stringify(S.annotations));
+  localStorage.setItem("cw_patterns",JSON.stringify(S.patterns));}catch(e){}}
+async function saveAnn(){backup();await post("annotations",{annotations:S.annotations});}
+
+function visible(){
+  if(S.filter==="all")return S.samples;
+  if(S.filter==="unreviewed")return S.samples.filter(s=>!S.annotations.some(a=>a.trace_id===s.session_id));
+  if(S.filter==="reviewed")return S.samples.filter(s=>S.annotations.some(a=>a.trace_id===s.session_id));
+  if(S.filter==="challenge")return S.samples.filter(s=>s.scenario_group==="challenge");
+  if(S.filter==="multiturn")return S.samples.filter(s=>s.turn_count>1);
+  if(S.filter==="notools")return S.samples.filter(s=>!s.tool_names.length);
+  if(S.filter==="batch")return S.samples.filter(s=>s.batch);
+  if(S.filter==="batch1")return S.samples.filter(s=>s.batch===1);
+  if(S.filter==="batch2")return S.samples.filter(s=>s.batch===2);
+  if(S.filter==="batchtodo")return S.samples.filter(s=>s.batch&&!S.annotations.some(a=>a.trace_id===s.session_id));
+  if(S.filter.startsWith("cluster:"))return S.samples.filter(s=>String(s.cluster)===S.filter.slice(8));
+  return S.samples;
+}
+const cur=()=>visible()[S.i];
+
+function renderHeader(s){
+  const notes=S.annotations.filter(a=>a.trace_id===s.session_id).length;
+  $("hdr").innerHTML=`<div class="t">${esc(s.scenario_id)} &middot; ${esc(s.intent)}</div>
+  <div class="m">
+   <span class="badge ${s.scenario_group==="challenge"?"ch":""}">${esc(s.scenario_group)}</span>
+   ${s.data_quality_case_id?`<span class="badge dq">${esc(s.data_quality_case_id)}</span>`:""}
+   <span class="badge">${esc(s.role)} ${esc(s.user_id)}</span>
+   <span class="badge">${esc(s.difficulty)}</span>
+   <span class="badge">${esc(s.user_style)}</span>
+   <span class="badge">${s.turn_count} turn${s.turn_count>1?"s":""}</span>
+   <span class="badge">${s.tool_names.length} tool call${s.tool_names.length===1?"":"s"}</span>
+   ${s.tool_names.length?`<span class="badge">${esc([...new Set(s.tool_names)].join(", "))}</span>`:`<span class="badge ch">no tools</span>`}
+   <span class="badge">prompt ${esc(s.prompt_version||"?")}</span>
+   ${notes?`<span class="badge">${notes} note${notes>1?"s":""}</span>`:""}
+  </div>`;
+}
+function renderKey(s){
+  const e=s.expected||{};
+  const rec=s.record||{};
+  let h=`<div class="card"><h4>Expected (answer key)</h4>
+    <div><strong>${esc(e.outcome||e.criterion||"")}</strong></div>
+    ${e.reason?`<div style="color:var(--dim);margin-top:4px">${esc(e.reason)}</div>`:""}
+    <div style="color:var(--dim);margin-top:4px;font-size:11px">${esc((e.source||{}).type)} &rarr; ${esc((e.source||{}).reference)}</div></div>`;
+  if(rec.order)h+=`<div class="card"><h4>Order record</h4><pre style="margin:0;white-space:pre-wrap;font-size:11.5px">${esc(JSON.stringify(rec.order,null,1))}</pre></div>`;
+  if(rec.product)h+=`<div class="card"><h4>Product record</h4><pre style="margin:0;white-space:pre-wrap;font-size:11.5px">${esc(JSON.stringify(rec.product,null,1))}</pre></div>`;
+  if(rec.caller)h+=`<div class="card"><h4>Caller</h4><pre style="margin:0;white-space:pre-wrap;font-size:11.5px">${esc(JSON.stringify(rec.caller,null,1))}</pre></div>`;
+  for(const[k,v]of Object.entries(s.policy_text||{}))h+=`<div class="card"><h4>${esc(k)}</h4><div style="font-size:12px">${esc(v)}</div></div>`;
+  for(const[k,v]of Object.entries(s.spec_text||{}))h+=`<div class="card"><h4>${esc(k)}</h4><div style="font-size:12px">${esc(v)}</div></div>`;
+  h+=`<div class="card"><h4>World date</h4><div>${esc(rec.world_asof||"")}</div></div>`;
+  $("key").innerHTML=h;
+}
+function renderBody(s){
+  let h="";
+  s.turns.forEach(t=>{
+    h+=`<div class="turn">turn ${t.n} &middot; ${t.span_count} spans${t.latency?` &middot; ${t.latency}s`:""}
+      ${t.html_path?` &middot; <a href="http://localhost:3000${esc(t.html_path)}" target="_blank" style="color:var(--dim)">langfuse</a>`:""}</div>`;
+    h+=`<div class="blk u"><div class="role">user</div><div class="txt ann">${esc(t.user)}</div></div>`;
+    t.tools.forEach((c,ci)=>{
+      const sum=(c.result||"").replace(/\s+/g," ").slice(0,110);
+      h+=`<div class="tool"><div class="th" onclick="this.parentNode.querySelectorAll('pre').forEach(p=>p.classList.toggle('hid'))">
+        <span class="tn">${esc(c.name)}</span><span class="sum">${esc(sum)}</span>
+        ${c.level==="ERROR"?'<span class="badge ch">error</span>':""}</div>
+        <pre class="hid">args: ${esc(c.args)}</pre>
+        <pre class="hid">result: ${esc(c.result)}</pre></div>`;
+    });
+    h+=`<div class="blk a"><div class="role">agent</div><div class="txt ann">${esc(t.agent)}</div></div>`;
+  });
+  $("body").innerHTML=h;
+  applyMarks(s);
+}
+function applyMarks(s){
+  const items=[...S.annotations.filter(a=>a.trace_id===s.session_id).map(a=>({...a,kind:"ann"})),
+               ...S.suggestions.filter(a=>a.trace_id===s.session_id).map(a=>({...a,kind:"sug"}))];
+  document.querySelectorAll("#body .ann").forEach(el=>{
+    let html=el.getAttribute("data-raw")||el.innerHTML;
+    el.setAttribute("data-raw",html);
+    items.forEach(it=>{
+      if(!it.quote)return;
+      const q=esc(it.quote);
+      if(html.includes(q))html=html.replace(q,`<mark class="hl ${it.kind==="sug"?"sg":""}" data-id="${esc(it.id)}">${q}</mark>`);
+    });
+    el.innerHTML=html;
+  });
+  renderMargin(s,items);
+}
+function renderMargin(s,items){
+  const m=$("margin");m.innerHTML="";
+  const mr=m.getBoundingClientRect();let last=-1e9;
+  items.forEach(it=>{
+    const hl=document.querySelector(`#body mark[data-id="${CSS.escape(String(it.id))}"]`);
+    const d=document.createElement("div");
+    d.className="mn"+(it.kind==="sug"?" sg":"");
+    d.innerHTML=(it.kind==="sug"?`<div class="tag">agent suggestion</div>`:"")+
+      (it.quote?`<div class="q">&ldquo;${esc(it.quote)}&rdquo;</div>`:"")+
+      `<div>${esc(it.note)}</div>`+
+      (it.kind==="sug"
+        ? `<div class="acts"><button data-acc="${esc(it.id)}">accept</button><button data-dis="${esc(it.id)}">dismiss</button></div>`
+        : `<div class="acts hv"><button data-ed="${esc(it.id)}">edit</button><button data-del="${esc(it.id)}">delete</button></div>`);
+    let top=hl?(hl.getBoundingClientRect().top-mr.top):0;
+    if(top<last+8)top=last+8;
+    d.style.top=Math.max(0,top)+"px";
+    m.appendChild(d);
+    last=top+d.offsetHeight;
+    if(hl){
+      d.onmouseenter=()=>hl.classList.add("act");d.onmouseleave=()=>hl.classList.remove("act");
+      hl.onmouseenter=()=>d.classList.add("act");hl.onmouseleave=()=>d.classList.remove("act");
+    }
+  });
+  m.querySelectorAll("[data-acc]").forEach(b=>b.onclick=()=>acceptSug(b.dataset.acc));
+  m.querySelectorAll("[data-dis]").forEach(b=>b.onclick=()=>rejectSug(b.dataset.dis));
+  m.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>delAnn(b.dataset.del));
+  m.querySelectorAll("[data-ed]").forEach(b=>b.onclick=()=>editAnn(b.dataset.ed));
+}
+function render(){
+  const v=visible();
+  if(S.i>=v.length)S.i=Math.max(0,v.length-1);
+  const s=cur();
+  $("pos").textContent=v.length?`${S.i+1} / ${v.length}`:"0 / 0";
+  if(!s){$("hdr").innerHTML="<em>no sessions match this filter</em>";$("body").innerHTML="";
+    $("margin").innerHTML="";$("key").innerHTML="";return;}
+  renderHeader(s);renderBody(s);renderKey(s);
+}
+
+// ---- inline annotation ----
+let pendingRange=null,pendingMark=null,editing=null;
+document.addEventListener("mouseup",e=>{
+  if($("pop").contains(e.target))return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed)return;
+  const node=sel.anchorNode;
+  if(!node||!$("body").contains(node.parentNode||node))return;
+  const text=sel.toString().trim();
+  if(text.length<3)return;
+  pendingRange=sel.getRangeAt(0);
+  pendingMark=document.createElement("mark");pendingMark.className="pending";
+  try{pendingRange.surroundContents(pendingMark);}catch(err){pendingMark=null;}
+  const r=(pendingMark||pendingRange).getBoundingClientRect();
+  const p=$("pop");p.style.display="block";
+  p.style.left=Math.min(window.innerWidth-380,r.left+window.scrollX)+"px";
+  p.style.top=(r.bottom+window.scrollY+6)+"px";
+  $("popin").value="";$("popin").dataset.quote=text;$("popin").focus();
+  sel.removeAllRanges();
+});
+function clearPending(){
+  if(pendingMark&&pendingMark.parentNode){
+    const p=pendingMark.parentNode;
+    while(pendingMark.firstChild)p.insertBefore(pendingMark.firstChild,pendingMark);
+    p.removeChild(pendingMark);
+  }
+  pendingMark=null;pendingRange=null;$("pop").style.display="none";
+}
+$("popin").addEventListener("keydown",async e=>{
+  if(e.key==="Escape"){clearPending();editing=null;return;}
+  if(e.key!=="Enter")return;
+  const note=$("popin").value.trim();if(!note)return;
+  const s=cur();
+  if(editing){
+    const a=S.annotations.find(x=>String(x.id)===String(editing));
+    if(a)a.note=note;editing=null;
+  }else{
+    S.annotations.push({id:"a"+Date.now()+Math.floor(Math.random()*999),trace_id:s.session_id,
+      scenario_id:s.scenario_id,quote:$("popin").dataset.quote,note:note,ts:now(),author:"human"});
+  }
+  clearPending();await saveAnn();render();toast("annotation saved");
+});
+function editAnn(id){
+  const a=S.annotations.find(x=>String(x.id)===String(id));if(!a)return;
+  editing=id;const p=$("pop");p.style.display="block";
+  p.style.left=(window.innerWidth/2-200)+"px";p.style.top=(window.scrollY+120)+"px";
+  $("popin").value=a.note;$("popin").dataset.quote=a.quote||"";$("popin").focus();
+}
+async function delAnn(id){
+  S.annotations=S.annotations.filter(x=>String(x.id)!==String(id));
+  await saveAnn();render();
+}
+async function acceptSug(id){
+  const i=S.suggestions.findIndex(x=>String(x.id)===String(id));if(i<0)return;
+  const sg=S.suggestions[i];
+  S.annotations.push({id:"a"+Date.now(),trace_id:sg.trace_id,scenario_id:sg.scenario_id,
+    quote:sg.quote||"",note:sg.note,ts:now(),author:"accepted_suggestion",from_suggestion:sg.id});
+  S.suggestions[i]={...sg,status:"accepted",decided_ts:now()};
+  await saveAnn();await post("suggestions",S.suggestions);render();toast("suggestion accepted");
+}
+async function rejectSug(id){
+  const i=S.suggestions.findIndex(x=>String(x.id)===String(id));if(i<0)return;
+  S.suggestions[i]={...S.suggestions[i],status:"rejected",decided_ts:now()};
+  await post("suggestions",S.suggestions);render();toast("suggestion rejected");
+}
+
+// ---- no-failure shortcut ----
+document.addEventListener("keydown",e=>{
+  if(document.activeElement.tagName==="INPUT")return;
+  if(e.key==="n"&&!e.metaKey){
+    const s=cur();if(!s)return;
+    S.annotations.push({id:"a"+Date.now(),trace_id:s.session_id,scenario_id:s.scenario_id,
+      quote:"",note:"no failure observed",ts:now(),author:"human"});
+    saveAnn().then(()=>{render();toast("marked: no failure observed");});
+  }
+  if(e.key==="ArrowRight"){S.i=Math.min(visible().length-1,S.i+1);render();}
+  if(e.key==="ArrowLeft"){S.i=Math.max(0,S.i-1);render();}
+});
+
+// ---- map ----
+function renderMap(){
+  const n=S.graph.nodes||[];if(!n.length){$("mapwrap").innerHTML="<em>no graph</em>";return;}
+  const W=900,H=560,P=36;
+  const xs=n.map(d=>d.x),ys=n.map(d=>d.y);
+  const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+  const sx=v=>P+(v-x0)/((x1-x0)||1)*(W-2*P), sy=v=>H-P-(v-y0)/((y1-y0)||1)*(H-2*P);
+  const C=["#4c8dff","#39c07a","#d79a3a","#e06c6c","#b07cf0","#3ec6c6","#d86bb0","#9aa3b2"];
+  const done=new Set(S.annotations.map(a=>a.trace_id));
+  let s=`<svg width="${W}" height="${H}">`;
+  n.forEach(d=>{
+    const rev=done.has(d.session_id);
+    s+=`<circle cx="${sx(d.x).toFixed(1)}" cy="${sy(d.y).toFixed(1)}" r="${rev?6:4}"
+      fill="${rev?"#ff9a3c":C[d.cluster%C.length]}" stroke="${rev?"#fff":"none"}" stroke-width="1"
+      opacity="${rev?1:.75}" style="cursor:pointer" data-s="${d.session_id}">
+      <title>${d.scenario_id} · ${d.role} · ${d.group} · cluster ${d.cluster} · ${d.tools} tools${rev?" · reviewed":""}</title></circle>`;
+  });
+  s+="</svg>";
+  s+=`<div style="margin-top:8px;color:var(--dim);font-size:12px">colour = cluster &middot; orange + white ring = reviewed &middot; click a node to open it</div>`;
+  $("mapwrap").innerHTML=s;
+  $("mapwrap").querySelectorAll("circle").forEach(c=>c.onclick=()=>{
+    const id=c.dataset.s;S.filter="all";syncFilter();
+    const ix=visible().findIndex(x=>x.session_id===id);
+    if(ix>=0){S.i=ix;show("trace");render();}
+  });
+}
+// ---- progress ----
+function renderProg(){
+  const total=S.samples.length;
+  const reviewed=new Set(S.annotations.map(a=>a.trace_id)).size;
+  const nf=S.annotations.filter(a=>a.note==="no failure observed").length;
+  let h=`<div class="card"><h4>Progress</h4>
+    reviewed sessions <strong>${reviewed}</strong> of ${total} &middot;
+    annotations <strong>${S.annotations.length}</strong> &middot;
+    "no failure observed" <strong>${nf}</strong> &middot;
+    modes <strong>${(S.patterns.modes||[]).length}</strong></div>`;
+  h+=`<div class="card"><h4>Taxonomy</h4><div class="tm">`;
+  (S.patterns.modes||[]).forEach(m=>{
+    const ex=(m.examples||m.positive_traces||[]).length;
+    h+=`<div class="tmb" style="flex:${Math.max(1,ex)}"><h5>${esc(m.name)}</h5>
+      <div class="n">${ex} positive &middot; ${(m.close_negatives||[]).length} close negative</div>
+      <div style="margin-top:5px;font-size:12px">${esc(m.definition||"")}</div>
+      <div class="n" style="margin-top:5px">from: ${esc((m.created_from||[]).join(", "))}</div></div>`;
+  });
+  if(!(S.patterns.modes||[]).length)h+="<em>no modes yet &mdash; axial coding comes after the first batches</em>";
+  h+=`</div></div>`;
+  let pend=S.suggestions.filter(s=>!s.status);
+  const modes=[...new Set(pend.map(x=>x.mode))].sort();
+  if(S.sugMode&&S.sugMode!=="all")pend=pend.filter(x=>x.mode===S.sugMode);
+  h+=`<div class="card"><h4>Suggestion queue (${pend.length} shown)</h4>
+   <div style="margin-bottom:6px">mode:
+   <select id="sugFilt">${["all",...modes].map(m=>`<option${m===(S.sugMode||"all")?" selected":""}>${m}</option>`).join("")}</select></div>`;
+  if(!pend.length)h+="<em>none pending</em>";
+  pend.slice(0,60).forEach(s=>{
+    h+=`<div style="border-top:1px solid var(--line);padding:6px 0">
+      <div style="font-size:11px;color:var(--dim)">${esc(s.scenario_id||s.trace_id)} &middot; ${esc(s.mode||"")}</div>
+      <div>${esc(s.note)}</div>
+      <div class="acts" style="margin-top:4px"><button data-acc="${esc(s.id)}">accept</button>
+      <button data-dis="${esc(s.id)}">reject</button></div></div>`;
+  });
+  h+="</div>";
+  const dec=S.suggestions.filter(s=>s.status);
+  h+=`<div class="card"><h4>Decided suggestions</h4>
+    accepted ${dec.filter(s=>s.status==="accepted").length} &middot;
+    rejected ${dec.filter(s=>s.status==="rejected").length}</div>`;
+  $("prog").innerHTML=h;
+  const sf=document.getElementById("sugFilt");
+  if(sf)sf.onchange=e=>{S.sugMode=e.target.value;renderProg();};
+  $("prog").querySelectorAll("[data-acc]").forEach(b=>b.onclick=()=>acceptSug(b.dataset.acc).then(renderProg));
+  $("prog").querySelectorAll("[data-dis]").forEach(b=>b.onclick=()=>rejectSug(b.dataset.dis).then(renderProg));
+}
+// ---- structured labelling ----
+function renderLab(){
+  const modes=S.patterns.modes||[];
+  if(!modes.length){$("lab").innerHTML="<div class='card'>No modes yet. Structured labelling opens once the taxonomy stabilises.</div>";return;}
+  const reviewed=S.samples.filter(s=>S.annotations.some(a=>a.trace_id===s.session_id));
+  S.labels=S.labels||{};
+  let h=`<div class="card">Labelling <strong>${reviewed.length}</strong> reviewed sessions &times; <strong>${modes.length}</strong> modes.
+   Click to cycle <span class="pill none">none</span> &rarr; <span class="pill f">fail</span> &rarr; <span class="pill p">pass</span>.
+   <button id="saveLab" style="margin-left:8px">save labels</button>
+   <span id="labstat" style="color:var(--dim);margin-left:8px"></span></div>`;
+  h+="<table><tr><th>session</th><th>scenario</th>"+modes.map(m=>`<th>${esc(m.name)}</th>`).join("")+"</tr>";
+  reviewed.forEach(s=>{
+    h+=`<tr><td style="font-size:11px">${esc(s.session_id.slice(0,10))}</td><td>${esc(s.scenario_id)}</td>`;
+    modes.forEach(m=>{
+      const v=(S.labels[m.name]||{})[s.session_id];
+      const cls=v===1?"f":v===0?"p":"none";
+      const lbl=v===1?"fail":v===0?"pass":"&mdash;";
+      h+=`<td class="c"><span class="pill ${cls}" data-m="${esc(m.name)}" data-s="${esc(s.session_id)}">${lbl}</span></td>`;
+    });
+    h+="</tr>";
+  });
+  h+="</table>";
+  $("lab").innerHTML=h;
+  $("lab").querySelectorAll(".pill[data-m]").forEach(p=>p.onclick=()=>{
+    const m=p.dataset.m,s=p.dataset.s;
+    S.labels[m]=S.labels[m]||{};
+    const v=S.labels[m][s];
+    S.labels[m][s]=v===undefined?1:v===1?0:undefined;
+    if(S.labels[m][s]===undefined)delete S.labels[m][s];
+    renderLab();
+  });
+  $("saveLab").onclick=async()=>{
+    const ok=await post("labels",S.labels);
+    $("labstat").textContent=ok?"saved":"save failed";
+  };
+}
+
+// ---- views ----
+function show(v){
+  ["trace","map","prog","lab"].forEach(x=>$(x).classList.remove("on"));
+  ["vTrace","vMap","vProg","vLab"].forEach(x=>$(x).classList.remove("on"));
+  $(v).classList.add("on");
+  $({trace:"vTrace",map:"vMap",prog:"vProg",lab:"vLab"}[v]).classList.add("on");
+  if(v==="map")renderMap();if(v==="prog")renderProg();if(v==="lab")renderLab();
+}
+$("vTrace").onclick=()=>show("trace");$("vMap").onclick=()=>show("map");
+$("vProg").onclick=()=>show("prog");$("vLab").onclick=()=>show("lab");
+$("prev").onclick=()=>{S.i=Math.max(0,S.i-1);render();};
+$("next").onclick=()=>{S.i=Math.min(visible().length-1,S.i+1);render();};
+function syncFilter(){
+  const cl=[...new Set(S.samples.map(s=>s.cluster))].sort((a,b)=>a-b);
+  $("filt").innerHTML=[["batchtodo","review set: not yet reviewed"],["batch","review set: all batches"],["batch1","batch 1 (breadth)"],["batch2","batch 2 (role)"],["all","all 250 sessions"],["unreviewed","unreviewed"],["reviewed","reviewed"],
+    ["challenge","challenge only"],["multiturn","multi-turn only"],["notools","no tool calls"]]
+    .concat(cl.map(c=>["cluster:"+c,"cluster "+c]))
+    .map(([v,l])=>`<option value="${v}"${v===S.filter?" selected":""}>${l}</option>`).join("");
+}
+$("filt").onchange=e=>{S.filter=e.target.value;S.i=0;render();};
+
+async function load(){
+  const [sm,an,pt,sg,gr]=await Promise.all([get("samples"),get("annotations"),get("patterns"),get("suggestions"),get("graph")]);
+  S.samples=(sm.samples||[]).sort((a,b)=>a.scenario_id<b.scenario_id?-1:1);S.annotations=(an.annotations)||[];
+  S.patterns=pt&&pt.modes?pt:{modes:[]};S.suggestions=Array.isArray(sg)?sg:[];S.graph=gr||{nodes:[]};
+  syncFilter();render();
+}
+let lastSug=0;
+setInterval(async()=>{
+  const sg=await get("suggestions");
+  const arr=Array.isArray(sg)?sg:[];
+  const pend=arr.filter(s=>!s.status).length;
+  if(pend>lastSug&&lastSug!==0)toast(pend-lastSug+" new suggestion(s)");
+  lastSug=pend;S.suggestions=arr;
+},15000);
+load();
+</script>
+</body>
+</html>
