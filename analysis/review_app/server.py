@@ -22,6 +22,8 @@ FILES = {
     "suggestions": STATE / "suggestions.json",
     "graph": STATE / "graph.json",
     "labels": STATE / "labels_draft.json",
+    "hw5_candidates": STATE / "hw5_candidates.json",
+    "hw5_labels": STATE / "hw5_labels.json",
 }
 DEFAULTS = {
     "samples": {"samples": []},
@@ -30,6 +32,8 @@ DEFAULTS = {
     "suggestions": [],
     "graph": {"nodes": []},
     "labels": {},
+    "hw5_candidates": {"candidates": []},
+    "hw5_labels": {},
 }
 
 def read(name):
@@ -67,6 +71,11 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = self.path.split("?")[0]
+        if path == "/hw5":
+            f = UI.parent / "hw5.html"
+            if not f.exists():
+                return self._send(500, {"error": f"missing {f}"})
+            return self._send(200, f.read_bytes(), "text/html; charset=utf-8")
         if path in ("/", "/index.html"):
             if not UI.exists():
                 return self._send(500, {"error": f"UI missing at {UI}"})
@@ -82,7 +91,7 @@ class Handler(BaseHTTPRequestHandler):
         if not path.startswith("/api/"):
             return self._send(404, {"error": "not found"})
         name = path[5:]
-        if name not in FILES or name == "graph":
+        if name not in FILES or name in ("graph", "hw5_candidates"):
             return self._send(404, {"error": f"cannot write {name}"})
         try:
             n = int(self.headers.get("Content-Length") or 0)

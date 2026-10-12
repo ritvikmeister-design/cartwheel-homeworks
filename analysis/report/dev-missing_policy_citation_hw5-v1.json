@@ -1,0 +1,25 @@
+{
+  "judge_id": "missing_policy_citation_hw5-v1",
+  "split": "dev",
+  "tpr": 0.9706,
+  "tnr": 1.0,
+  "tpr_interval": [
+    0.8508,
+    0.9948
+  ],
+  "tnr_interval": [
+    0.6097,
+    1.0
+  ],
+  "agreement": 0.975,
+  "tp": 33,
+  "fn": 1,
+  "tn": 6,
+  "fp": 0,
+  "n": 40,
+  "disagreements": [
+    "a28d406bab3f4590a0695aba92e0c57b"
+  ],
+  "model": "llama4-maverick-17b-128e-instruct",
+  "prompt_file": "missing_policy_citation-v1.txt"
+}

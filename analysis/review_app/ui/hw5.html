@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HW5 labelling &mdash; misstated_capability</title>
+<style>
+:root{--bg:#14161a;--panel:#1c1f26;--line:#2c313b;--ink:#e6e8ec;--dim:#9aa3b2;
+--pass:#39c07a;--fail:#e06c6c;--tool:#d79a3a;--user:#4c8dff;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+#top{display:flex;gap:10px;align-items:center;padding:9px 14px;background:var(--panel);
+border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40;flex-wrap:wrap}
+#top strong{font-size:15px}
+.sp{flex:1}
+button{background:#262b34;color:var(--ink);border:1px solid var(--line);border-radius:6px;
+padding:6px 12px;cursor:pointer;font-size:13px}
+button:hover{background:#30363f}
+button.pass{background:#1f3a28;border-color:var(--pass);color:#bff0d0;font-weight:700}
+button.fail{background:#4a2020;border-color:var(--fail);color:#ffc9c9;font-weight:700}
+select{background:#262b34;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+#wrap{display:flex;gap:16px;padding:16px;align-items:flex-start}
+#main{flex:1;max-width:820px}
+#side{width:340px;flex-shrink:0;position:sticky;top:62px;max-height:88vh;overflow:auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin-bottom:11px}
+.card h4{margin:0 0 7px;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim)}
+.badge{display:inline-block;background:#262b34;border:1px solid var(--line);border-radius:20px;
+padding:1px 9px;margin-right:5px;font-size:11px;color:var(--dim)}
+.badge.hw4{border-color:var(--fail);color:#f0a0a0}
+.claim{border-left:3px solid var(--tool);background:#191c22;border-radius:0 7px 7px 0;
+padding:9px 12px;margin:9px 0}
+.claim .t{white-space:pre-wrap}
+.claim .rel{margin-top:6px;font-size:12px;color:var(--dim)}
+.tail{white-space:pre-wrap;color:var(--dim);font-size:13px;max-height:260px;overflow:auto}
+table.tools{width:100%;border-collapse:collapse;font-size:12px}
+table.tools td{padding:3px 5px;vertical-align:top;border-bottom:1px solid #23272f}
+table.tools td.n{font-family:ui-monospace,Menlo,monospace;color:var(--tool);white-space:nowrap}
+table.tools tr.fired td.n{font-weight:700}
+table.tools tr.fired{background:#1b2420}
+.k{display:inline-block;background:#262b34;border:1px solid var(--line);border-radius:3px;
+padding:0 5px;font-size:11px;font-family:ui-monospace,Menlo,monospace}
+#done{font-size:13px;color:var(--dim)}
+#prog{height:5px;background:#262b34;border-radius:3px;overflow:hidden;margin-top:5px}
+#prog div{height:100%;background:var(--user)}
+input[type=text]{width:100%;background:#262b34;color:var(--ink);border:1px solid var(--line);
+border-radius:6px;padding:6px 9px;font-size:13px}
+#toast{position:fixed;right:16px;bottom:16px;background:var(--user);color:#fff;padding:8px 13px;
+border-radius:7px;display:none;font-size:13px;z-index:90}
+</style>
+</head>
+<body>
+<div id="top">
+  <strong>HW5 &mdash; misstated_capability</strong>
+  <select id="filt">
+    <option value="todo">unlabelled</option>
+    <option value="all">all candidates</option>
+    <option value="pass">labelled Pass</option>
+    <option value="fail">labelled Fail</option>
+    <option value="claims">has a claim, unlabelled</option>
+  </select>
+  <button id="prev">&larr;</button><span id="pos"></span><button id="next">&rarr;</button>
+  <span class="sp"></span>
+  <span id="done"></span>
+</div>
+<div style="padding:0 14px"><div id="prog"><div style="width:0%"></div></div></div>
+
+<div id="wrap">
+  <div id="main">
+    <div class="card" id="hdr"></div>
+    <div class="card">
+      <h4>Capability claims found in the reply</h4>
+      <div id="claims"></div>
+    </div>
+    <div class="card">
+      <h4>End of the final reply (context)</h4>
+      <div class="tail" id="tail"></div>
+    </div>
+    <div class="card">
+      <h4>Your label</h4>
+      <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+        <button id="bpass" class="pass">Pass &mdash; accurate <span class="k">p</span></button>
+        <button id="bfail" class="fail">Fail &mdash; misstated <span class="k">f</span></button>
+        <button id="bskip">skip <span class="k">s</span></button>
+        <span id="cur" style="color:var(--dim)"></span>
+      </div>
+      <div style="margin-top:9px">
+        <input id="ev" type="text" placeholder="evidence (optional) &mdash; which claim, and why it is or is not supported">
+      </div>
+    </div>
+  </div>
+  <div id="side">
+    <div class="card">
+      <h4>The question</h4>
+      <div id="q" style="font-size:13px"></div>
+    </div>
+    <div class="card">
+      <h4>The nine tools (bold = fired here)</h4>
+      <table class="tools" id="tt"></table>
+    </div>
+    <div class="card">
+      <h4>Pass / Fail rules</h4>
+      <div id="rules" style="font-size:12.5px"></div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+const S={c:[],L:{},tools:{},def:{},i:0,filter:"todo"};
+const $=id=>document.getElementById(id);
+const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",1500);}
+
+async function save(){
+  try{await fetch("/api/hw5_labels",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(S.L)});localStorage.setItem("hw5_labels",JSON.stringify(S.L));}catch(e){}
+}
+function visible(){
+  if(S.filter==="all")return S.c;
+  if(S.filter==="todo")return S.c.filter(c=>!(c.scenario_id in S.L));
+  if(S.filter==="claims")return S.c.filter(c=>c.claims.length&&!(c.scenario_id in S.L));
+  if(S.filter==="pass")return S.c.filter(c=>S.L[c.scenario_id]&&S.L[c.scenario_id].label===1);
+  if(S.filter==="fail")return S.c.filter(c=>S.L[c.scenario_id]&&S.L[c.scenario_id].label===0);
+  return S.c;
+}
+const cur=()=>visible()[S.i];
+
+function counts(){
+  const v=Object.values(S.L);
+  return {p:v.filter(x=>x.label===1).length, f:v.filter(x=>x.label===0).length, n:v.length};
+}
+function renderSide(){
+  $("q").textContent=S.def.question||"";
+  $("rules").innerHTML=`<div><strong style="color:var(--fail)">Fail</strong> &mdash; ${esc(S.def.fail_rule)}</div>
+    <div style="margin-top:7px"><strong style="color:var(--pass)">Pass</strong> &mdash; ${esc(S.def.pass_rule)}</div>
+    <div style="margin-top:7px;color:var(--dim)">source: ${esc(S.def.requirement_source)} &middot; ${esc(S.def.label_convention)}</div>`;
+}
+function render(){
+  const v=visible(); if(S.i>=v.length)S.i=Math.max(0,v.length-1);
+  const c=cur(); const k=counts();
+  $("pos").textContent=v.length?`${S.i+1} / ${v.length}`:"0 / 0";
+  $("done").innerHTML=`labelled <strong>${k.n}</strong> of ${S.c.length} &nbsp;|&nbsp;
+    <span style="color:var(--pass)">Pass ${k.p}</span> / <span style="color:var(--fail)">Fail ${k.f}</span>
+    &nbsp;|&nbsp; need 30 of each`;
+  $("prog").firstChild.style.width=(100*k.n/S.c.length).toFixed(1)+"%";
+  if(!c){$("hdr").innerHTML="<em>nothing matches this filter</em>";$("claims").innerHTML="";
+    $("tail").textContent="";$("tt").innerHTML="";$("cur").textContent="";return;}
+  $("hdr").innerHTML=`<div style="font-weight:700;font-size:15px">${esc(c.scenario_id)}</div>
+    <div style="margin-top:4px">
+      <span class="badge">${esc(c.role)}</span><span class="badge">${esc(c.intent)}</span>
+      <span class="badge">${c.turn_count} turn${c.turn_count>1?"s":""}</span>
+      <span class="badge">${c.tools_fired.length} tool call${c.tools_fired.length===1?"":"s"}</span>
+      ${c.already_confirmed_fail_in_hw4?'<span class="badge hw4">HW4 confirmed fail</span>':""}
+    </div>`;
+  $("claims").innerHTML=c.claims.length
+    ? c.claims.map(cl=>`<div class="claim"><div class="t">${esc(cl.text)}</div>
+        <div class="rel">turn ${cl.turn} &middot; possibly related tools (verify yourself):
+        ${cl.related_tools.length?esc(cl.related_tools.join(", ")):"<em>none matched by keyword</em>"}</div></div>`).join("")
+    : "<em>no explicit capability claim matched &mdash; judge the reply as a whole</em>";
+  $("tail").textContent=c.reply_tail||"";
+  $("tt").innerHTML=Object.entries(S.tools).map(([n,d])=>
+    `<tr class="${c.tools_fired.includes(n)?"fired":""}"><td class="n">${esc(n)}</td><td>${esc(d)}</td></tr>`).join("");
+  const L=S.L[c.scenario_id];
+  $("cur").innerHTML=L?`current: <strong style="color:${L.label===1?"var(--pass)":"var(--fail)"}">${L.label===1?"Pass":"Fail"}</strong>`:"unlabelled";
+  $("ev").value=L&&L.evidence?L.evidence:"";
+}
+function label(v){
+  const c=cur(); if(!c)return;
+  S.L[c.scenario_id]={label:v,evidence:$("ev").value.trim(),
+    session_id:c.session_id,ts:new Date().toISOString(),source:"human"};
+  save();
+  const k=counts();
+  toast(v===1?"Pass":"Fail");
+  if(k.p===30&&v===1)toast("30 Pass reached");
+  if(k.f===30&&v===0)toast("30 Fail reached");
+  if(S.filter==="todo"||S.filter==="claims")render(); else {S.i=Math.min(visible().length-1,S.i+1);render();}
+}
+$("bpass").onclick=()=>label(1);
+$("bfail").onclick=()=>label(0);
+$("bskip").onclick=()=>{S.i=Math.min(visible().length-1,S.i+1);render();};
+$("prev").onclick=()=>{S.i=Math.max(0,S.i-1);render();};
+$("next").onclick=()=>{S.i=Math.min(visible().length-1,S.i+1);render();};
+$("filt").onchange=e=>{S.filter=e.target.value;S.i=0;render();};
+document.addEventListener("keydown",e=>{
+  if(document.activeElement.tagName==="INPUT")return;
+  if(e.key==="p")label(1);
+  if(e.key==="f")label(0);
+  if(e.key==="s"||e.key==="ArrowRight"){S.i=Math.min(visible().length-1,S.i+1);render();}
+  if(e.key==="ArrowLeft"){S.i=Math.max(0,S.i-1);render();}
+});
+(async()=>{
+  const c=await (await fetch("/api/hw5_candidates")).json();
+  S.c=c.candidates||[];S.tools=c.tools||{};S.def=c.definition||{};
+  const l=await (await fetch("/api/hw5_labels")).json();
+  S.L=(l&&typeof l==="object"&&!Array.isArray(l))?l:{};
+  renderSide();render();
+})();
+</script>
+</body>
+</html>

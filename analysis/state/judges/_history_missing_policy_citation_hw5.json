@@ -1,0 +1,12 @@
+{
+  "versions": [
+    {
+      "judge_id": "missing_policy_citation_hw5-v0",
+      "prompt_hash": "16a6e619a8e9"
+    },
+    {
+      "judge_id": "missing_policy_citation_hw5-v1",
+      "prompt_hash": "a20a1e8e42ec"
+    }
+  ]
+}

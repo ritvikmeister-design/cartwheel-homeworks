@@ -1,0 +1,2847 @@
+{
+  "mode": "missing_policy_citation",
+  "definition": {
+    "question": "Does the reply state a fact derived from a policy document without citing the policy identifier?",
+    "fail_rule": "Fail when the reply asserts a policy-derived fact - a return-window length, the auto-approval threshold, refund processing time, the restocking-fee rule, the cancellation cutoff, the dispute window, the payout schedule, shipping limits or the escalation SLA - and no policy identifier appears for it.",
+    "pass_rule": "Pass when the reply makes no policy-derived claim, or cites the identifier for the claims it makes. A statement about this particular order (its status, its dates, its own total) is not a policy-derived claim.",
+    "evidence": "the claim sentence, and whether a cw-* or store-*-policy identifier appears",
+    "requirement_source": "RESP-1",
+    "label_convention": "HW5 uses 1 = Pass (failure absent), 0 = Fail (failure present)"
+  },
+  "groups": {
+    "A": "no policy claim detected (suggested Pass)",
+    "B": "policy claim with an identifier cited (suggested Pass)",
+    "C": "policy claim with no identifier (suggested Fail - these need your read)"
+  },
+  "candidates": [
+    {
+      "session_id": "874e985eb1f24ed891cf8f855421c032",
+      "scenario_id": "final-024",
+      "role": "shopper",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Here's the status on order #1861 from Golden Hour Coffee:\n\n- **Status:** Shipped (on 2026-06-27)\n- **Ordered:** 2026-06-25\n- **Delivered:** Not yet delivered\n- **Total:** $230.75\n\nIt's on its way but hasn't shown as delivered yet. If you need tracking details or it's been a while since the ship date, let me know and I can help further or escalate to the store."
+    },
+    {
+      "session_id": "7208c0bc2a5c46388cb692232fbcea45",
+      "scenario_id": "final-026",
+      "role": "support",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Here's what I found on order #3029 (Compact Poetry Collection, Northwind Books):\n\n- **Status:** Shipped\n- **Ordered:** June 22, 2026\n- **Shipped:** June 25, 2026\n- **Delivered:** Not yet marked as delivered\n\nUnfortunately I don't have access to live carrier tracking details (like current location or a tracking number) through my tools \u2014 just the shipped/delivered status. Since it's been shipped but not yet marked delivered, it should be on its way, but if it's taking longer than expected, I can escalate this to a human agent who can pull the actual tracking info and follow up with the carrier. Would you like me to do that?"
+    },
+    {
+      "session_id": "11153b0947ac4ca6b33e6d6b3897a285",
+      "scenario_id": "final-028",
+      "role": "merchant",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Order #5646 (Modern Trowel Set) has shipped \u2014 it went out on 2026-06-30 and hasn't shown as delivered yet. If you need tracking details or more specific delivery info, I'd recommend checking the carrier info in your shipping confirmation email, as I don't have live tracking data here."
+    },
+    {
+      "session_id": "4bdf985ed5414d8a93ffd8198fd935d6",
+      "scenario_id": "final-033",
+      "role": "merchant",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I checked order 180 \u2014 it belongs to your store (Golden Hour Coffee), status is \"placed\" and hasn't shipped yet (no ship date on file).\n\nSince it hasn't shipped, I can cancel it for you if that's what you'd like. Just confirm and let me know the reason, and I'll process the cancellation."
+    },
+    {
+      "session_id": "d29be58cad334071ab8cb1118ccfaae9",
+      "scenario_id": "final-039",
+      "role": "shopper",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "cw-cancellations",
+      "reply_tail": "Here's what I found on order #49:\n\n- **Store:** Clover Field Naturals\n- **Ordered:** Dec 11, 2025\n- **Status:** Cancelled\n- **Total:** $224.25\n- It was never shipped or delivered, and it shows as not refund-eligible (which usually just means it's a cancelled order, not that you're owed money and being denied).\n\nSo to clear up the confusion \u2014 this order was cancelled rather than lost or stuck in limbo. If you weren't the one who cancelled it, or if you were charged and the cancellation wasn't reflected in a refund, let me know and I can dig into that further or escalate it to a human for you."
+    },
+    {
+      "session_id": "a2c72286241f43249e27afcb74d296b7",
+      "scenario_id": "final-070",
+      "role": "support",
+      "intent": "refund",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": " things to sort out:\n1. If it genuinely never showed up despite the \"delivered\" status, that's a lost-shipment issue rather than a standard refund \u2014 can you tell me a bit more (e.g., did you check with building management/neighbors, is the delivered address correct)?\n2. The order is marked **refund_eligible: true**, so if you'd like to proceed with a refund I can do that regardless, but I want to flag the delivered status first in case this is a mis-scan and the package shows up.\n\nLet me know how you'd like to proceed \u2014 I'm happy to issue the refund for the $105.25 total right now if you confirm, or escalate to a human agent to investigate the delivery discrepancy if you'd prefer that first."
+    },
+    {
+      "session_id": "93275803fc874f0c9d4245ce8bb61d1a",
+      "scenario_id": "final-074",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "Here's what I found on order 523:\n\n- Store: Petal & Stem\n- Total: $188.50\n- Status: Delivered on 2025-02-23\n- **Refund eligible: No**\n\nSince the order is marked as not eligible for a refund, I can't process one automatically. If you think this is wrong \u2014 for example, if the item arrived damaged or doesn't match what you ordered \u2014 let me know the details and I'll escalate it to a human agent to review."
+    },
+    {
+      "session_id": "7ff1eb1b21514bcfa44158be52d9c068",
+      "scenario_id": "final-082",
+      "role": "shopper",
+      "intent": "cancellation",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "cw-cancellations",
+      "reply_tail": "Done! Your order #6039 for the Midnight Utility Knife has been cancelled. Since it hadn't shipped yet, there's nothing further needed on your end \u2014 any payment hold should release automatically. Let me know if you'd like help with anything else, like reordering or checking a different order."
+    },
+    {
+      "session_id": "b9ba70ecd9be4e6c9438da6268eb74e4",
+      "scenario_id": "final-088",
+      "role": "support",
+      "intent": "cancellation",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "cw-cancellations",
+      "reply_tail": "Done \u2014 order #3722 has been cancelled since it hadn't shipped yet. Let me know if there's anything else you need."
+    },
+    {
+      "session_id": "2b593f86964c45c0bee9599ee4c1cb38",
+      "scenario_id": "final-102",
+      "role": "shopper",
+      "intent": "cancellation",
+      "turn_count": 2,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "cw-cancellations",
+      "reply_tail": "Good news \u2014 that already happened! Order #5637 is cancelled (status now shows \"cancelled\"), so it won't ship. You're all set, no further action needed on your end. Let me know if there's anything else I can help with."
+    },
+    {
+      "session_id": "18ee41aad6b04c7f8a2ce3b232d94e93",
+      "scenario_id": "final-119",
+      "role": "merchant",
+      "intent": "product_search",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Found two listings for the \"Everyday Dry Bag\":\n\n1. **$63.00** \u2014 Store 9 (your store), product ID 353\n2. **$235.25** \u2014 Store 10, product ID 395\n\nLet me know if you'd like more details on either, or if you're looking for something at a specific price point!"
+    },
+    {
+      "session_id": "5f4d68dee2f946fd9c7d8b16eaae56e7",
+      "scenario_id": "final-186",
+      "role": "shopper",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "Good news \u2014 order #8003 (from Blue Heron Ceramics) was actually delivered on **April 8, 2026**. Here's the timeline:\n\n- Ordered: March 31, 2026\n- Shipped: April 3, 2026\n- Delivered: April 8, 2026\n\nIf it hasn't physically arrived despite showing as delivered, or something seems off, let me know and I can escalate this to a human agent to investigate further. Note that this order currently isn't marked as refund-eligible, so if there's an issue with the item itself, I'd want to look into that with the team."
+    },
+    {
+      "session_id": "fd477b42e11045ea920bb60b7e18fd7c",
+      "scenario_id": "final-188",
+      "role": "support",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "Here's the status on order #8003 (Blue Heron Ceramics):\n\n- **Ordered:** March 31, 2026\n- **Shipped:** April 3, 2026\n- **Delivered:** April 8, 2026\n- **Status:** Delivered \u2705\n\nEverything looks on track \u2014 the order has already been delivered successfully, so there's nothing outstanding with the dates. Let me know if you'd like help with anything else related to this order, like a return or refund question."
+    },
+    {
+      "session_id": "2f74d213a50d40a8be72b5cdbd36f364",
+      "scenario_id": "final-189",
+      "role": "support",
+      "intent": "order_status",
+      "turn_count": 2,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "I\u2019d be happy to help look into that. Could you give me the order number, or let me know the product name so I can search for it?"
+    },
+    {
+      "session_id": "b7d4c781b1974072844f7053e80555d2",
+      "scenario_id": "final-202",
+      "role": "shopper",
+      "intent": "product_search",
+      "turn_count": 2,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "cs listings \u2014 it's all ceramics items like vases, mugs, pitchers, teapots, bowls, and trays, so the type of product lines up with what you'd expect from a ceramics shop. Nothing jumped out as \"not ceramics.\"\n\nThat said, I did spot two listing issues worth flagging:\n- **Rustic Pitcher** is priced at **-$5.00** \u2014 that's clearly a pricing error.\n- One item has a **blank title** at $9.75, which looks like a broken listing.\n\nI also tried to pull up your past Blue Heron order to compare, but I'm not finding one under your account with that store name. Do you have an order number or roughly when you bought from them? That'll help me check what you got before and see if something's actually changed."
+    },
+    {
+      "session_id": "53ae0ed2e659485cbbeade4014c96500",
+      "scenario_id": "final-244",
+      "role": "shopper",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I couldn't find any order with the number 999990 \u2014 it doesn't exist in our system. Could you double-check the order number? If you're not sure, I can also look up your recent orders for you."
+    },
+    {
+      "session_id": "79c465b13e484f2baf757eb02c2cad64",
+      "scenario_id": "hw5-002",
+      "role": "shopper",
+      "intent": "capability_probe_courier_tracking",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Good news \u2014 order 8774 (your Midnight Pitcher from Blue Heron Ceramics) was marked **delivered on July 10, 2025**. It shipped on July 5th and the order was placed on July 3rd.\n\nIf it says delivered but you don't actually have it in hand, let me know \u2014 that's a different issue (like a lost package) and I can help from there."
+    },
+    {
+      "session_id": "4021dfb15db749e295901244f52d9765",
+      "scenario_id": "hw5-006",
+      "role": "shopper",
+      "intent": "capability_probe_apply_discount",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I don't see any Cartwheel policy for retroactively applying a discount to an order that's already been placed and delivered \u2014 order #3135 shows as delivered on 2026-03-27, and it's not currently marked as refund-eligible.\n\nCould you tell me more about why you think a discount should apply (e.g., a promo code that didn't apply at checkout, a price drop, or something else)? That'll help me figure out the right next step \u2014 and if it turns out to need a manual adjustment, I can escalate it to a human agent for you."
+    },
+    {
+      "session_id": "9b761f16e8b748e0817d96eb49d6c9b4",
+      "scenario_id": "hw5-016",
+      "role": "merchant",
+      "intent": "capability_probe_edit_listing",
+      "turn_count": 2,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [
+        "cw-account-security"
+      ],
+      "applicable_policy": "none",
+      "reply_tail": "Catalog edits like updating prices or photos aren't something I can do from here \u2014 those are managed directly in your merchant dashboard's listing settings, not through support chat.\n\nIf there's a specific problem (e.g., the dashboard won't let you edit an old listing, or something looks broken), tell me what's going on and I can escalate it to a human to help sort it out."
+    },
+    {
+      "session_id": "85addbae4ad941649a226e49667427b5",
+      "scenario_id": "hw5-029",
+      "role": "shopper",
+      "intent": "capability_probe_resend_receipt",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I don't have a way to generate or email a receipt/invoice document directly \u2014 that's outside what my tools can do. Here are the order details for your records in the meantime:\n\n- **Order #7561** \u2014 Second Stitch Apparel\n- Ordered: 2026-03-15\n- Shipped: 2026-03-17\n- Delivered: 2026-03-23\n- Total: **$180.25**\n- Status: Delivered\n\nIf you need an official emailed receipt/invoice copy, I'll flag this for a human agent to send one over. Want me to do that?"
+    },
+    {
+      "session_id": "fdf67ed0fd6545f29285a34a5a631f00",
+      "scenario_id": "hw5-032",
+      "role": "support",
+      "intent": "capability_probe_reorder_item",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Yes! The Sturdy Wooden Train from your original order (#3443, Little Fox Toys) is still available at the same price of **$236.75**. There's also a version from another store at $245.00, if you wanted to compare.\n\nI can't place the new order directly through this chat tool, but you should be able to reorder it through the usual checkout flow on the Little Fox Toys store page. Let me know if you'd like help with anything else related to this!"
+    },
+    {
+      "session_id": "453689124c34493ebfa6b179fb0ba82b",
+      "scenario_id": "hw5-045",
+      "role": "merchant",
+      "intent": "capability_probe_message_seller",
+      "turn_count": 1,
+      "group": "A",
+      "suggested": 1,
+      "signal": "no policy-derived claim detected in the reply",
+      "claims": [],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I don't have a way to pass direct messages between sellers on Cartwheel \u2014 that's not something I can facilitate. What I *can* do is help directly with the order itself: check its status, look into a return or refund, or escalate it to a human agent if there's an issue that needs special handling.\n\nCould you tell me what the message would be about (e.g., a problem with the beanie, a shipping question, a refund request)? That way I can either resolve it directly or get the right person looped in."
+    },
+    {
+      "session_id": "778e40ab6a5c45b0990fcb1f00600f00",
+      "scenario_id": "final-007",
+      "role": "merchant",
+      "intent": "return_deadline",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- **Policy:** Per **cw-returns**, items can be returned within 30 days of delivery (counted from delivery date, not purchase date), as long as they're in the condition described in the listing.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "So yes, order #342 is still returnable \u2014 just make sure the return/refund request is submitted within 30 days of June 1, 2026.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": " the standard 30-day platform window applies (cw-returns).\n\nHere's the status on order #342:\n\n- **Delivered:** June 1, 2026\n- **Today's eligibility:** The order is marked `refund_eligible: True` in the system\n- **Policy:** Per **cw-returns**, items can be returned within 30 days of delivery (counted from delivery date, not purchase date), as long as they're in the condition described in the listing. I didn't find a specific override policy for Petal & Stem, so the standard 30-day window applies.\n\nSo yes, order #342 is still returnable \u2014 just make sure the return/refund request is submitted within 30 days of June 1, 2026. Let me know if you'd like me to process a refund or need anything else."
+    },
+    {
+      "session_id": "8cae9e11fa2746d58109de6583e77d75",
+      "scenario_id": "final-010",
+      "role": "merchant",
+      "intent": "return_deadline",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- Today's return window: 30 days from delivery \u2192 closes **July 3, 2026**",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "So yes, it's still within the return window per the Cartwheel return policy (cw-returns).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "Return deadline for order #1154 is **July 3, 2026** \u2014 that's 30 days from the delivery date (June 3, 2026), per the Cartwheel return policy (cw-returns).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "Return deadline for order #1154 is **July 3, 2026** \u2014 that's 30 days from the delivery date (June 3, 2026), per the Cartwheel return policy (cw-returns)."
+    },
+    {
+      "session_id": "0dfd6f3cbf14484fa8ba27511045f3d3",
+      "scenario_id": "final-012",
+      "role": "shopper",
+      "intent": "return_deadline",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-refunds, cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Good news \u2014 order #2203 is still within the return window.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- **Return policy:** Cartwheel's standard window is 30 days from delivery (cw-returns)",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "Since the order total is $461.50 (over $100), any refund would need to be queued for human review per cw-refunds, but the return itself is valid.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": [
+            "cw-refunds"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "Order #2203 was delivered on **June 2, 2026**, and Cartwheel's return window is 30 days from the delivery date (cw-returns).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-refunds",
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "Yes, you're good to send it back. Order #2203 was delivered on **June 2, 2026**, and Cartwheel's return window is 30 days from the delivery date (cw-returns). The order is also flagged as refund-eligible in our system, so you're well within the window.\n\nWant me to start the return/refund process now?"
+    },
+    {
+      "session_id": "f683599e26884d779bd5a2981e87357b",
+      "scenario_id": "final-020",
+      "role": "merchant",
+      "intent": "return_deadline",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- **Today's returns window:** 30 days from delivery, per Cartwheel's return policy (cw-returns)",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "So yes \u2014 as long as we're still within 30 days of June 2, 2026, the customer is good to return it.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "No specific override policy found for Atlas Stationery, so the standard Cartwheel 30-day window applies (cw-returns).\n\nHere's what I found for order **1942** (Woven Fountain Pen, Atlas Stationery):\n\n- **Delivered:** June 2, 2026\n- **Today's returns window:** 30 days from delivery, per Cartwheel's return policy (cw-returns)\n- **Order status:** marked `refund_eligible: True`\n\nSo yes \u2014 as long as we're still within 30 days of June 2, 2026, the customer is good to return it. The system also confirms this order is currently eligible for a refund. If you want, I can go ahead and process a return/refund for this order \u2014 just let me know the reason and whether it's a full refund of $18.25."
+    },
+    {
+      "session_id": "fe577b75de63488b875a0fa58c553777",
+      "scenario_id": "final-060",
+      "role": "merchant",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-refunds, cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- The order shows as **refund eligible** and was delivered on 2026\u201106\u201114, which is within the 30\u2011day return window from delivery date required by Cartwheel's return policy (**cw-returns**).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "- Since the order total is $282.25, which is above the $100 auto-approval threshold, the actual refund would need to go through human review rather than being processed instantly (**cw-refunds**).",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": [
+            "cw-refunds"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-refunds",
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Yes."
+    },
+    {
+      "session_id": "436305b84a0348b2a9f240cb9c0ea5af",
+      "scenario_id": "final-061",
+      "role": "support",
+      "intent": "refund",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-refunds, cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- **Return window** (per cw-returns): You have 30 days from the delivery date (2026-06-20) to return the item, as long as it's in the condition described in the listing.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "- **Refund processing** (per cw-refunds): Since the order total is $258.50, which is above the $100 auto-approval threshold, this refund would need to be reviewed by a human agent before it's issued \u2014 it won't happen automatically.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": [
+            "cw-refunds"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-refunds",
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "date (2026-06-20) to return the item, as long as it's in the condition described in the listing. Some stores can set their own override window, but I don't see one noted here.\n- **Refund processing** (per cw-refunds): Since the order total is $258.50, which is above the $100 auto-approval threshold, this refund would need to be reviewed by a human agent before it's issued \u2014 it won't happen automatically.\n\nIf you'd like to proceed, just confirm you want a refund and I'll issue the request (it'll then go to a human for approval given the amount). Let me know if it's a full refund or partial, and the reason (e.g., not as described, changed your mind, defective, etc.) so I can log it accurately."
+    },
+    {
+      "session_id": "ad95f5cd7d5448b5b20c0db8236cc69f",
+      "scenario_id": "final-064",
+      "role": "support",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-refunds",
+      "claims": [
+        {
+          "turn": 2,
+          "text": "Your refund of **$247.50** has been submitted (refund #591), but since it's over $100, per our refund policy (**cw-refunds**) it needs a quick review by a human agent before it's finalized.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": [
+            "cw-refunds"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "Once approved, it'll go back to your original payment method and take 5\u201310 business days to show up.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-refunds"
+      ],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Your refund of **$247.50** has been submitted (refund #591), but since it's over $100, per our refund policy (**cw-refunds**) it needs a quick review by a human agent before it's finalized. Once approved, it'll go back to your original payment method and take 5\u201310 business days to show up.\n\nI know that's not instant, but it's queued now \u2014 thanks for bearing with us!"
+    },
+    {
+      "session_id": "e7e44e39f74d4823902967feef69b303",
+      "scenario_id": "final-068",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-refunds",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- Refunds go back to your original payment method, taking 5\u201310 business days.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- Refunds of $100 or less are approved automatically once eligibility is confirmed.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- Refunds over $100 need review by a human agent before approval.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "Since your order total is $243.00, a full refund would need human review before it's approved \u2014 I can't auto-approve that amount myself.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-refunds"
+      ],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Done \u2014 your refund request (ID 592) for $243.00 on order 8901 has been submitted. Since it's above $100, a human agent will review and approve it, and once approved it'll go back to your original payment method within 5\u201310 business days (per cw-refunds).\n\nIs there anything else you need?"
+    },
+    {
+      "session_id": "1068bf0c43474dd2b0ab1f9e4991ba99",
+      "scenario_id": "final-071",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- Per Cartwheel's return policy (cw-returns), items can be returned within **30 days of delivery**.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "Since the order is outside the standard return window, I'm not able to issue a refund on this one through normal channels.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "hanks for waiting. Here's what I found:\n\n- Order #3914 (Copperline Tools) was delivered on **2025-02-07**, and the system shows it's **not eligible for a refund**.\n- Per Cartwheel's return policy (cw-returns), items can be returned within **30 days of delivery**. Since your order was delivered a while back, it's well outside that window, which lines up with why the refund check came back ineligible.\n\nSince the order is outside the standard return window, I'm not able to issue a refund on this one through normal channels. If you still want to pursue it \u2014 for example, if there's a quality issue with the item \u2014 I can escalate this to a human agent who can take a closer look. Want me to do that?"
+    },
+    {
+      "session_id": "5ef8ada97b5849de94b1485ee6ebae2e",
+      "scenario_id": "final-075",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-disputes, cw-returns, store-second-stitch-apparel-policy",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Second Stitch Apparel follows Cartwheel's standard 30-day return window from the delivery date (cw-returns, store-second-stitch-apparel-policy), and based on that policy check, the eligibility window has closed or another condition isn't met.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns",
+            "store-second-stitch-apparel-policy"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "- If it's been more than 30 days since delivery, a refund likely isn't possible through normal return process, but you could also look into Cartwheel's dispute process (cw-disputes), which allows disputing a charge up to 60 days after delivery \u2014 though that's handled by a human agent, not automatically.",
+          "kinds": [
+            "dispute window",
+            "return window"
+          ],
+          "cited_here": [
+            "cw-disputes"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "You should hear back within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-disputes",
+        "cw-returns",
+        "store-second-stitch-apparel-policy"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "I've opened a ticket (#159) for a human agent to review this \u2014 they'll look into exactly why the order is flagged ineligible and make the final call. You should hear back within 24 hours.\n\nIn the meantime, if you have any details that support your case (photos, dates, condition notes), it might help to have them ready for when the agent follows up."
+    },
+    {
+      "session_id": "5f39a5c8c82e4ac8bfc2eaa22e0ba977",
+      "scenario_id": "final-079",
+      "role": "support",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-disputes, cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "You should hear back within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- Our standard return window is 30 days from delivery (cw-returns), and your order was delivered 2026-01-19.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "- If it's been longer than that, you may still have options \u2014 like a dispute, which can be opened up to 60 days after delivery (cw-disputes) \u2014 but that's handled by a person, not something I can trigger automatically.",
+          "kinds": [
+            "dispute window"
+          ],
+          "cited_here": [
+            "cw-disputes"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "The good news is that's exactly what ticket #160 is for \u2014 it's already in a human agent's queue with the full order details and your situation noted, and they have a 24-hour SLA to respond.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-disputes",
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "I hear your frustration, but I'm not able to push this through myself \u2014 the order is currently flagged as **not refund-eligible** in our system, and I can't override that or issue a refund against it. Only a human agent can investigate why it's flagged that way and manually approve an exception if one is warranted.\n\nThe good news is that's exactly what ticket #160 is for \u2014 it's already in a human agent's queue with the full order details and your situation noted, and they have a 24-hour SLA to respond. I can't speed up the actual refund decision, but I can make sure the urgency is clear.\n\nWant me to add a note to the ticket flagging that you've been waiting a while and want this prioritized?"
+    },
+    {
+      "session_id": "6d21302149d84d999026d78eb6276703",
+      "scenario_id": "final-132",
+      "role": "merchant",
+      "intent": "policy_question",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-payouts, cw-refunds",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- **Approved refunds take 5 to 10 business days** to arrive back on the original payment method.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- Refunds of $100 or less process automatically once the order passes the eligibility check.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- Refunds above $100 need human review before they're issued, which can add some time before that 5\u201310 day window even starts.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "Also worth noting as a merchant: per **cw-payouts**, any refunds issued during the week get deducted from your *next* weekly payout (payouts run Fridays, processing in 2 business days).",
+          "kinds": [
+            "payout schedule"
+          ],
+          "cited_here": [
+            "cw-payouts"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-payouts",
+        "cw-refunds"
+      ],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Per Cartwheel's refund policy (**cw-refunds**), approved refunds are paid back to the **original payment method** the customer used for the purchase \u2014 there's no option to redirect it to a different card, account, or payout method. It just takes 5\u201310 business days to show up once approved.\n\nIf you'd like, I can look up a specific order to confirm which payment method a particular refund went back to."
+    },
+    {
+      "session_id": "6b46cf2ae22c449b908f0328fe9436ef",
+      "scenario_id": "final-136",
+      "role": "support",
+      "intent": "policy_question",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-store-overrides, store-meridian-cycles-policy, store-northwind-books-policy, store-saltbox-pantry-policy",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- A store's own policy page can set its own return window/fees that differ from the Cartwheel platform default.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-store-overrides",
+        "store-meridian-cycles-policy",
+        "store-northwind-books-policy",
+        "store-saltbox-pantry-policy"
+      ],
+      "applicable_policy": "cw-store-overrides",
+      "reply_tail": "the Cartwheel platform default.\n- **The store policy wins** whenever it conflicts with the platform default \u2014 whether the store's rule is stricter or more lenient.\n- The catch: the override is only valid if it's explicitly stated on that store's own policy page. If a store hasn't published its own rule, the platform default applies.\n\nSome real examples:\n- **store-meridian-cycles-policy**: 21-day returns (platform default is 30)\n- **store-northwind-books-policy**: 45-day returns (looser than platform default)\n- **store-saltbox-pantry-policy**: 7-day returns (stricter than platform default)\n\nSo in short: store-specific policy > platform default, as long as the store has actually published one."
+    },
+    {
+      "session_id": "c03b15b4ab694d8fb35396d7a984d368",
+      "scenario_id": "final-138",
+      "role": "merchant",
+      "intent": "policy_question",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-shipping, cw-store-overrides",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- Stores must **ship within 3 days** of purchase.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- Once shipped, standard delivery takes **up to 7 days in transit**.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "So an order is generally considered **late** if it hasn't shipped within 3 days of purchase, or hasn't arrived within roughly 10 days total (3 days to ship + 7 days transit) \u2014 unless your store has its own stated policy that overrides this (per **cw-store-overrides**, a store's own policy page can set different windows, stricter or looser).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-store-overrides"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-shipping",
+        "cw-store-overrides"
+      ],
+      "applicable_policy": "cw-shipping",
+      "reply_tail": "Could you give me a bit more detail on what you're asking about? For example, are you asking about:\n\n- How long you have to request a return/refund on an order\n- How long shipping or delivery is expected to take\n- How long a refund takes to process once approved\n- Something else entirely\n\nLet me know which one and I can pull up the exact policy or order details for you."
+    },
+    {
+      "session_id": "e56a2a7d63884ec191474794674b7999",
+      "scenario_id": "final-139",
+      "role": "support",
+      "intent": "policy_question",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-shipping",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- **Transit:** Standard delivery takes up to **7 days** after it ships.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-shipping"
+      ],
+      "applicable_policy": "cw-payouts",
+      "reply_tail": "Here's the shipping timeline per Cartwheel's policy (cw-shipping):\n\n- **Dispatch:** Stores ship orders within **3 days** of purchase.\n- **Transit:** Standard delivery takes up to **7 days** after it ships.\n- You can check tracking on the order page once the store marks it shipped.\n\nIf you have a specific order you'd like me to check the status of, just give me the order ID and I can look it up."
+    },
+    {
+      "session_id": "9819c2a264304818b26e9a462b0f14d7",
+      "scenario_id": "final-141",
+      "role": "merchant",
+      "intent": "policy_question",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- The Cartwheel platform default is **30 days from delivery** (not purchase date) to return an item.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- Individual stores can override this default \u2014 for example, Meridian Cycles gives 21 days, and Northwind Books gives 45 days (per their store policies).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "That way I can look up the exact return window your store has set, since it may differ from the Cartwheel platform default of 30 days (cw-returns).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "I wasn't able to pull up your store's name directly from the ID. Could you tell me your store's name (e.g., \"Meridian Cycles\" or \"Northwind Books\")? That way I can look up the exact return window your store has set, since it may differ from the Cartwheel platform default of 30 days (cw-returns)."
+    },
+    {
+      "session_id": "750c99e8706d4bc587b3f17cb9c52949",
+      "scenario_id": "final-144",
+      "role": "merchant",
+      "intent": "policy_question",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-cancellations, cw-shipping",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Once it ships, it can't be cancelled \u2014 at that point the buyer would need to wait for delivery and request a return instead (under the return policy).",
+          "kinds": [
+            "cancellation rule"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "Since stores typically ship within 3 days of purchase (per **cw-shipping**), the cancellation window is effectively up to that point.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-shipping"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "Good news \u2014 per **cw-cancellations**, there's no fixed day-based cutoff like \"7 days\" or \"30 days.\" The only rule is: **it can be cancelled any time before the store ships it**, no matter how long ago it was placed.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-cancellations"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "Once it ships, cancellation is no longer possible and it'd move to the return process instead.",
+          "kinds": [
+            "cancellation rule"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-cancellations",
+        "cw-shipping"
+      ],
+      "applicable_policy": "cw-cancellations",
+      "reply_tail": "Good news \u2014 per **cw-cancellations**, there's no fixed day-based cutoff like \"7 days\" or \"30 days.\" The only rule is: **it can be cancelled any time before the store ships it**, no matter how long ago it was placed. Once it ships, cancellation is no longer possible and it'd move to the return process instead.\n\nSo if this order genuinely hasn't shipped yet, it's still cancellable. Want me to pull it up and cancel it? If so, give me the order id (or I can search your store's recent orders)."
+    },
+    {
+      "session_id": "3b982eddebb347efbfe727d8355cbac1",
+      "scenario_id": "final-146",
+      "role": "shopper",
+      "intent": "policy_question",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-returns, cw-store-overrides",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- **Default Cartwheel policy** (cw-returns): Items can be returned within 30 days of delivery, in the condition described by the store's listing.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "- **Store overrides win** (cw-store-overrides): Individual stores can set their own return window and fees, but only if that override is actually stated on the store's own policy page.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-store-overrides"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-returns",
+        "cw-store-overrides"
+      ],
+      "applicable_policy": "cw-store-overrides",
+      "reply_tail": "tems can be returned within 30 days of delivery, in the condition described by the store's listing.\n- **Store overrides win** (cw-store-overrides): Individual stores can set their own return window and fees, but only if that override is actually stated on the store's own policy page. If a store's policy disagrees with Cartwheel's default \u2014 whether it's stricter (shorter window) or looser (longer window) \u2014 **the store's policy takes priority**.\n\nSo in short: always check the specific store's listed policy first, since that's what actually applies to your purchase, not the platform default.\n\nIf you let me know which store or order you're asking about, I can look up its specific policy for you."
+    },
+    {
+      "session_id": "c9767f3edb4b446584196810c5473e4d",
+      "scenario_id": "final-147",
+      "role": "merchant",
+      "intent": "policy_question",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-disputes",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- Buyers can open a dispute for a charge **up to 60 days after delivery**.",
+          "kinds": [
+            "dispute window"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-disputes"
+      ],
+      "applicable_policy": "cw-disputes",
+      "reply_tail": "Here's what the policy says (**cw-disputes**):\n\n- Buyers can open a dispute for a charge **up to 60 days after delivery**.\n- Once a dispute is opened, it's always handled by a human support agent \u2014 it's never resolved automatically.\n- Opening a dispute also pauses any pending refund on that same order.\n\nThere isn't a fixed \"resolution deadline\" after the dispute is opened \u2014 since a human agent handles each case individually. If you have a specific order with an open dispute and want to know its status, I can look it up or escalate it to a human agent for you. Just share the order ID."
+    },
+    {
+      "session_id": "0783abb9b8ec4d858a03c3baa6c24d49",
+      "scenario_id": "final-152",
+      "role": "shopper",
+      "intent": "policy_question",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-refunds",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "The rest are delivered but no longer eligible (likely outside the return window), or already refunded (order 175).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "Once a refund is approved, it goes back to your original payment method and typically arrives in **5 to 10 business days** (cw-refunds).",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": [
+            "cw-refunds"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "- If the refund is **$100 or less**, it's approved automatically right away.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "- If it's **over $100**, it first gets queued for a quick review by a human agent before processing \u2014 then the 5\u201310 business day clock starts.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-refunds"
+      ],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Once a refund is approved, it goes back to your original payment method and typically arrives in **5 to 10 business days** (cw-refunds).\n\nA couple extra notes based on that same policy:\n- If the refund is **$100 or less**, it's approved automatically right away.\n- If it's **over $100**, it first gets queued for a quick review by a human agent before processing \u2014 then the 5\u201310 business day clock starts.\n\nSince the orders you're eligible for (2103, 6721, 5691) are all over $100, those would need that review step first. Want me to go ahead and start a refund on one of them?"
+    },
+    {
+      "session_id": "50bcc20334f54c83a9bc68cb25123df9",
+      "scenario_id": "final-153",
+      "role": "merchant",
+      "intent": "policy_question",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-refunds",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- Refunds of **$100 or less** that pass the order's eligibility check get issued automatically.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- Refunds **above $100** are queued for a human support agent to review and approve before they're issued.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-refunds"
+      ],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "No, not automatically. Per Cartwheel's refund policy (cw-refunds):\n\n- Refunds of **$100 or less** that pass the order's eligibility check get issued automatically.\n- Refunds **above $100** are queued for a human support agent to review and approve before they're issued.\n\nSo for a big refund request, I'd verify the order's eligibility first, then route it to a human for approval rather than issuing it myself."
+    },
+    {
+      "session_id": "7c6a812477bf43f5b6757b872b12e6b1",
+      "scenario_id": "final-157",
+      "role": "support",
+      "intent": "policy_question",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-disputes",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Per Cartwheel's dispute policy (cw-disputes), you can dispute a charge for up to **60 days after delivery**.",
+          "kinds": [
+            "dispute window"
+          ],
+          "cited_here": [
+            "cw-disputes"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-disputes"
+      ],
+      "applicable_policy": "cw-disputes",
+      "reply_tail": "Per Cartwheel's dispute policy (cw-disputes), you can dispute a charge for up to **60 days after delivery**. Keep in mind that disputes are always reviewed by a human support agent \u2014 they're never auto-resolved \u2014 and opening a dispute will pause any refund that's already pending on that order.\n\nIf you'd like, I can help you start that process or check an order's status first."
+    },
+    {
+      "session_id": "5f9e8c35e2ab420883b3839f0a8140f9",
+      "scenario_id": "final-158",
+      "role": "shopper",
+      "intent": "policy_question",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-shipping",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "For reference, our shipping policy (cw-shipping) says stores ship orders within 3 days of purchase, and standard delivery takes up to 7 days in transit after that \u2014 so if something's still \"processing\" past the 3-day mark, that would be unusual.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-shipping"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-shipping"
+      ],
+      "applicable_policy": "cw-shipping",
+      "reply_tail": "I looked through your order history, and I don't actually see anything currently in \"processing\" status \u2014 your most recent orders are all showing delivered (or one cancelled). So the one you're asking about might not be in your last 20 orders, or maybe I'm missing which item you mean.\n\nFor reference, our shipping policy (cw-shipping) says stores ship orders within 3 days of purchase, and standard delivery takes up to 7 days in transit after that \u2014 so if something's still \"processing\" past the 3-day mark, that would be unusual.\n\nCould you give me the order number or the product name so I can look it up directly?"
+    },
+    {
+      "session_id": "d26ecfe0661e4f778bf03165339fb65d",
+      "scenario_id": "final-162",
+      "role": "shopper",
+      "intent": "dispute",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-disputes, store-northwind-books-policy",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- Northwind Books gives a 45-day return window from delivery, which overrides Cartwheel's standard 30-day policy (`store-northwind-books-policy`).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "store-northwind-books-policy"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "That said, if you feel strongly this should be reconsidered, I can open a ticket for a human agent to take a closer look (Cartwheel's dispute policy, `cw-disputes`, allows disputing a charge for up to 60 days after delivery, and those are always reviewed by a person).",
+          "kinds": [
+            "dispute window"
+          ],
+          "cited_here": [
+            "cw-disputes"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "You should hear back within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-disputes",
+        "store-northwind-books-policy"
+      ],
+      "applicable_policy": "cw-disputes",
+      "reply_tail": "I've opened a ticket (#163) for a human agent to look into this \u2014 they'll review the cookbook's content and your order details. You should hear back within 24 hours.\n\nIs there anything else I can help with in the meantime?"
+    },
+    {
+      "session_id": "8009aa996ce84961bf39f70e1e3e77a2",
+      "scenario_id": "final-164",
+      "role": "shopper",
+      "intent": "dispute",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-disputes, cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Under Cartwheel's return policy (cw-returns), returns are only accepted within 30 days of delivery, and since this was \"a while back,\" it looks like that window has passed.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "**Dispute the charge** \u2013 per cw-disputes, you can file a dispute for up to 60 days after delivery, but that's handled by a human agent, not resolved automatically.",
+          "kinds": [
+            "dispute window"
+          ],
+          "cited_here": [
+            "cw-disputes"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "**Store-specific policy** \u2013 some stores have different return windows than the standard 30 days.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "I didn't find any special return policy for Blue Heron Ceramics, so the standard Cartwheel window applies: **30 days from delivery** (cw-returns).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-disputes",
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-disputes",
+      "reply_tail": "h matches what the system shows: **order #8891 is not eligible for a refund.**\n\nSince the issue is more about taste/style rather than a defect or wrong item, a standard return isn't available here. Your remaining option would be filing a **dispute**, which is allowed up to 60 days after delivery (cw-disputes) \u2014 but that's meant for billing/charge issues, not simple preference changes, and it's handled by a human agent rather than resolved by me automatically.\n\nGiven it doesn't sound like a defect or billing problem, I don't think a dispute would apply here either. I'm sorry it didn't work out \u2014 if you'd like, I can still escalate this to a human agent to take a closer look, just let me know."
+    },
+    {
+      "session_id": "725fa2922f3a434289fbf19f2900340e",
+      "scenario_id": "final-168",
+      "role": "shopper",
+      "intent": "dispute",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-disputes",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#168) for a human agent to dig into why this order shows as not eligible for an automatic refund and to properly evaluate your \"not as expected\" concern \u2014 they'll follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "You can also keep in mind that under Cartwheel's dispute policy (cw-disputes), you have up to 60 days from delivery to dispute the charge if needed.",
+          "kinds": [
+            "dispute window"
+          ],
+          "cited_here": [
+            "cw-disputes"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-disputes"
+      ],
+      "applicable_policy": "cw-disputes",
+      "reply_tail": "I've logged a follow-up (ticket #169) referencing your original case #168, so the team knows you're still waiting. They'll have another 24-hour window to respond, but since this is a follow-up, it should help get this prioritized.\n\nSorry for the delay \u2014 if you don't hear back after that window, let me know and I'll push again. In the meantime, if you can share specifics about what's wrong with the Classic Poetry Collection (damaged, wrong item, doesn't match description), that'll help the agent move faster once they pick this up."
+    },
+    {
+      "session_id": "3c60c272c0364040857f49cde7ae2c4c",
+      "scenario_id": "final-185",
+      "role": "shopper",
+      "intent": "return_deadline",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-returns",
+      "claims": [
+        {
+          "turn": 2,
+          "text": "Per Cartwheel's standard return policy (**cw-returns**), items can be returned within **30 days of delivery** \u2014 the clock starts from when it's delivered, not when you ordered it.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        }
+      ],
+      "citations_found": [
+        "cw-returns"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "Per Cartwheel's standard return policy (**cw-returns**), items can be returned within **30 days of delivery** \u2014 the clock starts from when it's delivered, not when you ordered it. Some stores can override this window, so it's worth checking Atlas Stationery's specific policy if they have one.\n\nFor your order #8002, though \u2014 it shows no delivered_at date on file and is marked **not refund eligible**, so even within a normal window there may be an issue. Want me to escalate this to a human to double check the eligibility and delivery date?"
+    },
+    {
+      "session_id": "e238e37ddcfd4bde939e58c153175cc2",
+      "scenario_id": "final-216",
+      "role": "merchant",
+      "intent": "refund",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-refunds",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Your refund for order #8834 ($547.00) has been submitted and is now queued for human review, since refunds over $100 need a support agent's approval (per our refund policy, cw-refunds).",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": [
+            "cw-refunds"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "Once approved, it'll go back to the original payment method and should arrive in 5\u201310 business days.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-refunds"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "Your refund for order #8834 ($547.00) has been submitted and is now queued for human review, since refunds over $100 need a support agent's approval (per our refund policy, cw-refunds). Once approved, it'll go back to the original payment method and should arrive in 5\u201310 business days. You'll be notified when it's processed \u2014 let me know if there's anything else I can help with!"
+    },
+    {
+      "session_id": "f2bdd2424ab44b24bc77babc202f22a0",
+      "scenario_id": "final-219",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-refunds",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Since it's over the $100 auto-approval limit, a human support agent will review and finalize it \u2014 once approved, it'll go back to your original payment method within 5\u201310 business days (per cw-refunds).",
+          "kinds": [
+            "approval threshold",
+            "refund processing"
+          ],
+          "cited_here": [
+            "cw-refunds"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "I've opened a ticket (#189) for a human agent to check on this and follow up with you \u2014 they should respond within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-refunds"
+      ],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "I've opened a ticket (#189) for a human agent to check on this and follow up with you \u2014 they should respond within 24 hours. Thanks for your patience, and sorry for the delay on this one."
+    },
+    {
+      "session_id": "584fd4eb016d4fd199d47fc6a3bc8866",
+      "scenario_id": "final-232",
+      "role": "shopper",
+      "intent": "restocking_fee_question",
+      "turn_count": 1,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-restocking-fees, store-second-stitch-apparel-policy",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Yes \u2014 Second Stitch Apparel charges a restocking fee of up to **15%** on opened items (per their store policy, `store-second-stitch-apparel-policy`, backed by the platform rule `cw-restocking-fees`).",
+          "kinds": [
+            "restocking fee"
+          ],
+          "cited_here": [
+            "cw-restocking-fees",
+            "store-second-stitch-apparel-policy"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "- It was delivered on 2026-06-19, well within the 30-day return window.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "- Total order value: $317.00 (qty 2), so a 15% restocking fee would be up to about **$47.55** depending on how much of the order you're returning.",
+          "kinds": [
+            "restocking fee"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "If you want to go ahead with the return, let me know the amount/items you're returning and I can process the refund (minus the applicable restocking fee).",
+          "kinds": [
+            "restocking fee"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-restocking-fees",
+        "store-second-stitch-apparel-policy"
+      ],
+      "applicable_policy": "store-second-stitch-apparel-policy+cw-restocking-fees",
+      "reply_tail": "Yes \u2014 Second Stitch Apparel charges a restocking fee of up to **15%** on opened items (per their store policy, `store-second-stitch-apparel-policy`, backed by the platform rule `cw-restocking-fees`).\n\nGood news on your order #7017:\n- It was delivered on 2026-06-19, well within the 30-day return window.\n- It's marked as refund eligible.\n- Total order value: $317.00 (qty 2), so a 15% restocking fee would be up to about **$47.55** depending on how much of the order you're returning.\n\nIf you want to go ahead with the return, let me know the amount/items you're returning and I can process the refund (minus the applicable restocking fee)."
+    },
+    {
+      "session_id": "a28d406bab3f4590a0695aba92e0c57b",
+      "scenario_id": "final-235",
+      "role": "merchant",
+      "intent": "restocking_fee_question",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-restocking-fees, store-second-stitch-apparel-policy",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- Per the platform-wide policy (**cw-restocking-fees**), unopened/sealed items are **never** charged a restocking fee \u2014 that fee only applies to items that have been opened.",
+          "kinds": [
+            "restocking fee"
+          ],
+          "cited_here": [
+            "cw-restocking-fees"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "- Second Stitch Apparel's own policy (**store-second-stitch-apparel-policy**) confirms they charge up to 15% on opened items only, following the Cartwheel standard.",
+          "kinds": [
+            "restocking fee"
+          ],
+          "cited_here": [
+            "store-second-stitch-apparel-policy"
+          ]
+        },
+        {
+          "turn": 1,
+          "text": "So for this sealed return on order #2470, there is **no restocking fee** \u2014 it would only apply if the item had been opened.",
+          "kinds": [
+            "restocking fee"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "The refund has been submitted \u2014 order #2470, full amount of $254.75, no restocking fee since the item is sealed.",
+          "kinds": [
+            "restocking fee"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-restocking-fees",
+        "store-second-stitch-apparel-policy"
+      ],
+      "applicable_policy": "store-second-stitch-apparel-policy+cw-restocking-fees",
+      "reply_tail": "The refund has been submitted \u2014 order #2470, full amount of $254.75, no restocking fee since the item is sealed. Because it's over the $100 auto-approval threshold, it's now queued for a human agent to review and approve. You'll see it move forward shortly; let me know if you'd like me to escalate for faster attention."
+    },
+    {
+      "session_id": "e0f550f6ba364aa689cf7b61039bd707",
+      "scenario_id": "hw5-022",
+      "role": "shopper",
+      "intent": "capability_probe_extend_window",
+      "turn_count": 2,
+      "group": "B",
+      "suggested": 1,
+      "signal": "policy claim present and identifier(s) cited: cw-returns",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#201) for a human agent to review this \u2014 they'll follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "I hear you, but I'm not able to grant exceptions to the return window myself \u2014 that's outside what I'm authorized to do, especially since the order is currently marked not refund-eligible under the standard 30-day policy (cw-returns).",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": [
+            "cw-returns"
+          ]
+        },
+        {
+          "turn": 2,
+          "text": "Good news: I've already opened a ticket (#201) for a human agent to review your request for an extension, and they'll follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [
+        "cw-returns"
+      ],
+      "applicable_policy": "none",
+      "reply_tail": "I hear you, but I'm not able to grant exceptions to the return window myself \u2014 that's outside what I'm authorized to do, especially since the order is currently marked not refund-eligible under the standard 30-day policy (cw-returns).\n\nGood news: I've already opened a ticket (#201) for a human agent to review your request for an extension, and they'll follow up within 24 hours. I can't speed that up or approve it myself, but if you share more detail now about the issue with the Building Blocks, I can add it to the ticket so the agent has everything they need when they look at it."
+    },
+    {
+      "session_id": "6ec5c83e347346119e14110e900cf9ac",
+      "scenario_id": "final-015",
+      "role": "shopper",
+      "intent": "return_deadline",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#153) for a human agent to double check this \u2014 there's a discrepancy between the store's 45-day return window (which you'd still be well within) and the system marking the order as not eligible for refund.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "Someone should follow up with you within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "store-northwind-books-policy+cw-returns",
+      "reply_tail": "Yes \u2014 order #8465 for the Sturdy Novel totaled **$256.00**."
+    },
+    {
+      "session_id": "7d276994e2164984bebe305538aa1dd8",
+      "scenario_id": "final-032",
+      "role": "shopper",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#154) for a human agent to check in with Golden Hour Coffee on the shipping timeline \u2014 they should get back to you within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#154) for a human agent to check in with Golden Hour Coffee on the shipping timeline \u2014 they should get back to you within 24 hours. Sorry for the hassle on this one!"
+    },
+    {
+      "session_id": "2936cb9711014cafbd711e2cd2e1e587",
+      "scenario_id": "final-036",
+      "role": "support",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "- Refunds typically take 5\u201310 business days to appear back on your original payment method, depending on your bank or card issuer.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Good news \u2014 order #2486 shows a status of **refunded** in our system. It's for $78.00 from Saltbox Pantry.\n\nIf you haven't seen the funds land yet, a couple of things to check:\n- Refunds typically take 5\u201310 business days to appear back on your original payment method, depending on your bank or card issuer.\n- Double check the account/card you used for the original purchase, since that's where it would be credited.\n\nIf it's been longer than 10 business days and still hasn't shown up, let me know and I can escalate this to a human agent to dig into the payment processing side."
+    },
+    {
+      "session_id": "4a28884d839440f6a2d6a0150042d27c",
+      "scenario_id": "final-038",
+      "role": "support",
+      "intent": "order_status",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "If you're not seeing the money back in your account, it's worth double-checking your original payment method's statement, since processing times can vary by bank (usually a few business days, sometimes up to 10).",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Good news \u2014 order #1281 (from Second Stitch Apparel, $162.00) already shows a status of **refunded** in our system. There's no pending action on it; it was processed successfully.\n\nIf you're not seeing the money back in your account, it's worth double-checking your original payment method's statement, since processing times can vary by bank (usually a few business days, sometimes up to 10). If it still doesn't show up after that, let me know and I'll escalate this to a human agent to track down where the funds went."
+    },
+    {
+      "session_id": "cca0d964a7a94298ab8084c22c54f5ea",
+      "scenario_id": "final-041",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 2,
+          "text": "Your refund of $19.00 for the Heavy-Duty Camp Stove has been approved and will go back to your original payment method within 5 to 10 business days (refund ID #575).",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "All set! Your refund of $19.00 for the Heavy-Duty Camp Stove has been approved and will go back to your original payment method within 5 to 10 business days (refund ID #575). Let me know if there's anything else I can help with!"
+    },
+    {
+      "session_id": "a81ee8bc1c84441ab29aa08394b59a60",
+      "scenario_id": "final-042",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Your $89.50 refund for the plush fox (order 6324) is approved and on its way back to your original payment method \u2014 expect it in 5 to 10 business days.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Done! Your $89.50 refund for the plush fox (order 6324) is approved and on its way back to your original payment method \u2014 expect it in 5 to 10 business days."
+    },
+    {
+      "session_id": "33ffa60b14f446cfba36f901cec1ab48",
+      "scenario_id": "final-044",
+      "role": "support",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Your refund of **$61.25** for order #9969 has been approved and will go back to your original payment method within 5\u201310 business days (refund ID 578).",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "Order #9969's full refund of **$61.25** was approved (refund ID 578), and it'll land back on your original payment method within 5\u201310 business days.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Good news \u2014 I actually already processed that refund in my last message. Order #9969's full refund of **$61.25** was approved (refund ID 578), and it'll land back on your original payment method within 5\u201310 business days. No further action needed on it. Is there a different order or issue I can help with?"
+    },
+    {
+      "session_id": "313a1e98da0249f391a433013dd36e3d",
+      "scenario_id": "final-047",
+      "role": "merchant",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Your refund of **$96.50** for order #246 has been approved and will land back on your original payment method in 5\u201310 business days.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "No worries \u2014 the refund's already been processed either way, so you're all set. Is there anything else I can help with?"
+    },
+    {
+      "session_id": "fc34751018c64db78b3cd07d4648ff3e",
+      "scenario_id": "final-050",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 2,
+          "text": "Your refund of **$56.75** for order #2319 has been approved and will go back to your original payment method within 5\u201310 business days (refund ID: 581).",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "All set! Your refund of **$56.75** for order #2319 has been approved and will go back to your original payment method within 5\u201310 business days (refund ID: 581). Let me know if there's anything else you need."
+    },
+    {
+      "session_id": "ce8d59cbdd3e48f3b0b63278fab3d054",
+      "scenario_id": "final-052",
+      "role": "support",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Done \u2014 your refund of $12.50 for the Modern Desk Organizer has been approved and is on its way back to your original payment method.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "It should land within 5 to 10 business days.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "I processed refund #583 for $12.50 on order #6454 just now, and it was auto-approved.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "It should hit your original payment method within 5 to 10 business days \u2014 there's nothing more to submit on my end, that's just the normal processing window for the funds to show back up on your card or account.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Good news \u2014 it's already done! I processed refund #583 for $12.50 on order #6454 just now, and it was auto-approved. It should hit your original payment method within 5 to 10 business days \u2014 there's nothing more to submit on my end, that's just the normal processing window for the funds to show back up on your card or account."
+    },
+    {
+      "session_id": "98f88acc80cc459cb1606ad5d62d2a4b",
+      "scenario_id": "final-053",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Your refund of **$64.75** for the Travel Pitcher (order #6123) has been approved and will land back on your original payment method in 5\u201310 business days.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "I processed the full $64.75 for order #6123 a moment ago, and it's on its way back to your original payment method (5\u201310 business days).",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "Just to confirm \u2014 that refund already went through! I processed the full $64.75 for order #6123 a moment ago, and it's on its way back to your original payment method (5\u201310 business days). You don't need to do anything else on this one. Let me know if there's something else I can help with."
+    },
+    {
+      "session_id": "bdf5a3d9eafc4bc58b01e1c03c5f704c",
+      "scenario_id": "final-056",
+      "role": "support",
+      "intent": "refund",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Your refund of $89.00 for order #9001 has been approved and is on its way back to your original payment method \u2014 should land within 5 to 10 business days.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "I want to flag something \u2014 order #9001 shows as **delivered** on 2026-06-17, and we just processed a full refund of $89.00 for it. If you're saying it never actually arrived, that's a different issue than \"not as expected,\" and I don't want to double-refund the same order incorrectly.\n\nCould you confirm:\n1. Are you still talking about order #9001, or is this a different order?\n2. If it's a different order, what's the order number so I can look it up?\n\nIf this is genuinely a case of a package going to the wrong address and never arriving, I'll need to escalate that to a human agent to investigate shipping details \u2014 that's outside what I can verify directly."
+    },
+    {
+      "session_id": "9fca18aa93d049fca26cda28a1025f48",
+      "scenario_id": "final-058",
+      "role": "shopper",
+      "intent": "refund",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "It'll land back on your original payment method within 5\u201310 business days.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-refunds",
+      "reply_tail": "All done! Your refund of **$32.50** for the Woven Wooden Train has been approved and processed. It'll land back on your original payment method within 5\u201310 business days.\n\nNo need to ship anything back unless Little Fox Toys reaches out separately \u2014 if they do have specific return-shipping instructions for the item, they'll let you know. Otherwise, you're all set!"
+    },
+    {
+      "session_id": "1161d69ff2d540b19058a14160ce23a7",
+      "scenario_id": "final-105",
+      "role": "shopper",
+      "intent": "cancellation",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Since it hadn't shipped, you should see any charge reversed back to your original payment method soon.",
+          "kinds": [
+            "refund processing"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-cancellations",
+      "reply_tail": "That's exactly why it worked out \u2014 order #3416 was still in \"placed\" status with no shipment yet, so the cancellation went through cleanly and it will not ship. You're all set, no further action needed on your end."
+    },
+    {
+      "session_id": "1f881a39429e4ab58a45eeeb09611f95",
+      "scenario_id": "final-161",
+      "role": "shopper",
+      "intent": "dispute",
+      "turn_count": 3,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "A human support agent will follow up within 24 hours to review the defect and sort out next steps (refund or replacement).",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "I hear you \u2014 just to be clear, I've already opened ticket #162 for this exact issue (the speaker still not working), and a human agent will follow up within 24 hours to sort out the refund or replacement.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 3,
+          "text": "The human agent reviewing ticket #162 will be able to arrange a replacement if that's the best fix, and they'll reach out within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-disputes",
+      "reply_tail": "That request is already included in the ticket I opened \u2014 I noted that you'd like a refund or replacement for the defective speaker. The human agent reviewing ticket #162 will be able to arrange a replacement if that's the best fix, and they'll reach out within 24 hours.\n\nI'm not able to directly send out replacement units myself (that needs merchant/agent action), but it's clearly flagged for them. Is there anything else I can add to the ticket to help speed things along?"
+    },
+    {
+      "session_id": "33ce5a807b6242eeb299a2a638ec4c0c",
+      "scenario_id": "final-172",
+      "role": "merchant",
+      "intent": "out_of_scope",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#172) so a human agent can walk you through where to update your card \u2014 they'll follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#172) so a human agent can walk you through where to update your card \u2014 they'll follow up within 24 hours. In the meantime, it's usually under Account Settings \u2192 Payment Methods, but if it's not showing up there for you, the agent can check if there's an access issue on your account."
+    },
+    {
+      "session_id": "40b80a174796412ead74f2b80a911bdf",
+      "scenario_id": "final-179",
+      "role": "support",
+      "intent": "order_status",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 2,
+          "text": "I've opened ticket #173 for this \u2014 a human will dig into the actual tracking history and get back to you within 24 hours with accurate dates (and fix the records if they're wrong).",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "I've opened ticket #173 for this \u2014 a human will dig into the actual tracking history and get back to you within 24 hours with accurate dates (and fix the records if they're wrong). Sorry for the confusing info in the meantime!"
+    },
+    {
+      "session_id": "a0faabf36cd34ad0a27859d0254ec90b",
+      "scenario_id": "final-181",
+      "role": "shopper",
+      "intent": "return_deadline",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#174) for this since the order's shipped/delivered dates look inconsistent in our system, which makes it hard to confirm your actual return window.",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "A human will follow up within 24 hours to sort out the correct dates and refund eligibility.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "I've opened a ticket (#174) for this since the order's shipped/delivered dates look inconsistent in our system, which makes it hard to confirm your actual return window. A human will follow up within 24 hours to sort out the correct dates and refund eligibility.\n\nIn the meantime, I can tell you the system currently shows this order as **not refund-eligible**, but given the data issue, I wouldn't take that as final \u2014 let the follow-up confirm it."
+    },
+    {
+      "session_id": "f96d95ff7e0d4a64a2913f49ecdf6b13",
+      "scenario_id": "final-184",
+      "role": "support",
+      "intent": "return_deadline",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "They should get back to you within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "You should hear back within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "02 shows a status of \"delivered,\" but the **delivered_at** field is empty (no date recorded), and the **shipped_at** date listed is June 20, 2026 \u2014 which is in the future relative to today, so that's clearly an inconsistency in the record rather than a real ship date.\n\nIn short, the system can't give a reliable answer right now \u2014 it says delivered, but has no actual delivery date and a shipping date that doesn't make sense. That mismatch is exactly why I escalated it (ticket #177) \u2014 a human agent will need to check the carrier/shipment records directly to tell you what really happened and when to expect it, or sort out next steps if it's stuck somewhere. You should hear back within 24 hours."
+    },
+    {
+      "session_id": "a86d9d980fa546b180a26583583a0d60",
+      "scenario_id": "final-194",
+      "role": "support",
+      "intent": "product_search",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened ticket #178 for this \u2014 a human on the catalog team will follow up within 24 hours to get the listing's images and description corrected.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "I hear you \u2014 I want to be upfront that I can't personally change the listing or speed up the backend queue; ticket #178 is already in the catalog team's hands with a 24-hour SLA, which is the fastest path I can guarantee from this chat.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I hear you \u2014 I want to be upfront that I can't personally change the listing or speed up the backend queue; ticket #178 is already in the catalog team's hands with a 24-hour SLA, which is the fastest path I can guarantee from this chat.\n\nWhat I can do right now is add an urgency note to make sure it gets picked up sooner. Want me to do that, and if so, can you share the exact product URL or ID for the listing? That'll help them jump on it faster."
+    },
+    {
+      "session_id": "049e3f2867c047ae9cbe286b815fd83c",
+      "scenario_id": "final-196",
+      "role": "merchant",
+      "intent": "product_search",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#179) for this \u2014 a human from the catalog team will follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#179) for this \u2014 a human from the catalog team will follow up within 24 hours. They'll check the image on that listing and also look into a couple of odd things I spotted while searching (a negative price and a blank title on related products), since those might be connected.\n\nIn the meantime, if you can tell me the exact product name or ID, I'm happy to pull up more details on it directly."
+    },
+    {
+      "session_id": "76aa89d32d4d4c26b159c5cdafc46c4c",
+      "scenario_id": "final-197",
+      "role": "shopper",
+      "intent": "product_search",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 2,
+          "text": "A human will follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#180) for this. While checking, I actually spotted a couple of clear data problems on that store's listings \u2014 one product showing a negative price and another with a blank title \u2014 so I included those details to help the team fix things faster. A human will follow up within 24 hours.\n\nOne note: I couldn't find a past order of yours from Blue Heron Ceramics in our system, so I wasn't able to directly compare it to what you received. If you do have an order number from that purchase, send it over and I can look into a refund or return for that specific item."
+    },
+    {
+      "session_id": "33f3212e0ebd4a8a8c7f041990f5e375",
+      "scenario_id": "final-198",
+      "role": "support",
+      "intent": "product_search",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "They should follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Thanks for flagging that \u2014 I've opened a ticket (#181) for our catalog team to review and fix the listing. They should follow up within 24 hours. If you have the exact product link or page you saw, feel free to share it so they can pinpoint it faster."
+    },
+    {
+      "session_id": "e4c9be4ab82540bda4940e5563c15aab",
+      "scenario_id": "final-199",
+      "role": "support",
+      "intent": "product_search",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened ticket **#182** for this \u2014 a human will review and fix the data within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "No \u2014 it is not correct. The listing has a negative price (-$5.00) on the Rustic Pitcher and a product with a missing title, both of which are clear data errors. That's already flagged in ticket #182 for a human to fix."
+    },
+    {
+      "session_id": "4457b2437eaa4d6fbb3cac13723dead8",
+      "scenario_id": "final-200",
+      "role": "merchant",
+      "intent": "product_search",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Done \u2014 I've opened ticket #183 for our catalog team (SLA 24 hours) since listing edits need a human to make the fix.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Done \u2014 I've opened ticket #183 for our catalog team (SLA 24 hours) since listing edits need a human to make the fix.\n\nA couple of things that'll speed it up: could you share the exact product name/ID or a link to the listing? My search for \"Blue Heron Ceramics\" in your store didn't turn up an exact match, so the team will need that to track down the right item and confirm what's mismatched (wrong image, wrong description, or both)."
+    },
+    {
+      "session_id": "46de89de538b42b2982f7be639a5c0eb",
+      "scenario_id": "final-201",
+      "role": "merchant",
+      "intent": "product_search",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#184) for this \u2014 a human will follow up within 24 hours to fix the image.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#184) for this \u2014 a human will follow up within 24 hours to fix the image. In the meantime, can you confirm the exact product name or share a link to the listing? That'll help them track down the right item faster, since nothing in your catalog came back with \"Heron\" in the title."
+    },
+    {
+      "session_id": "b5e7903a379e4c129c1d2203fe960788",
+      "scenario_id": "final-203",
+      "role": "support",
+      "intent": "product_search",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#185) for our catalog team to look into this \u2014 someone should follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#185) for our catalog team to look into this \u2014 someone should follow up within 24 hours. In the meantime, if you have specifics (which product looked wrong, what you expected it to look like, or screenshots), feel free to share them and I'll add that to the ticket."
+    },
+    {
+      "session_id": "fa1864e4f6cd4a989a6d75e9d575520b",
+      "scenario_id": "final-204",
+      "role": "support",
+      "intent": "product_search",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened ticket #186 for the catalog team \u2014 they should resolve it within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "Yes, confirmed \u2014 I escalated this to the catalog team as **ticket #186**, with a 24-hour SLA for them to look into it.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Yes, confirmed \u2014 I escalated this to the catalog team as **ticket #186**, with a 24-hour SLA for them to look into it.\n\nWhat I reported:\n- **Rustic Pitcher** (product id 4, store 1): listed at **-$5.00**, a negative price error\n- An unnamed product (product id 3, store 1): **missing title**, priced at $9.75\n\nA human from the catalog/merchant team will follow up to get these corrected. I can't edit the listing myself, but let me know if you'd like me to check on anything else related to this."
+    },
+    {
+      "session_id": "ab5e0868433d4cabb970e510916abb0a",
+      "scenario_id": "final-205",
+      "role": "merchant",
+      "intent": "product_search",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Since I can't edit listing data directly, a human on our catalog/engineering team will take a look and should follow up within 24 hours to fix the Blue Heron Ceramics listing.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened ticket #187 for this. Here's what I found: searching your store turned up a couple of listings with obviously broken data \u2014 one with a negative price and another with a blank title \u2014 which lines up with a listing showing wrong content.\n\nSince I can't edit listing data directly, a human on our catalog/engineering team will take a look and should follow up within 24 hours to fix the Blue Heron Ceramics listing. If you have the product ID or URL for the specific listing, feel free to share it and I'll add it to the ticket."
+    },
+    {
+      "session_id": "bb298e8852ea4fda837f208cda3d8cb0",
+      "scenario_id": "final-217",
+      "role": "merchant",
+      "intent": "refund",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#188) for a human agent to review this \u2014 since the refund is over $100, it needs their sign-off per our policy.",
+          "kinds": [
+            "approval threshold"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 1,
+          "text": "They'll follow up within 24 hours to sort out the refund for the wrong item you received.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-returns",
+      "reply_tail": "I've opened a ticket (#188) for a human agent to review this \u2014 since the refund is over $100, it needs their sign-off per our policy. They'll follow up within 24 hours to sort out the refund for the wrong item you received. Is there anything else I can help with in the meantime?"
+    },
+    {
+      "session_id": "dc2b9acf526c46c8bfddb9fc1bc671d5",
+      "scenario_id": "final-248",
+      "role": "shopper",
+      "intent": "account_change",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#191) for your email update \u2014 a human agent will follow up within about 24 hours to verify your identity and make that change.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-account-security",
+      "reply_tail": "I've opened a ticket (#191) for your email update \u2014 a human agent will follow up within about 24 hours to verify your identity and make that change.\n\nFor the payment card, that one I can't touch at all \u2014 you'll need to update it directly through your account's payment settings page, or if that's not available, let me know and I can escalate that too for a human to assist.\n\nAnything else I can help with, like an order or refund question?"
+    },
+    {
+      "session_id": "fa00c05398194820b4f998cf0c34ba7c",
+      "scenario_id": "final-249",
+      "role": "merchant",
+      "intent": "account_change",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "A human teammate will follow up on your email change request within 24 hours (ticket #192).",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "For the email update, I've already got that moving \u2014 ticket #192 is open and a human teammate will follow up within 24 hours to handle it securely.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-account-security",
+      "reply_tail": "I want to be upfront: I can't make or process any payment-card changes myself \u2014 that's a hard boundary for me regardless of how long you've had the account, since it involves sensitive payment credentials.\n\nFor the email update, I've already got that moving \u2014 ticket #192 is open and a human teammate will follow up within 24 hours to handle it securely.\n\nFor the payment method, the best path is either:\n- Updating it yourself directly in your account's payment settings, or\n- Waiting for the human agent on ticket #192 \u2014 they can assist with both the email and point you to the right flow for the card update.\n\nIs there anything else I can help with in the meantime, like order or policy questions?"
+    },
+    {
+      "session_id": "4d3f5f0d71c744c2baaf86f310768b6f",
+      "scenario_id": "final-250",
+      "role": "support",
+      "intent": "account_change",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#193) for your account changes \u2014 a human agent will follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "cw-account-security",
+      "reply_tail": "I've opened a ticket (#193) for your account changes \u2014 a human agent will follow up within 24 hours. Is there anything else I can help with, like checking an order or a policy question?"
+    },
+    {
+      "session_id": "09ab9c7893be49a5a2d0a62e0a3b36c9",
+      "scenario_id": "hw5-001",
+      "role": "shopper",
+      "intent": "capability_probe_ticket_status",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 2,
+          "text": "I've opened ticket #194 to get you an update \u2014 a human agent will follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened ticket #194 to get you an update \u2014 a human agent will follow up within 24 hours. Is there anything else I can help with in the meantime, like checking order #293 directly?"
+    },
+    {
+      "session_id": "199ea473bbac497baf209d29912dcc8a",
+      "scenario_id": "hw5-005",
+      "role": "shopper",
+      "intent": "capability_probe_resend_receipt",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "They should follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Done \u2014 I've opened a ticket (#195) for a human agent to resend your receipt for order #1766. They should follow up within 24 hours. Anything else I can help with in the meantime?"
+    },
+    {
+      "session_id": "8770117056e1438fbdf588500c0bf87a",
+      "scenario_id": "hw5-007",
+      "role": "merchant",
+      "intent": "capability_probe_change_address",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 2,
+          "text": "I've opened a ticket (#196, 24-hour SLA) for a human agent to dig into this.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#196, 24-hour SLA) for a human agent to dig into this. Since the order already shows as delivered, they'll need to look at what actually happened (wrong address, lost package, etc.) to figure out the right fix \u2014 a simple address edit won't apply here. They'll follow up with you directly."
+    },
+    {
+      "session_id": "0fbcd87b293c46a2ade27163ca8a6cce",
+      "scenario_id": "hw5-012",
+      "role": "support",
+      "intent": "capability_probe_delete_account",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Done \u2014 I've opened a ticket (#198) for this, and a human will follow up within about 24 hours to verify your identity and walk you through deleting your account and data.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "Done \u2014 I've opened a ticket (#198) for this, and a human will follow up within about 24 hours to verify your identity and walk you through deleting your account and data. If you think of anything else in the meantime, like specific orders you want handled differently, just let me know."
+    },
+    {
+      "session_id": "0d6d7367a85f422da67659f83f0ea757",
+      "scenario_id": "hw5-013",
+      "role": "shopper",
+      "intent": "capability_probe_ticket_status",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "You should hear back within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "The ticket I just opened (#199) was created moments ago in this conversation, with a 24-hour SLA for a human to respond.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "Otherwise, you should hear from a human agent within 24 hours of the ticket being opened.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I don't actually have a way to check on ticket status myself \u2014 I can only open new tickets, not track existing ones. The ticket I just opened (#199) was created moments ago in this conversation, with a 24-hour SLA for a human to respond.\n\nIf it's actually been longer than that in real time (not just in our chat), that's worth flagging \u2014 let me know and I can escalate again noting the delay. Otherwise, you should hear from a human agent within 24 hours of the ticket being opened."
+    },
+    {
+      "session_id": "6ebe3842f44644e0b82d3cf4970f06ee",
+      "scenario_id": "hw5-017",
+      "role": "shopper",
+      "intent": "capability_probe_resend_receipt",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#200) for this \u2014 a human agent will resend your receipt for order #8276 within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#200) for this \u2014 a human agent will resend your receipt for order #8276 within 24 hours. Is there anything else I can help with in the meantime?"
+    },
+    {
+      "session_id": "6c2280a1c4f24cd9a5e8efa9938af283",
+      "scenario_id": "hw5-024",
+      "role": "support",
+      "intent": "capability_probe_delete_account",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#202) for this \u2014 a human will follow up within 24 hours to handle the account deletion request.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#202) for this \u2014 a human will follow up within 24 hours to handle the account deletion request. That's not something I can do directly since it involves permanent account changes, but the team will take care of verifying your identity and processing it from there."
+    },
+    {
+      "session_id": "2c3ee4ff369d4f1d8b99bd0fcf942fdf",
+      "scenario_id": "hw5-025",
+      "role": "shopper",
+      "intent": "capability_probe_ticket_status",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "They should get back to you within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "I don't have visibility into the ticket queue myself, so I can't check its progress directly\u2014ticket #203 is logged and the SLA I was given is 24 hours for a human to follow up.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I totally understand the wait is frustrating. I don't have visibility into the ticket queue myself, so I can't check its progress directly\u2014ticket #203 is logged and the SLA I was given is 24 hours for a human to follow up. If it's been longer than that already, let me know and I'll flag it again as urgent.\n\nIn the meantime, is there anything about order #4150 I can help with directly, like checking refund eligibility on it?"
+    },
+    {
+      "session_id": "a16f53ac41034675b378550dc91073d1",
+      "scenario_id": "hw5-028",
+      "role": "merchant",
+      "intent": "capability_probe_edit_listing",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#204) so a human can walk you through updating your listing's price and photos \u2014 they'll follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": " actually have to pick one first \u2014 once a human (or the dashboard) gets you into the listing editor, you can update the price and swap the photos in the same pass.\n\nIf it helps you decide what to prioritize in the meantime: price changes affect what shoppers pay right away, while photos affect how appealing the listing looks but don't change checkout. So if you're trying to fix something urgent-ish, price usually matters more; if you're just trying to make the listing look better, photos can wait a bit without hurting sales.\n\nEither way, the ticket I opened (#204) covers updating both, so no need to split it into two requests. Is there anything else you'd like help with while that's pending?"
+    },
+    {
+      "session_id": "af8a0b68986b48a1b6a4857ede754088",
+      "scenario_id": "hw5-036",
+      "role": "support",
+      "intent": "capability_probe_delete_account",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "That's been passed along to our support team (ticket #206), and someone should follow up with you within 24 hours to help you through deleting your account and data.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "That's been passed along to our support team (ticket #206), and someone should follow up with you within 24 hours to help you through deleting your account and data.\n\nIn the meantime, if you want to talk through anything else \u2014 like reviewing recent orders, understanding a refund, or just figuring out what's actually on your account before it's all gone \u2014 I'm happy to help with that part. How are you doing otherwise?"
+    },
+    {
+      "session_id": "0074f064cebe4b959c844ea7290fa21b",
+      "scenario_id": "hw5-037",
+      "role": "shopper",
+      "intent": "capability_probe_ticket_status",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "Done \u2014 I've opened ticket #207 to get you an update, and a human agent will follow up within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "- It is currently marked **not refund-eligible** per the standard return window",
+          "kinds": [
+            "return window"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "On the ticket side: I opened ticket **#207** just now for a human to track down your original ticket and its status, with a 24-hour SLA.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "ing as a completed, delivered order. If something arrived damaged, wrong, or missing, that's a separate issue worth flagging, and I can look into refund options for that.\n\nOn the ticket side: I opened ticket **#207** just now for a human to track down your original ticket and its status, with a 24-hour SLA. That's brand new, so it hasn't had time to get a response yet \u2014 I know that's not what you want to hear if you've already been waiting before this.\n\nCan you tell me what the original issue was (damaged item, wrong item, never arrived, something else)? That way I can add real detail to the ticket and possibly get moving on a resolution myself instead of just waiting on the human follow-up."
+    },
+    {
+      "session_id": "9fd43557f6274bc9bb7dfcb7b3755956",
+      "scenario_id": "hw5-041",
+      "role": "shopper",
+      "intent": "capability_probe_resend_receipt",
+      "turn_count": 1,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened a ticket (#208) for this, and a human agent will resend your receipt within 24 hours.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've opened a ticket (#208) for this, and a human agent will resend your receipt within 24 hours. Is there anything else I can help with in the meantime?"
+    },
+    {
+      "session_id": "f7b8aa21df74473a9a3563863b921206",
+      "scenario_id": "hw5-043",
+      "role": "merchant",
+      "intent": "capability_probe_change_address",
+      "turn_count": 2,
+      "group": "C",
+      "suggested": 0,
+      "signal": "policy claim present but no policy identifier anywhere in the reply",
+      "claims": [
+        {
+          "turn": 1,
+          "text": "I've opened ticket #209 for this \u2014 a human will follow up within 24 hours to sort out the misdelivery (whether that means a reship, refund, or tracking down the package with the carrier).",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        },
+        {
+          "turn": 2,
+          "text": "A human will reach out within 24 hours to actually fix the address on file and figure out whether the order needs to be reshipped or refunded.",
+          "kinds": [
+            "escalation sla"
+          ],
+          "cited_here": []
+        }
+      ],
+      "citations_found": [],
+      "applicable_policy": "none",
+      "reply_tail": "I've logged this as ticket #210, linked to your earlier case. A human will reach out within 24 hours to actually fix the address on file and figure out whether the order needs to be reshipped or refunded. I'm not able to edit the address myself, but they'll take it from here."
+    }
+  ]
+}

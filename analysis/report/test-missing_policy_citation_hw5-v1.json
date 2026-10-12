@@ -1,0 +1,25 @@
+{
+  "judge_id": "missing_policy_citation_hw5-v1",
+  "split": "test",
+  "tpr": 0.9697,
+  "tnr": 1.0,
+  "tpr_interval": [
+    0.8468,
+    0.9946
+  ],
+  "tnr_interval": [
+    0.6457,
+    1.0
+  ],
+  "agreement": 0.975,
+  "tp": 32,
+  "fn": 1,
+  "tn": 7,
+  "fp": 0,
+  "n": 40,
+  "disagreements": [
+    "584fd4eb016d4fd199d47fc6a3bc8866"
+  ],
+  "model": "llama4-maverick-17b-128e-instruct",
+  "note": "test split scored once after freezing; min_per_class was lowered to 6 because only 16 confirmed Fail labels were available"
+}
