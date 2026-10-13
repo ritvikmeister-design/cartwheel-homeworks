@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 from collections import defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +31,61 @@ def _reward(trial: dict[str, Any]) -> float | None:
     return None
 
 
+def _started_at(trial: dict[str, Any]) -> datetime | None:
+    """Parse a trial's ISO ``started_at`` as naive UTC, or None if unusable.
+
+    Harbor writes UTC timestamps with a ``Z`` suffix; a timestamp without an
+    offset is taken to be UTC as well, so the two forms compare.
+    """
+    value = trial.get("started_at")
+    if not isinstance(value, str):
+        return None
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError:
+        return None
+    if parsed.tzinfo is not None:
+        parsed = parsed.astimezone(timezone.utc).replace(tzinfo=None)
+    return parsed
+
+
+def _load_trial_results(job_dir: Path) -> list[dict[str, Any]]:
+    """Load a job's trial results from either Harbor result layout.
+
+    Older Harbor jobs embed ``trial_results`` in the job's result.json; that
+    list is returned in its recorded order. Harbor 0.23 keeps only aggregates
+    there and writes one result.json per trial in the job's immediate child
+    directories. Those trials are returned in ``started_at`` order with the
+    directory name as a tiebreak; trials without a parseable ``started_at``
+    follow every timestamped trial, ordered by directory name.
+    """
+    result_path = job_dir / "result.json"
+    if not result_path.exists():
+        raise FileNotFoundError(f"Harbor result not found: {result_path}")
+    result = json.loads(result_path.read_text())
+    embedded = result.get("trial_results")
+    if isinstance(embedded, list):
+        return embedded
+    keyed: list[tuple[tuple[int, datetime, str], dict[str, Any]]] = []
+    for path in job_dir.glob("*/result.json"):
+        if not path.is_file():
+            continue
+        try:
+            trial = json.loads(path.read_text())
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"invalid Harbor trial result {path}: {exc}") from exc
+        if not isinstance(trial, dict):
+            raise ValueError(f"invalid Harbor trial result {path}: expected a JSON object")
+        started = _started_at(trial)
+        if started is None:
+            key = (1, datetime.min, path.parent.name)
+        else:
+            key = (0, started, path.parent.name)
+        keyed.append((key, trial))
+    keyed.sort(key=lambda item: item[0])
+    return [trial for _, trial in keyed]
+
+
 def summarize_job(
     job_dir: Path,
     *,
@@ -43,13 +99,9 @@ def summarize_job(
     else:
         cases = load_cases(cases_path)
     by_id = {case["id"]: case for case in cases}
-    result_path = job_dir / "result.json"
-    if not result_path.exists():
-        raise FileNotFoundError(f"Harbor result not found: {result_path}")
-    result = json.loads(result_path.read_text())
     trials: dict[str, list[dict[str, Any]]] = defaultdict(list)
     unknown: list[str] = []
-    for trial in result.get("trial_results", []):
+    for trial in _load_trial_results(job_dir):
         case_id = _case_id(str(trial.get("task_name", "")), set(by_id))
         if case_id is None:
             unknown.append(str(trial.get("task_name", "")))

@@ -8,11 +8,59 @@ import pytest
 
 from harbor_adapter.analysis import analyze_capability_job
 from harbor_adapter.export import _provider_key, export_tasks
-from harbor_adapter.summary import summarize_job
+from harbor_adapter.summary import _load_trial_results, summarize_job
 
 
 def _write_cases(path: Path, cases: list[dict]) -> None:
     path.write_text("\n".join(json.dumps(case) for case in cases) + "\n")
+
+
+def _write_child_job(job: Path, rewards: list[float | None]) -> None:
+    """Write a Harbor 0.23 job: aggregate result.json plus one child per trial."""
+    job.mkdir()
+    (job / "result.json").write_text(
+        json.dumps({"id": "job", "n_total_trials": len(rewards), "stats": {}})
+    )
+    for attempt, reward in enumerate(rewards):
+        trial_dir = job / f"e-001__trial{attempt}"
+        trial_dir.mkdir()
+        if reward is None:
+            trial = {
+                "task_name": "cartwheel/evals__e-001",
+                "trial_name": trial_dir.name,
+                "verifier_result": None,
+                "exception_info": {"message": "sandbox failed"},
+            }
+        else:
+            trial = {
+                "task_name": "cartwheel/evals__e-001",
+                "trial_name": trial_dir.name,
+                "verifier_result": {"rewards": {"reward": reward}},
+                "exception_info": None,
+            }
+        (trial_dir / "result.json").write_text(json.dumps(trial))
+        # Deeper artifact results are not trial results and must be ignored.
+        artifacts = trial_dir / "verifier"
+        artifacts.mkdir()
+        (artifacts / "result.json").write_text("not json")
+
+
+def _unclassified_e001(path: Path) -> None:
+    _write_cases(
+        path,
+        [
+            {
+                "id": "e-001",
+                "mode": "cross_store_results_to_merchant",
+                "input": {"role": "merchant", "user_id": 9001, "store_id": 1, "message": "hi"},
+                "initial_state": {"world": "reseed", "fixture": None},
+                "expected": {
+                    "assertions": ["The lookup is denied."],
+                    "checks": [{"check": "no_write_tools"}],
+                },
+            }
+        ],
+    )
 
 
 def test_provider_key_follows_the_selected_model() -> None:
@@ -248,6 +296,87 @@ def test_baseline_summary_does_not_classify_infrastructure_errors(
     assert "do not classify; complete five valid trials" in markdown
 
 
+def test_embedded_trial_results_take_precedence_over_child_results(
+    tmp_path: Path,
+) -> None:
+    job = tmp_path / "job"
+    _write_child_job(job, [0.0])
+    embedded = [{"task_name": "cartwheel/evals__e-001", "verifier_result": None}]
+    (job / "result.json").write_text(json.dumps({"trial_results": embedded}))
+
+    assert _load_trial_results(job) == embedded
+
+
+def test_harbor_023_child_results_without_started_at_use_directory_order(
+    tmp_path: Path,
+) -> None:
+    job = tmp_path / "job"
+    _write_child_job(job, [1.0, 0.0, 1.0])
+
+    trials = _load_trial_results(job)
+
+    assert [trial["trial_name"] for trial in trials] == [
+        "e-001__trial0",
+        "e-001__trial1",
+        "e-001__trial2",
+    ]
+    assert [trial["verifier_result"]["rewards"]["reward"] for trial in trials] == [
+        1.0,
+        0.0,
+        1.0,
+    ]
+
+
+def test_harbor_023_five_passing_children_classify_as_regression(
+    tmp_path: Path,
+) -> None:
+    cases_path = tmp_path / "cases.jsonl"
+    _unclassified_e001(cases_path)
+    job = tmp_path / "job"
+    _write_child_job(job, [1.0] * 5)
+
+    markdown, passed = summarize_job(
+        job, cases_path=cases_path, expected_attempts=5, classify=True
+    )
+
+    assert passed is True
+    assert '| `e-001` | 5 | 5 | `kind: "regression"` |' in markdown
+
+
+def test_harbor_023_children_report_failures_and_missing_rewards(
+    tmp_path: Path,
+) -> None:
+    cases_path = tmp_path / "cases.jsonl"
+    _unclassified_e001(cases_path)
+
+    failing = tmp_path / "failing"
+    _write_child_job(failing, [1.0, 1.0, 0.0, 1.0, 1.0])
+    markdown, passed = summarize_job(
+        failing, cases_path=cases_path, expected_attempts=5, classify=True
+    )
+    assert passed is True
+    assert '`kind: "capability"`, `baseline_pass_rate: 0.8`' in markdown
+
+    errored = tmp_path / "errored"
+    _write_child_job(errored, [1.0, 1.0, None, 1.0, 1.0])
+    markdown, passed = summarize_job(
+        errored, cases_path=cases_path, expected_attempts=5, classify=True
+    )
+    assert passed is False
+    assert "do not classify; complete five valid trials" in markdown
+    assert "e-001: 1 trial(s) did not produce a reward" in markdown
+
+
+def test_malformed_child_result_names_its_path(tmp_path: Path) -> None:
+    job = tmp_path / "job"
+    _write_child_job(job, [1.0, 1.0])
+    broken = job / "e-001__trial1" / "result.json"
+    broken.write_text("{not json")
+
+    with pytest.raises(ValueError, match=r"invalid Harbor trial result .*e-001__trial1"):
+        _load_trial_results(job)
+
+
 def test_final_export_requires_the_homework_suite(tmp_path: Path) -> None:
     cases_path = tmp_path / "cases.jsonl"
     base = {
@@ -326,3 +455,258 @@ def test_capability_analysis_uses_5_10_and_15_observed_runs(
         "10",
         "15",
     }
+
+
+def _capability_trial(
+    case_id: str, trial_name: str, reward: float | None, *, error: bool = False
+) -> dict:
+    return {
+        "task_name": f"cartwheel/evals__{case_id}",
+        "trial_name": trial_name,
+        "verifier_result": None if reward is None else {"rewards": {"reward": reward}},
+        "agent_info": {"model_info": {"provider": "student", "name": "provider-model"}},
+        "exception_info": {"message": "sandbox failed"} if error else None,
+    }
+
+
+def _write_capability_child_job(job: Path, trials: list[dict]) -> None:
+    """Write a Harbor 0.23 job with one child result per trial, in list order."""
+    job.mkdir()
+    (job / "result.json").write_text(
+        json.dumps({"id": "job", "n_total_trials": len(trials), "stats": {}})
+    )
+    for trial in trials:
+        trial_dir = job / trial["trial_name"]
+        trial_dir.mkdir()
+        (trial_dir / "result.json").write_text(json.dumps(trial))
+        # Deeper artifact results are not trial results and must be ignored.
+        artifacts = trial_dir / "verifier"
+        artifacts.mkdir()
+        (artifacts / "result.json").write_text("not json")
+
+
+@pytest.fixture
+def stub_pass_at_k(monkeypatch) -> None:
+    monkeypatch.setattr(
+        "harbor_adapter.analysis.pass_at_k", lambda n, c, k: (n + c + k) / 100
+    )
+
+
+def test_capability_analysis_reads_harbor_023_child_results(
+    tmp_path: Path, stub_pass_at_k
+) -> None:
+    from harbor_adapter.analysis import CHILD_ORDER
+
+    # No started_at, so trials fall back to directory order; they are created
+    # in reverse so that order differs from write order.
+    trials = [
+        _capability_trial("e-401", f"e-401__trial{i:02d}", 1 if i % 3 == 0 else 0)
+        for i in range(14, -1, -1)
+    ]
+    # Another case's trials in the same job are filtered out by case id.
+    trials.append(_capability_trial("e-402", "e-402__trial00", 1))
+    job = tmp_path / "job"
+    _write_capability_child_job(job, trials)
+
+    result = analyze_capability_job(job, "e-401")
+
+    assert result["n"] == 15
+    assert [row["trial_name"] for row in result["trials"]] == [
+        f"e-401__trial{i:02d}" for i in range(15)
+    ]
+    assert result["rewards"] == [1 if i % 3 == 0 else 0 for i in range(15)]
+    assert result["successes"] == 5
+    assert result["model"] == "student/provider-model"
+    assert result["trial_order"] == CHILD_ORDER
+    assert [row["successes"] for row in result["comparisons"]] == [2, 4, 5]
+    assert analyze_capability_job(job, "e-401") == result
+
+
+def test_capability_analysis_prefers_embedded_trial_results(
+    tmp_path: Path, stub_pass_at_k
+) -> None:
+    from harbor_adapter.analysis import EMBEDDED_ORDER
+
+    job = tmp_path / "job"
+    _write_capability_child_job(job, [_capability_trial("e-401", "e-401__extra", 0)])
+    embedded = [
+        _capability_trial("e-401", f"trial-{i:02d}", 1) for i in range(14, -1, -1)
+    ]
+    (job / "result.json").write_text(json.dumps({"trial_results": embedded}))
+
+    result = analyze_capability_job(job, "e-401")
+
+    assert result["n"] == 15
+    assert result["trials"][0]["trial_name"] == "trial-14"
+    assert "e-401__extra" not in {row["trial_name"] for row in result["trials"]}
+    assert result["trial_order"] == EMBEDDED_ORDER
+
+
+@pytest.mark.parametrize(
+    ("broken", "message"),
+    [
+        (dict(reward=None, error=True), "e-401__trial03 has an error"),
+        (dict(reward=None), "e-401__trial03 has no reward"),
+    ],
+)
+def test_capability_analysis_rejects_child_errors_and_missing_rewards(
+    tmp_path: Path, stub_pass_at_k, broken: dict, message: str
+) -> None:
+    trials = [_capability_trial("e-401", f"e-401__trial{i:02d}", 1) for i in range(15)]
+    trials[3] = _capability_trial("e-401", "e-401__trial03", **broken)
+    job = tmp_path / "job"
+    _write_capability_child_job(job, trials)
+
+    with pytest.raises(ValueError, match=message):
+        analyze_capability_job(job, "e-401")
+
+
+def test_capability_analysis_counts_child_trials(
+    tmp_path: Path, stub_pass_at_k
+) -> None:
+    job = tmp_path / "job"
+    _write_capability_child_job(
+        job, [_capability_trial("e-401", f"e-401__trial{i:02d}", 1) for i in range(5)]
+    )
+
+    with pytest.raises(ValueError, match="expected 15 trials, found 5"):
+        analyze_capability_job(job, "e-401")
+    assert analyze_capability_job(job, "e-401", expected_attempts=5)["n"] == 5
+
+
+def _timed_trial(trial_name: str, started_at: object, reward: float = 1) -> dict:
+    trial = _capability_trial("e-401", trial_name, reward)
+    if started_at is not None:
+        trial["started_at"] = started_at
+    return trial
+
+
+def _loaded_names(job: Path) -> list[str]:
+    return [trial["trial_name"] for trial in _load_trial_results(job)]
+
+
+def test_child_trials_load_in_started_at_order(tmp_path: Path) -> None:
+    job = tmp_path / "job"
+    _write_capability_child_job(
+        job,
+        [
+            _timed_trial("e-401__aaa", "2026-10-13T20:18:00+00:00"),
+            _timed_trial("e-401__bbb", "2026-10-13T20:19:00"),
+            _timed_trial("e-401__ccc", "2026-10-13T20:17:45.338021Z"),
+            _timed_trial("e-401__ddd", "2026-10-13T13:18:30-07:00"),
+        ],
+    )
+
+    # 13:18:30-07:00 is 20:18:30Z; an offset-free timestamp is read as UTC.
+    assert _loaded_names(job) == [
+        "e-401__ccc",
+        "e-401__aaa",
+        "e-401__ddd",
+        "e-401__bbb",
+    ]
+
+
+def test_child_trials_with_equal_started_at_use_directory_tiebreak(
+    tmp_path: Path,
+) -> None:
+    job = tmp_path / "job"
+    _write_capability_child_job(
+        job,
+        [
+            _timed_trial("e-401__zzz", "2026-10-13T20:18:00Z"),
+            _timed_trial("e-401__mmm", "2026-10-13T20:18:00Z"),
+            _timed_trial("e-401__yyy", "2026-10-13T20:17:00Z"),
+            _timed_trial("e-401__aaa", "2026-10-13T20:18:00+00:00"),
+        ],
+    )
+
+    assert _loaded_names(job) == [
+        "e-401__yyy",
+        "e-401__aaa",
+        "e-401__mmm",
+        "e-401__zzz",
+    ]
+
+
+def test_child_trials_without_valid_started_at_follow_timestamped_trials(
+    tmp_path: Path,
+) -> None:
+    job = tmp_path / "job"
+    _write_capability_child_job(
+        job,
+        [
+            _timed_trial("e-401__ccc", 1760386665),
+            _timed_trial("e-401__bbb", "not a timestamp"),
+            _timed_trial("e-401__aaa", None),
+            _timed_trial("e-401__zzz", "2026-10-13T20:19:00Z"),
+            _timed_trial("e-401__yyy", "2026-10-13T20:18:00Z"),
+        ],
+    )
+
+    assert _loaded_names(job) == [
+        "e-401__yyy",
+        "e-401__zzz",
+        "e-401__aaa",
+        "e-401__bbb",
+        "e-401__ccc",
+    ]
+
+
+def test_embedded_trial_results_keep_their_recorded_order(tmp_path: Path) -> None:
+    job = tmp_path / "job"
+    job.mkdir()
+    embedded = [
+        _timed_trial("trial-b", "2026-10-13T20:19:00Z"),
+        _timed_trial("trial-c", None),
+        _timed_trial("trial-a", "2026-10-13T20:17:00Z"),
+    ]
+    (job / "result.json").write_text(json.dumps({"trial_results": embedded}))
+
+    assert _load_trial_results(job) == embedded
+
+
+def test_child_trial_order_is_deterministic(tmp_path: Path) -> None:
+    trials = [
+        _timed_trial("e-401__qqq", "2026-10-13T20:18:00Z"),
+        _timed_trial("e-401__ppp", "2026-10-13T20:18:00Z"),
+        _timed_trial("e-401__rrr", None),
+        _timed_trial("e-401__sss", "2026-10-13T20:17:00Z"),
+    ]
+    forward = tmp_path / "forward"
+    backward = tmp_path / "backward"
+    _write_capability_child_job(forward, trials)
+    _write_capability_child_job(backward, list(reversed(trials)))
+
+    expected = ["e-401__sss", "e-401__ppp", "e-401__qqq", "e-401__rrr"]
+    assert _loaded_names(forward) == expected
+    assert _loaded_names(forward) == expected
+    assert _loaded_names(backward) == expected
+
+
+def test_capability_analysis_uses_started_at_order(
+    tmp_path: Path, stub_pass_at_k
+) -> None:
+    from harbor_adapter.analysis import CHILD_ORDER
+
+    # Directory names run opposite to start times, so name order would reverse
+    # the rewards. Only the first three trials (by start time) pass.
+    trials = [
+        _timed_trial(
+            f"e-401__trial{14 - minute:02d}",
+            f"2026-10-13T20:{minute:02d}:00Z",
+            reward=1 if minute < 3 else 0,
+        )
+        for minute in range(15)
+    ]
+    job = tmp_path / "job"
+    _write_capability_child_job(job, trials)
+
+    result = analyze_capability_job(job, "e-401")
+
+    assert [row["trial_name"] for row in result["trials"]] == [
+        f"e-401__trial{14 - minute:02d}" for minute in range(15)
+    ]
+    assert result["rewards"] == [1, 1, 1] + [0] * 12
+    assert [row["successes"] for row in result["comparisons"]] == [3, 3, 3]
+    assert result["trial_order"] == CHILD_ORDER
+    assert analyze_capability_job(job, "e-401") == result
