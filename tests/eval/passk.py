@@ -24,7 +24,29 @@ reproduces them exactly.
 from __future__ import annotations
 
 from math import comb
+from numbers import Real
 from typing import Any
+
+KINDS = ("regression", "capability")
+
+
+def _require_int(name: str, value: Any) -> None:
+    # bool is a subclass of int; True must not count as one run.
+    if not isinstance(value, int) or isinstance(value, bool):
+        raise ValueError(f"{name} must be an integer, got {value!r}")
+
+
+def _validate_runs(n: Any, c: Any, k: Any) -> None:
+    """Shared argument check for pass_at_k and pass_hat_k."""
+    _require_int("n", n)
+    _require_int("c", c)
+    _require_int("k", k)
+    if n < 1:
+        raise ValueError(f"n must be at least 1, got {n}")
+    if not 0 <= c <= n:
+        raise ValueError(f"c must be in [0, {n}], got {c}")
+    if not 1 <= k <= n:
+        raise ValueError(f"k must be in [1, {n}], got {k}")
 
 
 def pass_at_k(n: int, c: int, k: int) -> float:
@@ -58,8 +80,10 @@ def pass_at_k(n: int, c: int, k: int) -> float:
         pass_at_k(8, 6, 4) == 1.0  (only 2 failures, so every 4-subset hits
                                     a success)
     """
-    ### YOUR CODE HERE (hw6)
-    raise NotImplementedError("hw6: implement pass_at_k")
+    _validate_runs(n, c, k)
+    if n - c < k:
+        return 1.0
+    return 1.0 - comb(n - c, k) / comb(n, k)
 
 
 def pass_hat_k(n: int, c: int, k: int) -> float:
@@ -90,8 +114,10 @@ def pass_hat_k(n: int, c: int, k: int) -> float:
         pass_hat_k(8, 6, 4) == C(6,4)/C(8,4) == 15/70 == 0.2142857...
         pass_hat_k(8, 6, 8) == 0.0  (not all 8 succeeded)
     """
-    ### YOUR CODE HERE (hw6)
-    raise NotImplementedError("hw6: implement pass_hat_k")
+    _validate_runs(n, c, k)
+    if c < k:
+        return 0.0
+    return comb(c, k) / comb(n, k)
 
 
 def case_passes(
@@ -140,5 +166,42 @@ def case_passes(
         case_passes("capability", 2, 5, 0.6)     -> pass  (never blocks)
         case_passes("capability", 1, 5, 0.6)     -> pass  (never blocks)
     """
-    ### YOUR CODE HERE (hw6)
-    raise NotImplementedError("hw6: implement case_passes")
+    if not isinstance(kind, str) or kind not in KINDS:
+        raise ValueError(f"kind must be 'regression' or 'capability', got {kind!r}")
+    _require_int("passes", passes)
+    _require_int("n", n)
+    if n < 1:
+        raise ValueError(f"n must be at least 1, got {n}")
+    if not 0 <= passes <= n:
+        raise ValueError(f"passes must be in [0, {n}], got {passes}")
+    if baseline_pass_rate is not None:
+        if not isinstance(baseline_pass_rate, Real) or isinstance(baseline_pass_rate, bool):
+            raise ValueError(
+                f"baseline_pass_rate must be a number, got {baseline_pass_rate!r}"
+            )
+        # NaN fails this comparison too.
+        if not 0.0 <= baseline_pass_rate <= 1.0:
+            raise ValueError(
+                f"baseline_pass_rate must be in [0, 1], got {baseline_pass_rate!r}"
+            )
+
+    if kind == "regression":
+        if passes == n:
+            return {
+                "decision": "pass",
+                "reason": f"regression case passed {passes} of {n} runs",
+            }
+        return {
+            "decision": "block",
+            "reason": f"regression case failed {n - passes} of {n} runs, blocking",
+        }
+
+    # A capability case never blocks; the baseline is reported, not enforced.
+    if baseline_pass_rate is None:
+        baseline = "no baseline recorded"
+    else:
+        baseline = f"baseline {float(baseline_pass_rate):g}"
+    return {
+        "decision": "pass",
+        "reason": f"capability case passed {passes} of {n} runs, {baseline}, not blocking",
+    }
