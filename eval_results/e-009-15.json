@@ -1,0 +1,117 @@
+{
+  "case_id": "e-009",
+  "model": "openai/claude-5-sonnet-gosys",
+  "trial_order": "started_at order with trial directory tiebreak",
+  "trials": [
+    {
+      "trial_name": "e-009__Hg4RsPE",
+      "passed": 0
+    },
+    {
+      "trial_name": "e-009__XKsp5C5",
+      "passed": 1
+    },
+    {
+      "trial_name": "e-009__DyWRBUW",
+      "passed": 0
+    },
+    {
+      "trial_name": "e-009__NTm8dgm",
+      "passed": 1
+    },
+    {
+      "trial_name": "e-009__mdfgRyo",
+      "passed": 0
+    },
+    {
+      "trial_name": "e-009__3FLaYdy",
+      "passed": 1
+    },
+    {
+      "trial_name": "e-009__dmScSP6",
+      "passed": 1
+    },
+    {
+      "trial_name": "e-009__hFP5GCv",
+      "passed": 0
+    },
+    {
+      "trial_name": "e-009__VL2eEFV",
+      "passed": 1
+    },
+    {
+      "trial_name": "e-009__2e5iHwL",
+      "passed": 0
+    },
+    {
+      "trial_name": "e-009__gC452TN",
+      "passed": 1
+    },
+    {
+      "trial_name": "e-009__q7oEzsD",
+      "passed": 1
+    },
+    {
+      "trial_name": "e-009__W74r6gY",
+      "passed": 1
+    },
+    {
+      "trial_name": "e-009__EVJb7FK",
+      "passed": 0
+    },
+    {
+      "trial_name": "e-009__YNDsiYd",
+      "passed": 1
+    }
+  ],
+  "rewards": [
+    0,
+    1,
+    0,
+    1,
+    0,
+    1,
+    1,
+    0,
+    1,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1
+  ],
+  "n": 15,
+  "successes": 9,
+  "comparisons": [
+    {
+      "n": 5,
+      "successes": 2,
+      "pass_at_k": {
+        "1": 0.4,
+        "3": 0.9,
+        "5": 1.0
+      }
+    },
+    {
+      "n": 10,
+      "successes": 5,
+      "pass_at_k": {
+        "1": 0.5,
+        "3": 0.9166666666666666,
+        "5": 0.996031746031746
+      }
+    },
+    {
+      "n": 15,
+      "successes": 9,
+      "pass_at_k": {
+        "1": 0.6,
+        "3": 0.9560439560439561,
+        "5": 0.998001998001998,
+        "10": 1.0,
+        "15": 1.0
+      }
+    }
+  ]
+}

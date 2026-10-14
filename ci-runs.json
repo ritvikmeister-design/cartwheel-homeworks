@@ -1,0 +1,53 @@
+{
+  "pull_request": "https://github.com/ritvikmeister-design/cartwheel-homeworks/pull/1",
+  "agent_model": "openai/claude-5-sonnet-gosys",
+  "case_id": "e-007",
+  "regression_run_url": "https://github.com/ritvikmeister-design/cartwheel-homeworks/actions/runs/38493801581",
+  "revert_run_url": "https://github.com/ritvikmeister-design/cartwheel-homeworks/actions/runs/38502581404",
+  "second_run_result": "failure: e-007 passed 5 of 5 after the revert, but regression case e-008 failed 2 of 5 runs and blocked the job. All 50 trials completed with numeric rewards and no infrastructure errors.",
+  "explanation": "The temporary instruction told the agent that Juniper Home Goods refunds are above its authority and to escalate instead of calling issue_refund. With it, e-007 failed all five runs at the verifier: every run called get_order and then escalate_to_human, so no refund was issued. After the revert, e-007 issued the auto-approved refund in all five runs, so its original behavior returned. The second run still failed because e-008 escalated its $212.50 refund to a human in two of five runs instead of calling issue_refund, which would have queued it for approval. The same escalation appeared in e-008 during the earlier Part D runs and in capability case e-009. It is consistent with the existing prompt instruction to escalate refunds above the auto-approval threshold, and it does not come from the reverted change. Per the handout, this failure is kept as new evidence and the same commit was not rerun.",
+  "runs": [
+    {
+      "role": "first classified CI run",
+      "url": "https://github.com/ritvikmeister-design/cartwheel-homeworks/actions/runs/38480507121",
+      "commit": "245411ecc617339e18acf3c3b879995bce0daf55",
+      "harbor_job": "success",
+      "trials": 50,
+      "infrastructure_errors": 0,
+      "passes": {"e-001": 5, "e-002": 5, "e-003": 5, "e-004": 5, "e-005": 5, "e-006": 5, "e-007": 5, "e-008": 5, "e-009": 3, "e-010": 5},
+      "artifact": "hw6-evals-run-38480507121-attempt-1"
+    },
+    {
+      "role": "first intentional-regression attempt, did not fail the selected case",
+      "url": "https://github.com/ritvikmeister-design/cartwheel-homeworks/actions/runs/38491219712",
+      "commit": "a07eb681615034edd9d7d700e198ca8c9d4e8628",
+      "harbor_job": "failure",
+      "trials": 50,
+      "infrastructure_errors": 0,
+      "passes": {"e-001": 5, "e-002": 5, "e-003": 5, "e-004": 5, "e-005": 5, "e-006": 5, "e-007": 5, "e-008": 3, "e-009": 4, "e-010": 5},
+      "artifact": "hw6-evals-run-38491219712-attempt-1",
+      "note": "The instruction said Juniper Home Goods' 14-day window was exclusive. The agent checked the help center and issued the refund in all five e-007 runs. The job blocked only on e-008's escalations."
+    },
+    {
+      "role": "intentional regression",
+      "url": "https://github.com/ritvikmeister-design/cartwheel-homeworks/actions/runs/38493801581",
+      "commit": "135d3eead1e5a60baf12e731fcea6755ea5fc37e",
+      "harbor_job": "failure",
+      "trials": 50,
+      "infrastructure_errors": 0,
+      "passes": {"e-001": 5, "e-002": 5, "e-003": 5, "e-004": 5, "e-005": 5, "e-006": 5, "e-007": 0, "e-008": 4, "e-009": 4, "e-010": 5},
+      "artifact": "hw6-evals-run-38493801581-attempt-1"
+    },
+    {
+      "role": "after revert",
+      "url": "https://github.com/ritvikmeister-design/cartwheel-homeworks/actions/runs/38502581404",
+      "commit": "e024e2af2f433e03d521883d30683bef639f4927",
+      "harbor_job": "failure",
+      "trials": 50,
+      "infrastructure_errors": 0,
+      "passes": {"e-001": 5, "e-002": 5, "e-003": 5, "e-004": 5, "e-005": 5, "e-006": 5, "e-007": 5, "e-008": 3, "e-009": 4, "e-010": 5},
+      "artifact": "hw6-evals-run-38502581404-attempt-1"
+    }
+  ],
+  "offline_checks_note": "In the last three runs the separate offline-checks job failed on tests/test_cli.py::test_non_openai_direct_run_does_not_export[ollama_chat/local-model-False], a log-capture assertion that passes locally and passed on the first run. It is unrelated to the Harbor evaluation results."
+}

@@ -1,7 +1,8 @@
 """pass@k, pass^k, and the CI result for one case (Module 3, Lecture 1.3).
 
 Your agent samples, so a single end-to-end run is a noisy measurement. These
-three functions turn k runs of one evaluation case into a signal and a decision:
+three functions turn n observed runs of one evaluation case into a signal and a
+decision:
 
   - :func:`pass_at_k` answers the capability question: can the agent EVER get
     this right? It rises with k.
@@ -23,7 +24,29 @@ reproduces them exactly.
 from __future__ import annotations
 
 from math import comb
+from numbers import Real
 from typing import Any
+
+KINDS = ("regression", "capability")
+
+
+def _require_int(name: str, value: Any) -> None:
+    # bool is a subclass of int; True must not count as one run.
+    if not isinstance(value, int) or isinstance(value, bool):
+        raise ValueError(f"{name} must be an integer, got {value!r}")
+
+
+def _validate_runs(n: Any, c: Any, k: Any) -> None:
+    """Shared argument check for pass_at_k and pass_hat_k."""
+    _require_int("n", n)
+    _require_int("c", c)
+    _require_int("k", k)
+    if n < 1:
+        raise ValueError(f"n must be at least 1, got {n}")
+    if not 0 <= c <= n:
+        raise ValueError(f"c must be in [0, {n}], got {c}")
+    if not 1 <= k <= n:
+        raise ValueError(f"k must be in [1, {n}], got {k}")
 
 
 def pass_at_k(n: int, c: int, k: int) -> float:
@@ -57,8 +80,10 @@ def pass_at_k(n: int, c: int, k: int) -> float:
         pass_at_k(8, 6, 4) == 1.0  (only 2 failures, so every 4-subset hits
                                     a success)
     """
-    ### YOUR CODE HERE (hw6)
-    raise NotImplementedError("hw6: implement pass_at_k")
+    _validate_runs(n, c, k)
+    if n - c < k:
+        return 1.0
+    return 1.0 - comb(n - c, k) / comb(n, k)
 
 
 def pass_hat_k(n: int, c: int, k: int) -> float:
@@ -89,23 +114,25 @@ def pass_hat_k(n: int, c: int, k: int) -> float:
         pass_hat_k(8, 6, 4) == C(6,4)/C(8,4) == 15/70 == 0.2142857...
         pass_hat_k(8, 6, 8) == 0.0  (not all 8 succeeded)
     """
-    ### YOUR CODE HERE (hw6)
-    raise NotImplementedError("hw6: implement pass_hat_k")
+    _validate_runs(n, c, k)
+    if c < k:
+        return 0.0
+    return comb(c, k) / comb(n, k)
 
 
 def case_passes(
     kind: str,
     passes: int,
-    k: int,
+    n: int,
     baseline_pass_rate: float | None = None,
 ) -> dict[str, Any]:
-    """Return the CI decision for one evaluation case run k times.
+    """Return the CI decision for one evaluation case run n times.
 
     The evaluation case set holds two kinds of case:
 
       - A **regression** case guards a previously fixed bug. Its pinned
-        baseline is k of k, and it blocks the merge on ANY failed run
-        (`passes < k`). A rerun is allowed only for infrastructure errors
+        baseline is n of n, and it blocks the merge on ANY failed run
+        (`passes < n`). A rerun is allowed only for infrastructure errors
         (those never reach this function; see replay/harness.py), never for
         a verdict flip.
       - A **capability** case covers a core behavior the agent has never
@@ -115,8 +142,8 @@ def case_passes(
 
     Args:
         kind: "regression" or "capability".
-        passes: number of runs that passed (0 <= passes <= k).
-        k: number of runs (k >= 1).
+        passes: number of observed runs that passed (0 <= passes <= n).
+        n: number of observed runs (n >= 1).
         baseline_pass_rate: the pinned per-case baseline in [0, 1], optional.
             Recorded for tracking but does not affect the CI decision.
 
@@ -130,14 +157,51 @@ def case_passes(
 
     Raises:
         ValueError: if kind is not "regression" or "capability", or if
-            passes is outside [0, k].
+            passes is outside [0, n].
 
-    Worked numbers (Artifact G, k = 5):
+    Worked numbers (Artifact G, n = 5):
         case_passes("regression", 5, 5)          -> pass
         case_passes("regression", 4, 5)          -> block (any failed run)
         case_passes("capability", 3, 5, 0.6)     -> pass  (never blocks)
         case_passes("capability", 2, 5, 0.6)     -> pass  (never blocks)
         case_passes("capability", 1, 5, 0.6)     -> pass  (never blocks)
     """
-    ### YOUR CODE HERE (hw6)
-    raise NotImplementedError("hw6: implement case_passes")
+    if not isinstance(kind, str) or kind not in KINDS:
+        raise ValueError(f"kind must be 'regression' or 'capability', got {kind!r}")
+    _require_int("passes", passes)
+    _require_int("n", n)
+    if n < 1:
+        raise ValueError(f"n must be at least 1, got {n}")
+    if not 0 <= passes <= n:
+        raise ValueError(f"passes must be in [0, {n}], got {passes}")
+    if baseline_pass_rate is not None:
+        if not isinstance(baseline_pass_rate, Real) or isinstance(baseline_pass_rate, bool):
+            raise ValueError(
+                f"baseline_pass_rate must be a number, got {baseline_pass_rate!r}"
+            )
+        # NaN fails this comparison too.
+        if not 0.0 <= baseline_pass_rate <= 1.0:
+            raise ValueError(
+                f"baseline_pass_rate must be in [0, 1], got {baseline_pass_rate!r}"
+            )
+
+    if kind == "regression":
+        if passes == n:
+            return {
+                "decision": "pass",
+                "reason": f"regression case passed {passes} of {n} runs",
+            }
+        return {
+            "decision": "block",
+            "reason": f"regression case failed {n - passes} of {n} runs, blocking",
+        }
+
+    # A capability case never blocks; the baseline is reported, not enforced.
+    if baseline_pass_rate is None:
+        baseline = "no baseline recorded"
+    else:
+        baseline = f"baseline {float(baseline_pass_rate):g}"
+    return {
+        "decision": "pass",
+        "reason": f"capability case passed {passes} of {n} runs, {baseline}, not blocking",
+    }
