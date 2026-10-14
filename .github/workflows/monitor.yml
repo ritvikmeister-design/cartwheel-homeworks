@@ -1,0 +1,52 @@
+name: monitor
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    name: daily failure-mode monitor
+    # Langfuse runs on the student's machine and the frozen judge is served
+    # through a gateway reachable only from it, so this job needs a
+    # self-hosted runner there. GitHub-hosted runners cannot reach either.
+    runs-on: self-hosted
+    timeout-minutes: 30
+    env:
+      LANGFUSE_HOST: ${{ vars.LANGFUSE_HOST }}
+      LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+      LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+      # The frozen judge's provider key and its OpenAI-compatible gateway.
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+      PYTHONPATH: ${{ github.workspace }}
+    steps:
+      - name: Require the Langfuse configuration
+        run: |
+          missing=""
+          for name in LANGFUSE_HOST LANGFUSE_PUBLIC_KEY LANGFUSE_SECRET_KEY OPENAI_API_KEY; do
+            [ -n "$(printenv "$name")" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Set these Actions secrets or variables:$missing"
+            exit 1
+          fi
+      # Scheduled and manual runs start from the default branch (main), which
+      # holds only this workflow; the monitoring code lives on homework-7.
+      - uses: actions/checkout@v4
+        with:
+          ref: homework-7
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+
+      - name: Monitor the last 24 hours
+        run: uv run python -m monitoring.run --last-hours 24
+
+      - name: Upload the monitoring output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitor-run-${{ github.run_id }}-attempt-${{ github.run_attempt }}
+          path: monitoring/output
+          if-no-files-found: warn
