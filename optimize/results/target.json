@@ -1,0 +1,13 @@
+{
+  "failure_mode": "incorrect_eligibility_conclusion",
+  "source": "Homework 4 failure report (analysis/report/review_summary.md); the Homework 5 report covers missing_policy_citation, which no evaluation case scores",
+  "prevalence": 0.036,
+  "prevalence_basis": "Homework 4 sample fraction, 4 failures in 110 reviewed sessions; the review sample was enriched, so this is not a store-wide prevalence estimate",
+  "requirement": "ESC-1",
+  "example_trace_ids": [
+    "09d61131c723c781f6bfdfa75aaa4db1",
+    "5397aed2467e2bcc44d4d9eade3bcae6",
+    "5e7a8c53c34ea91bead0d1ac87ee83a9"
+  ],
+  "why_agent_can_change_it": "In all three traces (scenarios final-066, final-062, final-065, each expecting eligible_refund_queued_for_approval), the shopper asked for a refund and get_order returned refund_eligible true for a delivered order above $100, yet the agent called escalate_to_human instead of issue_refund. ESC-1 says the refund tool itself queues an above-threshold refund and the agent explains the result. The system prompt's Escalation section tells the agent to escalate 'a refund above the auto-approval threshold', which contradicts ESC-1, so the prompt, the issue_refund tool description, or a harness check can redirect the agent to the supported refund path."
+}
