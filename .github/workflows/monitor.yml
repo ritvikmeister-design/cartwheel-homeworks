@@ -37,8 +37,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: homework-7
-      - uses: astral-sh/setup-uv@v5
-      - run: uv sync
+      # Use the machine's installed uv. A fresh setup-uv download is an
+      # unknown binary that the laptop's binary authorization blocks.
+      - run: uv --version && uv sync
 
       - name: Monitor the last 24 hours
         run: uv run python -m monitoring.run --last-hours 24
