@@ -2,7 +2,8 @@
 """Write the Homework 6 Part A evaluation cases to eval_cases/cases.jsonl.
 
 Each case records the ``kind`` observed in its five-run Harbor baseline, and
-the capability case also records its ``baseline_pass_rate``. Every case is
+a capability case also records its ``baseline_pass_rate``. Homework 8 added
+e-011 and e-012, classified by their own five-run baselines. Every case is
 validated before the destination is touched, the file is replaced atomically,
 and the result is re-read and validated again. Only case metadata is printed.
 
@@ -441,6 +442,94 @@ CASES: list[dict[str, Any]] = [
             "judges": {},
         },
     },
+    {
+        "id": "e-011",
+        "mode": ELIGIBILITY,
+        "kind": "capability",
+        "baseline_pass_rate": 0.4,
+        "input": {
+            "role": "shopper",
+            "user_id": 295,
+            "message": (
+                "Hi, my order #1085 was delivered, but the item arrived bent and "
+                "unusable. I'd like a full refund of $272.25, please."
+            ),
+        },
+        "initial_state": {
+            "world": "reseed",
+            "fixture": None,
+            "assumes": [
+                "Seeded dev world dated 2026-07-01.",
+                "The caller is shopper user 295, who owns order 1085.",
+                "Order 1085 is from store 8, Paper Lantern Press, which has no store override and uses the default 30-day return window.",
+                "Order 1085 is delivered; it was ordered on 2026-05-25 and delivered on 2026-06-01, 30 days before the world date, the last day of the inclusive window. Counting from the purchase date (37 days) would wrongly put it outside the window.",
+                "The stored refund_eligible value for order 1085 is true.",
+                "The order total is $272.25, above the $100 auto-approval threshold.",
+                "No refund row exists for order 1085.",
+                "Expected persisted outcome: a queued_for_approval refund row for order 1085, and the order is not marked refunded.",
+            ],
+        },
+        "expected": {
+            "assertions": [
+                "Shopper 295 asks for a full $272.25 refund on order 1085, delivered 30 days ago under a 30-day window; the refund is queued for human approval.",
+                "The agent calls get_order for order 1085 and then issue_refund for the full $272.25.",
+                "Day 30 is inside the inclusive 30-day window counted from delivery, so the agent does not decline the refund as expired.",
+                "A refund row for order 1085 is persisted with status queued_for_approval because the amount is above the $100 threshold.",
+                "Order 1085 is not marked refunded while the refund awaits approval.",
+            ],
+            "checks": [
+                {"check": "tool_called", "name": "get_order"},
+                {"check": "tool_called", "name": "issue_refund"},
+                {"check": "refund_status", "order_id": 1085, "status": "queued_for_approval"},
+                {"check": "order_not_status", "order_id": 1085, "status": "refunded"},
+            ],
+            "judges": {},
+        },
+    },
+    {
+        "id": "e-012",
+        "mode": ELIGIBILITY,
+        "kind": "capability",
+        "baseline_pass_rate": 0.8,
+        "input": {
+            "role": "shopper",
+            "user_id": 34,
+            "message": (
+                "Please process a full refund of $186.50 for order #2756. It was "
+                "delivered, but both bags were stale when I opened them."
+            ),
+        },
+        "initial_state": {
+            "world": "reseed",
+            "fixture": None,
+            "assumes": [
+                "Seeded dev world dated 2026-07-01.",
+                "The caller is shopper user 34, who owns order 2756.",
+                "Order 2756 is from store 14, Golden Hour Coffee, which has no store override and uses the default 30-day return window.",
+                "Order 2756 is delivered; it was ordered on 2026-05-25 and delivered on 2026-06-01, 30 days before the world date, the last day of the inclusive window. Counting from the purchase date (37 days) would wrongly put it outside the window.",
+                "The stored refund_eligible value for order 2756 is true.",
+                "The order total is $186.50 for a quantity of 2, above the $100 auto-approval threshold.",
+                "No refund row exists for order 2756.",
+                "Expected persisted outcome: a queued_for_approval refund row for order 2756, and the order is not marked refunded.",
+            ],
+        },
+        "expected": {
+            "assertions": [
+                "Shopper 34 asks for a full $186.50 refund on order 2756, delivered 30 days ago under a 30-day window; the refund is queued for human approval.",
+                "The agent calls get_order for order 2756 and then issue_refund for the full $186.50.",
+                "Day 30 is inside the inclusive 30-day window counted from delivery, so the agent does not decline the refund as expired.",
+                "A refund row for order 2756 is persisted with status queued_for_approval because the amount is above the $100 threshold.",
+                "Order 2756 is not marked refunded while the refund awaits approval.",
+            ],
+            "checks": [
+                {"check": "tool_called", "name": "get_order"},
+                {"check": "tool_called", "name": "issue_refund"},
+                {"check": "refund_status", "order_id": 2756, "status": "queued_for_approval"},
+                {"check": "order_not_status", "order_id": 2756, "status": "refunded"},
+            ],
+            "judges": {},
+        },
+    },
 ]
 
 
@@ -448,7 +537,7 @@ CASES: list[dict[str, Any]] = [
 # Validation
 # ---------------------------------------------------------------------------
 
-EXPECTED_IDS = [f"e-{number:03d}" for number in range(1, 11)]
+EXPECTED_IDS = [f"e-{number:03d}" for number in range(1, 13)]
 
 # Same pattern harbor_adapter/export.py applies to case ids and modes.
 SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
@@ -471,6 +560,10 @@ OBSERVED_CLASSIFICATIONS = {
     "e-008": ("regression", None),
     "e-009": ("capability", 0.6),
     "e-010": ("regression", None),
+    # Added for Homework 8, which needs two capability cases
+    # (jobs/hw8-baseline-e-011 and jobs/hw8-baseline-e-012).
+    "e-011": ("capability", 0.4),
+    "e-012": ("capability", 0.8),
 }
 
 INITIAL_STATE_KEYS = {"world", "fixture", "assumes"}
@@ -542,6 +635,24 @@ ELIGIBILITY_RECORDS = {
         7662,
         "$50.75",
         [{"check": "refund_status", "order_id": 7662, "status": "auto_approved"}],
+    ),
+    "e-011": (
+        295,
+        1085,
+        "$272.25",
+        [
+            {"check": "refund_status", "order_id": 1085, "status": "queued_for_approval"},
+            {"check": "order_not_status", "order_id": 1085, "status": "refunded"},
+        ],
+    ),
+    "e-012": (
+        34,
+        2756,
+        "$186.50",
+        [
+            {"check": "refund_status", "order_id": 2756, "status": "queued_for_approval"},
+            {"check": "order_not_status", "order_id": 2756, "status": "refunded"},
+        ],
     ),
 }
 
@@ -620,14 +731,22 @@ def _validate_shape(case: Any) -> None:
         f"case id must be safe for a directory name: {case_id!r}",
     )
     kind = case.get("kind")
-    _require(kind in KINDS, f"{case_id}: kind must be regression or capability")
-    if kind == "regression":
+    if OBSERVED_CLASSIFICATIONS.get(case_id, ()) is None:
+        # Not yet baselined: the case must stay unclassified.
+        _require(kind is None, f"{case_id}: remove kind before the baseline run")
+        _require(
+            "baseline_pass_rate" not in case,
+            f"{case_id}: remove baseline_pass_rate before the baseline run",
+        )
+        case_keys = CASE_KEYS - {"kind"}
+    elif kind == "regression":
         _require(
             "baseline_pass_rate" not in case,
             f"{case_id}: regression cases must not record baseline_pass_rate",
         )
         case_keys = CASE_KEYS
     else:
+        _require(kind in KINDS, f"{case_id}: kind must be regression or capability")
         rate = case.get("baseline_pass_rate")
         _require(
             isinstance(rate, (int, float))
@@ -765,14 +884,16 @@ def _validate_eligibility(case: dict[str, Any]) -> None:
 def validate_cases(cases: Any) -> None:
     """Raise CaseError unless ``cases`` is exactly the Part A case set."""
     _require(isinstance(cases, list), "cases must be a list")
-    _require(len(cases) == 10, f"expected exactly 10 cases, found {len(cases)}")
+    _require(len(cases) == 12, f"expected exactly 12 cases, found {len(cases)}")
     ids = [case.get("id") if isinstance(case, dict) else None for case in cases]
     _require(len(set(ids)) == len(ids), "case ids must be unique")
-    _require(ids == EXPECTED_IDS, "case ids must be e-001 through e-010 in order")
+    _require(ids == EXPECTED_IDS, "case ids must be e-001 through e-012 in order")
     for case in cases:
         _validate_shape(case)
     for case in cases:
         observed = OBSERVED_CLASSIFICATIONS[case["id"]]
+        if observed is None:
+            continue
         _require(
             (case["kind"], case.get("baseline_pass_rate")) == observed,
             f"{case['id']}: classification must match the observed baseline "
@@ -780,8 +901,8 @@ def validate_cases(cases: Any) -> None:
         )
     modes = [case["mode"] for case in cases]
     _require(
-        modes.count(CROSS_STORE) == 5 and modes.count(ELIGIBILITY) == 5,
-        f"expected five {CROSS_STORE} and five {ELIGIBILITY} cases",
+        modes.count(CROSS_STORE) == 5 and modes.count(ELIGIBILITY) == 7,
+        f"expected five {CROSS_STORE} and seven {ELIGIBILITY} cases",
     )
     _require(
         all(case["input"]["role"] == "merchant" for case in cases[:5]),
@@ -789,7 +910,7 @@ def validate_cases(cases: Any) -> None:
     )
     _require(
         all(case["input"]["role"] == "shopper" for case in cases[5:]),
-        "the last five cases must have role shopper",
+        "the last seven cases must have role shopper",
     )
     for case in cases[:5]:
         _validate_cross_store(case)
