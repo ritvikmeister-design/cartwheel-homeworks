@@ -199,6 +199,7 @@ def build_conversations(groups: dict[str, list[dict[str, Any]]], key: str) -> li
                 key: group_key,
                 "session_id": session_id(traces[0]),
                 "trace_ids": [trace["id"] for trace in traces],
+                "timestamp": traces[-1].get("timestamp"),
                 "tools": [call["name"] for turn in turns for call in turn["tools"]],
                 "turn_count": sum(1 for turn in turns if turn["user"].strip()),
                 "models": sorted({m for trace in traces for m in trace_models(trace)}),
@@ -368,7 +369,10 @@ def run(args: argparse.Namespace) -> int:
     test_labels, test_preds = judge_test_data(judge_id)
     estimate = corrected_mode_prevalence(list(random_verdicts.values()), test_labels, test_preds)
     records = build_score_records(mode, random_verdicts, risk_verdicts, estimate, label)
-    written = 0 if args.no_scores else post_scores(records, session_id=monitor_session(label))
+    trace_times = {c["id"]: _parse_time(c["timestamp"]) for c in conversations if c.get("timestamp")}
+    written = 0 if args.no_scores else post_scores(
+        records, session_id=monitor_session(label), trace_times=trace_times, batch_time=end
+    )
 
     summary.update(
         {
@@ -394,6 +398,7 @@ def run(args: argparse.Namespace) -> int:
             "trace_id": trace_id,
             "scenario_id": by_id[trace_id].get("scenario_id"),
             "session_id": by_id[trace_id]["session_id"],
+            "timestamp": by_id[trace_id].get("timestamp"),
             "random": trace_id in random_verdicts,
             "risk_groups": [n for n, m in plan["risk_groups"].items() if any(c["id"] == trace_id for c in m)],
             "verdict": verdicts[trace_id],

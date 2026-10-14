@@ -107,14 +107,22 @@ def build_score_records(
 # ---------------------------------------------------------------------------
 
 
-def post_scores(records: list[dict[str, Any]], session_id: str | None = None) -> int:
+def post_scores(
+    records: list[dict[str, Any]],
+    session_id: str | None = None,
+    trace_times: dict[str, Any] | None = None,
+    batch_time: Any | None = None,
+) -> int:
     """Write score records to Langfuse. Returns the number written.
 
     Uses the SDK's ``create_score`` with the ``score_id`` idempotency
     parameter, so writing a record again updates the existing score.
     Langfuse rejects a score with no trace, observation, session, or dataset
     run, so a batch-level record (``trace_id`` None) is attached to
-    ``session_id`` when one is given.
+    ``session_id`` when one is given. ``trace_times`` dates each verdict at
+    its conversation and ``batch_time`` dates the prevalence record, so a
+    dashboard places each period at the time it covers rather than the time
+    the monitor ran.
     """
     from analysis.helpers import langfuse_io
 
@@ -135,8 +143,13 @@ def post_scores(records: list[dict[str, Any]], session_id: str | None = None) ->
         }
         if record.get("trace_id") is not None:
             kwargs["trace_id"] = record["trace_id"]
-        elif session_id is not None:
-            kwargs["session_id"] = session_id
+            if trace_times and record["trace_id"] in trace_times:
+                kwargs["timestamp"] = trace_times[record["trace_id"]]
+        else:
+            if session_id is not None:
+                kwargs["session_id"] = session_id
+            if batch_time is not None:
+                kwargs["timestamp"] = batch_time
         if record.get("comment"):
             kwargs["comment"] = record["comment"]
         client.create_score(**kwargs)
