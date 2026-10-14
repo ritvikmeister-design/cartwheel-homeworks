@@ -2,5 +2,7 @@
   "minimum_agreement_with_oracle": 0.95,
   "oracle": "missing_policy_citation_hw5-v1",
   "decided_at": "2026-10-14",
-  "note": "Chosen before running the proxy or calculating any agreement."
+  "note": "Chosen before running the proxy or calculating any agreement.",
+  "chosen_threshold": 0.95,
+  "threshold_note": "Lowest threshold meeting the requirement on the 40 development labels; locked before the test check."
 }
