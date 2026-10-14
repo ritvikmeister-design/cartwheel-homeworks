@@ -70,8 +70,35 @@ def build_score_records(
         A list of score record dicts with keys: score_id, name, value,
         data_type, trace_id, comment (comment is None for verdicts).
     """
-    ### YOUR CODE HERE (hw7)
-    raise NotImplementedError("hw7: implement build_score_records")
+    def verdict_records(kind: str, name: str, verdicts: dict[str, int]) -> list[dict[str, Any]]:
+        return [
+            {
+                "score_id": _stable_id(mode, kind, trace_id),
+                "name": name,
+                "value": float(verdict),
+                "data_type": "NUMERIC",
+                "trace_id": trace_id,
+                "comment": None,
+            }
+            for trace_id, verdict in verdicts.items()
+        ]
+
+    prevalence = {
+        "score_id": _stable_id(mode, "prevalence", batch_label),
+        "name": f"{mode}_corrected_prevalence",
+        "value": estimate["corrected"],
+        "data_type": "NUMERIC",
+        "trace_id": None,
+        "comment": (
+            f"95% CI {estimate['ci_low']}-{estimate['ci_high']}, "
+            f"raw {estimate['raw']}, n={estimate['n_sample']}"
+        ),
+    }
+    return [
+        *verdict_records("verdict", f"{mode}_verdict", random_verdicts),
+        *verdict_records("risk_verdict", f"{mode}_risk_verdict", risk_verdicts),
+        prevalence,
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -80,11 +107,14 @@ def build_score_records(
 # ---------------------------------------------------------------------------
 
 
-def post_scores(records: list[dict[str, Any]]) -> int:
+def post_scores(records: list[dict[str, Any]], session_id: str | None = None) -> int:
     """Write score records to Langfuse. Returns the number written.
 
     Uses the SDK's ``create_score`` with the ``score_id`` idempotency
     parameter, so writing a record again updates the existing score.
+    Langfuse rejects a score with no trace, observation, session, or dataset
+    run, so a batch-level record (``trace_id`` None) is attached to
+    ``session_id`` when one is given.
     """
     from analysis.helpers import langfuse_io
 
@@ -105,6 +135,8 @@ def post_scores(records: list[dict[str, Any]]) -> int:
         }
         if record.get("trace_id") is not None:
             kwargs["trace_id"] = record["trace_id"]
+        elif session_id is not None:
+            kwargs["session_id"] = session_id
         if record.get("comment"):
             kwargs["comment"] = record["comment"]
         client.create_score(**kwargs)

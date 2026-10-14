@@ -1,0 +1,25 @@
+{
+  "judge_id": "missing_policy_citation_hw5-v1",
+  "judge_mode": "missing_policy_citation",
+  "model": "openai/claude-5-sonnet-gosys",
+  "random_rate": 0.2,
+  "risk_groups": [
+    "policy_lookup",
+    "multi_turn"
+  ],
+  "threshold": 0.15,
+  "seed": 7,
+  "scenarios": "scenarios/monitoring_scenarios.jsonl",
+  "periods": [
+    {
+      "label": "before",
+      "from": "2026-10-09T20:01:00Z",
+      "to": "2026-10-09T20:47:00Z"
+    },
+    {
+      "label": "after",
+      "from": "2026-10-14T03:38:40Z",
+      "to": "2026-10-14T03:49:09Z"
+    }
+  ]
+}

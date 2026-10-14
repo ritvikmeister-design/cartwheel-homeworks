@@ -19,3 +19,6 @@ __pycache__/
 .venv/
 .pytest_cache/
 scenarios/demo_pilot_gt.json
+
+# HW7 local monitoring output (uploaded as a workflow artifact, not committed).
+monitoring/output/

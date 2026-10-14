@@ -158,14 +158,43 @@ def _render(trace: list[dict]) -> str:
     return "\n".join(out)
 
 
+def judge_client():
+    """OpenAI-compatible client for the judge gateway (loads .env when present)."""
+    import os
+    if (REPO/".env").exists():
+        _load_env()
+    from openai import OpenAI
+    return OpenAI(api_key=os.environ["OPENAI_API_KEY"],
+                  base_url=os.environ.get("OPENAI_BASE_URL") or os.environ["OPENAI_API_BASE"])
+
+
+def judge_rendered(client, prompt_text: str, body: str) -> tuple[int, str]:
+    """One validated judge call on an already rendered transcript body.
+
+    Returns (1 if failure present else 0, critique). Shared by the HW5 runs and
+    the HW7 monitor so both use the same message, model, and verdict parser.
+    """
+    import re
+    for _ in range(4):
+        try:
+            r = client.chat.completions.create(
+                model=JUDGE_MODEL, temperature=0.0, max_tokens=700,
+                messages=[{"role": "user",
+                           "content": f"{prompt_text}\n\nTRANSCRIPT\n----------\n{body}\n----------\n"}])
+            txt = (r.choices[0].message.content or "").strip()
+            m = re.search(r"VERDICT:\s*(PASS|FAIL)", txt, re.I)
+            if not m:
+                raise ValueError("no VERDICT line")
+            return (1 if m.group(1).upper() == "FAIL" else 0), txt[-1200:]
+        except Exception as exc:
+            last = exc
+    return 0, f"ERROR: {type(last).__name__}: {last}"   # unparseable -> treat as no failure found
+
+
 def _make_classifier(max_workers: int = 6):
     """Return fn(prompt_text, trace_ids) -> {trace_id: 1 if failure present else 0}."""
-    import os, re
     from concurrent.futures import ThreadPoolExecutor
-    _load_env()
-    from openai import OpenAI
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"],
-                    base_url=os.environ.get("OPENAI_BASE_URL") or os.environ["OPENAI_API_BASE"])
+    client = judge_client()
     by_id = {r["trace_id"]: r for r in json.loads(INPUTS_B.read_text())}
     critiques: dict[str, str] = {}
 
@@ -174,22 +203,8 @@ def _make_classifier(max_workers: int = 6):
         if rec is None:
             raise ValueError(f"trace {tid} missing from {INPUTS_B.name}")
         body = _render(rec["trace"])[:14000]
-        for _ in range(4):
-            try:
-                r = client.chat.completions.create(
-                    model=JUDGE_MODEL, temperature=0.0, max_tokens=700,
-                    messages=[{"role": "user",
-                               "content": f"{one.prompt}\n\nTRANSCRIPT\n----------\n{body}\n----------\n"}])
-                txt = (r.choices[0].message.content or "").strip()
-                m = re.search(r"VERDICT:\s*(PASS|FAIL)", txt, re.I)
-                if not m:
-                    raise ValueError("no VERDICT line")
-                critiques[tid] = txt[-1200:]
-                return tid, (1 if m.group(1).upper() == "FAIL" else 0)
-            except Exception as exc:
-                last = exc
-        critiques[tid] = f"ERROR: {type(last).__name__}: {last}"
-        return tid, 0          # unparseable -> treat as no failure found, and it shows in the critique
+        verdict, critiques[tid] = judge_rendered(client, one.prompt, body)
+        return tid, verdict
 
     def classify(prompt_text, trace_ids):
         one.prompt = prompt_text
