@@ -334,53 +334,13 @@ def escalate_to_human_logic(
 # ---------------------------------------------------------------------------
 
 
-# Harness check: per-session record of refund-eligible orders and refund
-# attempts, keyed by the session's auth context object. A refund escalation is
-# refused while an eligible order has not gone through issue_refund (ESC-1).
-_ELIGIBLE_ORDERS: dict[int, set[int]] = {}
-_REFUND_ATTEMPTS: dict[int, set[int]] = {}
-
-
-def _session_refund_state(ctx: AuthContext) -> tuple[set[int], set[int]]:
-    import weakref
-
-    key = id(ctx)
-    if key not in _ELIGIBLE_ORDERS:
-        _ELIGIBLE_ORDERS[key], _REFUND_ATTEMPTS[key] = set(), set()
-        weakref.finalize(
-            ctx, lambda: (_ELIGIBLE_ORDERS.pop(key, None), _REFUND_ATTEMPTS.pop(key, None))
-        )
-    return _ELIGIBLE_ORDERS[key], _REFUND_ATTEMPTS[key]
-
-
 def _call(
     wrapper: RunContextWrapper[AuthContext], fn: Any, /, *args: Any
 ) -> dict[str, Any]:
-    eligible, attempted = _session_refund_state(wrapper.context)
-    if fn is escalate_to_human_logic and "refund" in str(args).lower():
-        pending = sorted(eligible - attempted)
-        if pending:
-            result = {
-                "ok": False,
-                "error": "use_issue_refund",
-                "reason": (
-                    f"Order #{pending[0]} is refund-eligible. Call issue_refund for the "
-                    "requested amount; the tool queues an above-threshold refund for "
-                    "human approval. Escalate only if issue_refund fails."
-                ),
-            }
-            record_tool_result(wrapper.context, result)
-            return result
     try:
         result = fn(wrapper.context, *args)
     except NotImplementedError as exc:
         result = {"ok": False, "error": "not_implemented", "reason": str(exc)}
-    if fn is get_order_logic and result.get("ok"):
-        order = result.get("order") or {}
-        if order.get("refund_eligible") and order.get("order_id") is not None:
-            eligible.add(int(order["order_id"]))
-    if fn is issue_refund_logic and args:
-        attempted.add(int(args[0]))
     record_tool_result(wrapper.context, result)
     return result
 
