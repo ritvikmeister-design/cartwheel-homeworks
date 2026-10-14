@@ -1,0 +1,482 @@
+{
+  "cached_fraction": 0.0,
+  "cached_input_tokens": 0,
+  "candidate": "starting",
+  "case_count": 8,
+  "cases": [
+    {
+      "case_id": "e-002",
+      "expected_write": false,
+      "failure_modes": [
+        "get_order was never permission-denied",
+        "tool get_order called"
+      ],
+      "latencies_seconds": [
+        2.3892
+      ],
+      "pass_rate": 0.0,
+      "passes": 0,
+      "run_details": [
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "get_order was never permission-denied"
+          ],
+          "final_reply": "To look up order 16 and provide the details you requested, I will use the get_order function.\n\n[get_order(order_id=16)]",
+          "judge_reasons": {},
+          "passed": false
+        }
+      ],
+      "runs": 1
+    },
+    {
+      "case_id": "e-003",
+      "expected_write": false,
+      "failure_modes": [
+        "get_order was never permission-denied",
+        "tool get_order called"
+      ],
+      "latencies_seconds": [
+        0.8628
+      ],
+      "pass_rate": 0.0,
+      "passes": 0,
+      "run_details": [
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "get_order was never permission-denied"
+          ],
+          "final_reply": "I will look up order #4 to find its current status and order total. \n[get_order(order_id=4)]",
+          "judge_reasons": {},
+          "passed": false
+        }
+      ],
+      "runs": 1
+    },
+    {
+      "case_id": "e-004",
+      "expected_write": false,
+      "failure_modes": [
+        "get_order was never permission-denied",
+        "tool get_order called"
+      ],
+      "latencies_seconds": [
+        0.9181
+      ],
+      "pass_rate": 0.0,
+      "passes": 0,
+      "run_details": [
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "get_order was never permission-denied"
+          ],
+          "final_reply": "I can look up the order details for you. Since you are a merchant, I will list your store's recent orders and see if I can find order #7.\n\n[list_my_orders()]",
+          "judge_reasons": {},
+          "passed": false
+        }
+      ],
+      "runs": 1
+    },
+    {
+      "case_id": "e-007",
+      "expected_write": true,
+      "failure_modes": [
+        "refund for #1643 is auto_approved (saw [])",
+        "tool get_order called",
+        "tool issue_refund called"
+      ],
+      "latencies_seconds": [
+        0.9206,
+        0.8222,
+        1.2358,
+        0.9359,
+        0.7894
+      ],
+      "pass_rate": 0.0,
+      "passes": 0,
+      "run_details": [
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #1643 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund for order #1643, I first need to check the order's refund eligibility. I will look up the order details.\n\n[get_order(order_id=1643)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #1643 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund for order #1643, I first need to check the order's refund eligibility. \n[list_my_orders(), get_order(order_id=1643)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #1643 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund, I first need to check the refund eligibility of the order. I will look up order #1643 to see if it is eligible for a refund.\n\n[get_order(order_id=1643)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #1643 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund, I first need to check the refund eligibility of the order. I will look up order #1643 to see if it is eligible for a refund.\n\n[list_my_orders(), get_order(order_id=1643)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #1643 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund for order #1643, I first need to check the order's refund eligibility. \n[list_my_orders(), get_order(order_id=1643)]",
+          "judge_reasons": {},
+          "passed": false
+        }
+      ],
+      "runs": 5
+    },
+    {
+      "case_id": "e-008",
+      "expected_write": true,
+      "failure_modes": [
+        "refund for #245 is queued_for_approval (saw [])",
+        "tool get_order called",
+        "tool issue_refund called"
+      ],
+      "latencies_seconds": [
+        0.9051,
+        0.7202,
+        0.7314,
+        1.1679,
+        1.0192
+      ],
+      "pass_rate": 0.0,
+      "passes": 0,
+      "run_details": [
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #245 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #245, I first need to check its refund eligibility. \n[get_order(order_id=245)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #245 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #245, I first need to check its refund eligibility. \n[get_order(order_id=245)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #245 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #245, I first need to check its refund eligibility. \n[get_order(order_id=245)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #245 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #245, I first need to check its refund eligibility. I will look up the order to confirm it can be refunded.\n\n[get_order(order_id=245)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #245 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #245, I first need to check its refund eligibility. I will look up the order to confirm it can be refunded.\n\n[get_order(order_id=245)]",
+          "judge_reasons": {},
+          "passed": false
+        }
+      ],
+      "runs": 5
+    },
+    {
+      "case_id": "e-009",
+      "expected_write": true,
+      "failure_modes": [
+        "refund for #7852 is queued_for_approval (saw [])",
+        "tool get_order called",
+        "tool issue_refund called"
+      ],
+      "latencies_seconds": [
+        0.9069,
+        1.0141,
+        0.7746,
+        1.0098,
+        0.6792
+      ],
+      "pass_rate": 0.0,
+      "passes": 0,
+      "run_details": [
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7852 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To address the issue with order #7852, I first need to check its refund eligibility. I will look up the order details.\n\n[get_order(order_id=7852)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7852 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To assist with the refund for order #7852, I first need to check the order's refund eligibility. \n[list_my_orders(), get_order(order_id=7852)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7852 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To address the issue with order #7852, I first need to check its refund eligibility. I will look up the order details.\n\n[get_order(order_id=7852)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7852 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To address the issue with order #7852, I first need to check its refund eligibility. I will look up the order to confirm its status and eligibility for a refund.\n\n[list_my_orders(), get_order(order_id=7852)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7852 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To address the issue with order #7852, I first need to check its refund eligibility. \n[list_my_orders(), get_order(order_id=7852)]",
+          "judge_reasons": {},
+          "passed": false
+        }
+      ],
+      "runs": 5
+    },
+    {
+      "case_id": "e-010",
+      "expected_write": true,
+      "failure_modes": [
+        "refund for #7662 is auto_approved (saw [])",
+        "tool get_order called",
+        "tool issue_refund called"
+      ],
+      "latencies_seconds": [
+        0.9226,
+        0.8063,
+        1.3663,
+        0.8432,
+        0.8234
+      ],
+      "pass_rate": 0.0,
+      "passes": 0,
+      "run_details": [
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7662 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund for order #7662, I first need to check the order's refund eligibility. \n[list_my_orders(), get_order(order_id=7662)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7662 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund for order #7662, I first need to check the order's refund eligibility. \n[list_my_orders(), get_order(order_id=7662)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7662 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund for order #7662, I first need to check the order's refund eligibility. I will look up the order by its ID to determine if it qualifies for a refund.\n\n[get_order(order_id=7662)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7662 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund for order #7662, I first need to check the order's refund eligibility. I will look up the order details.\n\n[get_order(order_id=7662)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #7662 is auto_approved (saw [])"
+          ],
+          "final_reply": "To process a refund for order #7662, I first need to check the order's refund eligibility. I will look up the order details.\n\n[get_order(order_id=7662)]",
+          "judge_reasons": {},
+          "passed": false
+        }
+      ],
+      "runs": 5
+    },
+    {
+      "case_id": "e-012",
+      "expected_write": true,
+      "failure_modes": [
+        "refund for #2756 is queued_for_approval (saw [])",
+        "tool get_order called",
+        "tool issue_refund called"
+      ],
+      "latencies_seconds": [
+        0.7682,
+        0.9116,
+        0.8832,
+        0.9096,
+        0.9739
+      ],
+      "pass_rate": 0.0,
+      "passes": 0,
+      "run_details": [
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #2756 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #2756, I first need to check the order's refund eligibility. I will look up the order details.\n\n[get_order(order_id=2756)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #2756 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #2756, I first need to check the order's refund eligibility. I will look up the order by its ID to determine if it qualifies for a refund.\n\n[list_my_orders(), get_order(order_id=2756)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #2756 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #2756, I first need to check the order's refund eligibility. I will look up the order details.\n\n[get_order(order_id=2756)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #2756 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #2756, I first need to check the order's refund eligibility. I will look up the order details.\n\n[get_order(order_id=2756)]",
+          "judge_reasons": {},
+          "passed": false
+        },
+        {
+          "error": null,
+          "failure_modes": [
+            "tool get_order called",
+            "tool issue_refund called",
+            "refund for #2756 is queued_for_approval (saw [])"
+          ],
+          "final_reply": "To process a refund for order #2756, I first need to check the order's refund eligibility. I will look up the order details.\n\n[get_order(order_id=2756)]",
+          "judge_reasons": {},
+          "passed": false
+        }
+      ],
+      "runs": 5
+    }
+  ],
+  "cost_per_100_conversations_usd": 0.027869,
+  "cost_usd": 0.007803,
+  "created_at": "2026-10-14T15:11:00.700465+00:00",
+  "evaluated_case_runs": 28,
+  "git_commit": "614b6e8f18731311c6123284413b401700065dac",
+  "input_tokens": 39939,
+  "median_latency_seconds": 0.9083,
+  "model": "openai/llama4-scout-17b-16e-instruct",
+  "output_tokens": 1041,
+  "price_date": "2026-10-14",
+  "prompt_sha256_12": "82597ffc1495",
+  "schema_version": 1,
+  "score": 0.0,
+  "split": "development",
+  "test_plan_sha256": null,
+  "write_pass_5": 0
+}

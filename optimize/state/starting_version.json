@@ -1,0 +1,18 @@
+{
+  "comparison_models": [
+    "openai/claude-5-sonnet-gosys",
+    "openai/llama4-maverick-17b-128e-instruct",
+    "openai/llama4-scout-17b-16e-instruct"
+  ],
+  "created_at": "2026-10-14T15:12:02.990013+00:00",
+  "development_model": "openai/llama4-scout-17b-16e-instruct",
+  "development_result": "/Users/ritviks/Documents/ai-evals-course/cartwheel-homeworks/optimize/results/latest-development.json",
+  "development_score": 0.0,
+  "git_commit": "614b6e8f18731311c6123284413b401700065dac",
+  "grader_sha256": "1bb912303626ac03d87abbd95372f0db5908c6a506f9d05c30616e0dbfc8c2e4",
+  "kind": "starting",
+  "model_selection_sha256": "6fe03f011b9dc936671fa1fc6c6843517c0be00825824ea1bd6ba68c1238ba6c",
+  "prompt_sha256_12": "82597ffc1495",
+  "split_membership_sha256": "50a0b24c7e7250d1c39a1b94f1ef14f5f0e8095b4c450efd67d5d88fcfe8268e",
+  "write_pass_5": 0
+}
