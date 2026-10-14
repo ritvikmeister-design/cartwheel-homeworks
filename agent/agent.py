@@ -372,7 +372,9 @@ def _issue_refund_impl(
 def issue_refund(
     wrapper: RunContextWrapper[AuthContext], order_id: int, amount_usd: float, reason: str
 ) -> dict[str, Any]:
-    """Issue a refund on an order. Large refunds are queued for human approval."""
+    """Issue a refund on a refund-eligible order. Use it for every eligible refund
+    request, including amounts above the auto-approval threshold: the tool queues
+    those for human approval itself, so do not escalate them."""
     return _issue_refund_impl(wrapper, order_id, amount_usd, reason)
 
 
@@ -380,7 +382,10 @@ def issue_refund(
 def escalate_to_human(
     wrapper: RunContextWrapper[AuthContext], summary: str, context: str
 ) -> dict[str, Any]:
-    """Open a ticket for a human support agent when a case is above your authority."""
+    """Open a ticket for a human support agent when a case is above your authority.
+
+    Not for refunds on eligible orders: issue_refund queues an above-threshold
+    refund for human approval itself."""
     return _call(wrapper, escalate_to_human_logic, summary, context)
 
 
@@ -484,7 +489,9 @@ def _defended_refund_tool() -> Any:
     return function_tool(
         name_override="issue_refund",
         description_override=(
-            "Issue a refund on an order. Large refunds are queued for human approval."
+            "Issue a refund on a refund-eligible order. Use it for every eligible refund "
+            "request, including amounts above the auto-approval threshold: the tool queues "
+            "those for human approval itself, so do not escalate them."
         ),
         needs_approval=refund_needs_human,
     )(_issue_refund_impl)
