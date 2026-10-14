@@ -1,0 +1,5 @@
+configuration,name,parent,git_commit,model,score,write_pass_5,cost_per_100_conversations_usd,median_latency_seconds,dominated
+1,starting-version-model-1,,614b6e8f18731311c6123284413b401700065dac,openai/claude-5-sonnet-gosys,0.95,0.5,0.814775,11.6192,True
+2,starting-version-model-2,,614b6e8f18731311c6123284413b401700065dac,openai/llama4-maverick-17b-128e-instruct,0.0,0,0.042212,1.0572,True
+3,starting-version-model-3,,614b6e8f18731311c6123284413b401700065dac,openai/llama4-scout-17b-16e-instruct,0.0,0,0.027844,0.8369,False
+4,final-version-model-3,starting-version-model-3,c4d1a76cc1602b15d3d0b66218411f60a2e4c0e6,openai/llama4-scout-17b-16e-instruct,1.0,1,0.08485,2.0742,False
