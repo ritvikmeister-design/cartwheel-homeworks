@@ -1,0 +1,6 @@
+{
+  "minimum_agreement_with_oracle": 0.95,
+  "oracle": "missing_policy_citation_hw5-v1",
+  "decided_at": "2026-10-14",
+  "note": "Chosen before running the proxy or calculating any agreement."
+}
