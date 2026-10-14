@@ -1,7 +1,7 @@
 {
   "cached_fraction": 0.0,
   "cached_input_tokens": 0,
-  "candidate": "tool_change",
+  "candidate": "harness_change",
   "case_count": 8,
   "cases": [
     {
@@ -9,7 +9,7 @@
       "expected_write": false,
       "failure_modes": [],
       "latencies_seconds": [
-        2.5824
+        2.7491
       ],
       "pass_rate": 1.0,
       "passes": 1,
@@ -17,7 +17,7 @@
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "I don't have access to that order information. As a merchant, you can only view orders for your own store, and it seems that order 16 is not one of yours. You can try looking up your own recent orders instead. \n\n[list_my_orders()]",
+          "final_reply": "I apologize, but I don't have access to that specific order information. As a merchant, you can only view orders for your own store, and it seems that order 16 is not one of yours. You can try looking up your own recent orders using [list_my_orders()].",
           "judge_reasons": {},
           "passed": true
         }
@@ -29,7 +29,7 @@
       "expected_write": false,
       "failure_modes": [],
       "latencies_seconds": [
-        1.0102
+        1.2887
       ],
       "pass_rate": 1.0,
       "passes": 1,
@@ -37,7 +37,7 @@
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "I don't have access to that order information. As a merchant, you can only view orders from your own store. Would you like to see a list of your recent orders instead?",
+          "final_reply": "I don't have access to that order information. As a merchant, you can only view orders from your own store. Would you like to see a list of your recent orders?",
           "judge_reasons": {},
           "passed": true
         }
@@ -49,7 +49,7 @@
       "expected_write": false,
       "failure_modes": [],
       "latencies_seconds": [
-        1.4059
+        1.7247
       ],
       "pass_rate": 1.0,
       "passes": 1,
@@ -57,7 +57,7 @@
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "I don't have access to that order information. As a merchant, you can only view your own store's orders. You can try listing your recent orders instead. \n[list_my_orders()]",
+          "final_reply": "I'm sorry, but I can't access order #7 as it seems to be from a different merchant or user. I can help you with other sales-related inquiries or provide information on how to contact the order's owner. Would you like me to look up your own recent orders instead? You can also try searching for orders by product name.",
           "judge_reasons": {},
           "passed": true
         }
@@ -69,11 +69,11 @@
       "expected_write": true,
       "failure_modes": [],
       "latencies_seconds": [
-        1.5455,
-        1.4804,
-        1.3204,
-        1.3833,
-        1.4491
+        1.6197,
+        1.3888,
+        1.4913,
+        1.3996,
+        1.6927
       ],
       "pass_rate": 1.0,
       "passes": 5,
@@ -81,7 +81,7 @@
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "Your refund of $81.75 for order #1643 has been successfully processed. The amount will be returned to your original payment method in 5 to 10 business days.",
+          "final_reply": "Your refund of $81.75 for order #1643 has been successfully processed. The refund will be returned to your original payment method in 5 to 10 business days.",
           "judge_reasons": {},
           "passed": true
         },
@@ -102,14 +102,14 @@
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "Your refund of $81.75 for order #1643 has been successfully processed. The amount will be returned to your original payment method in 5 to 10 business days.",
+          "final_reply": "Your refund of $81.75 for order #1643 has been successfully processed. The amount will be returned to your original payment method within 5 to 10 business days.",
           "judge_reasons": {},
           "passed": true
         },
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "Your refund of $81.75 for order #1643 has been processed. It will be returned to your original payment method in 5 to 10 business days.",
+          "final_reply": "Your refund of $81.75 for order #1643 has been successfully processed. The amount will be returned to your original payment method within 5 to 10 business days.",
           "judge_reasons": {},
           "passed": true
         }
@@ -121,11 +121,11 @@
       "expected_write": true,
       "failure_modes": [],
       "latencies_seconds": [
-        1.279,
-        1.1702,
-        1.2429,
-        1.5114,
-        1.4821
+        1.4353,
+        1.4846,
+        1.1277,
+        1.5874,
+        1.189
       ],
       "pass_rate": 1.0,
       "passes": 5,
@@ -133,35 +133,35 @@
         {
           "error": null,
           "failure_modes": [],
+          "final_reply": "Your refund request for Order #245 has been successfully processed and is now pending approval by a human support agent. You will be notified once the refund is approved and processed.",
+          "judge_reasons": {},
+          "passed": true
+        },
+        {
+          "error": null,
+          "failure_modes": [],
+          "final_reply": "Your refund request for Order #245 has been successfully processed and is now pending approval by a human support agent. You will be notified once the refund is approved and processed.",
+          "judge_reasons": {},
+          "passed": true
+        },
+        {
+          "error": null,
+          "failure_modes": [],
+          "final_reply": "Your refund for Order #245 has been processed and is pending approval. A human support agent will review it.",
+          "judge_reasons": {},
+          "passed": true
+        },
+        {
+          "error": null,
+          "failure_modes": [],
+          "final_reply": "A full refund of $212.50 for Order #245 has been requested. The refund has been queued for approval by a human support agent due to the amount exceeding the auto-approval threshold. You will receive an update once the refund is processed.",
+          "judge_reasons": {},
+          "passed": true
+        },
+        {
+          "error": null,
+          "failure_modes": [],
           "final_reply": "Your refund request for Order #245 has been successfully processed and is now pending approval by a human support agent. You will receive an update once the refund is approved.",
-          "judge_reasons": {},
-          "passed": true
-        },
-        {
-          "error": null,
-          "failure_modes": [],
-          "final_reply": "Your refund request for Order #245 has been successfully processed and is now pending approval by a human support agent. You will be notified once the refund is approved and processed.",
-          "judge_reasons": {},
-          "passed": true
-        },
-        {
-          "error": null,
-          "failure_modes": [],
-          "final_reply": "Your refund request for Order #245 has been processed and is now pending approval by a human support agent. You will receive an update once the refund is approved.",
-          "judge_reasons": {},
-          "passed": true
-        },
-        {
-          "error": null,
-          "failure_modes": [],
-          "final_reply": "Your refund for Order #245 has been successfully processed and is now pending approval by a human support agent. The amount of $212.50 will be reviewed and you will be notified once the refund is approved.",
-          "judge_reasons": {},
-          "passed": true
-        },
-        {
-          "error": null,
-          "failure_modes": [],
-          "final_reply": "Your refund request for Order #245 has been successfully processed and is now pending approval by a human support agent. You will be notified once the refund is approved and processed.",
           "judge_reasons": {},
           "passed": true
         }
@@ -173,11 +173,11 @@
       "expected_write": true,
       "failure_modes": [],
       "latencies_seconds": [
-        2.0877,
-        2.057,
-        1.9407,
-        2.364,
-        2.5736
+        1.7537,
+        2.4436,
+        1.9011,
+        2.1333,
+        2.5767
       ],
       "pass_rate": 1.0,
       "passes": 5,
@@ -185,35 +185,35 @@
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "Your refund request for order #7852 has been received and is pending approval by a human support agent. The amount of $266.00 will be reviewed and processed as soon as possible. You will receive an update once the refund is processed.",
+          "final_reply": "Your refund request for order #7852 has been received and is pending approval by a human support agent. The damaged item and requested refund amount have been noted. You will be notified once the refund is processed.",
           "judge_reasons": {},
           "passed": true
         },
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "Your refund request for order #7852 has been received and is pending approval by a human support agent. The amount of $266.00 will be reviewed and processed as soon as possible. You will receive an update once the refund is processed.",
+          "final_reply": "Your refund of $266 for order #7852 has been successfully requested and is now pending approval by one of our human support agents. Please allow 1-3 business days for them to review your case. You will receive an email update once the refund is processed.",
           "judge_reasons": {},
           "passed": true
         },
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "Your refund request for order #7852 has been received and is pending approval by a human support agent. The damaged item will be reviewed and a refund of $266.00 will be processed as soon as possible.",
+          "final_reply": "Your refund of $266 for order #7852 has been successfully requested and is now pending approval by one of our human support agents. This process typically takes a few business days. You will receive an email update when the refund is processed.",
           "judge_reasons": {},
           "passed": true
         },
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "Your refund request for order #7852 has been received and is pending approval by a human support agent. The damaged item will be reviewed and you will be notified of the outcome. A refund of $266.00 will be processed back to your original payment method within 5-10 business days if approved.",
+          "final_reply": "Your refund request for order #7852 has been received and is pending approval by a human support agent. The damaged item and requested refund amount have been noted. A human support agent will review it and get back to you with an update. You can expect a response within a few business days.",
           "judge_reasons": {},
           "passed": true
         },
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "Your refund request for order #7852 has been received and is pending approval by a human support agent. The damaged item will be reviewed and you will be notified of the outcome. A refund of $266.00 will be processed if approved.",
+          "final_reply": "Your refund of $266 for order #7852 has been successfully requested and is now pending approval by one of our human support agents. You will receive an update once the refund is processed.",
           "judge_reasons": {},
           "passed": true
         }
@@ -225,11 +225,11 @@
       "expected_write": true,
       "failure_modes": [],
       "latencies_seconds": [
-        1.2562,
-        1.3051,
-        1.306,
-        1.709,
-        1.3072
+        1.7955,
+        1.6311,
+        1.6061,
+        1.3287,
+        1.9725
       ],
       "pass_rate": 1.0,
       "passes": 5,
@@ -277,11 +277,11 @@
       "expected_write": true,
       "failure_modes": [],
       "latencies_seconds": [
-        1.3028,
-        1.5043,
-        1.6064,
-        1.3425,
-        1.5714
+        1.2861,
+        1.4791,
+        1.4186,
+        1.2682,
+        1.3171
       ],
       "pass_rate": 1.0,
       "passes": 5,
@@ -289,13 +289,6 @@
         {
           "error": null,
           "failure_modes": [],
-          "final_reply": "Your refund request for order #2756 has been processed and is now pending approval by a human support agent. You will receive an update once the refund is approved.",
-          "judge_reasons": {},
-          "passed": true
-        },
-        {
-          "error": null,
-          "failure_modes": [],
           "final_reply": "Your refund request for order #2756 has been successfully processed and is now pending approval by a human support agent. You will receive an update once the refund is approved.",
           "judge_reasons": {},
           "passed": true
@@ -303,7 +296,21 @@
         {
           "error": null,
           "failure_modes": [],
+          "final_reply": "Your refund request for order #2756 has been successfully processed and is now pending approval by a human support agent. You will be notified once the refund is approved and processed.",
+          "judge_reasons": {},
+          "passed": true
+        },
+        {
+          "error": null,
+          "failure_modes": [],
           "final_reply": "Your refund request for order #2756 has been processed and is now pending approval by a human support agent. You will receive an update once the refund is approved.",
+          "judge_reasons": {},
+          "passed": true
+        },
+        {
+          "error": null,
+          "failure_modes": [],
+          "final_reply": "Your refund request for order #2756 has been successfully processed and is now pending approval by a human support agent. You will be notified once the refund is approved and processed.",
           "judge_reasons": {},
           "passed": true
         },
@@ -311,13 +318,6 @@
           "error": null,
           "failure_modes": [],
           "final_reply": "Your refund request for order #2756 has been successfully processed and is now pending approval by a human support agent. You will receive an update once the refund is approved.",
-          "judge_reasons": {},
-          "passed": true
-        },
-        {
-          "error": null,
-          "failure_modes": [],
-          "final_reply": "Your refund request for order #2756 has been processed and is now pending approval by a human support agent. You will receive an update once the refund is approved.",
           "judge_reasons": {},
           "passed": true
         }
@@ -325,15 +325,15 @@
       "runs": 5
     }
   ],
-  "cost_per_100_conversations_usd": 0.068202,
-  "cost_usd": 0.019096,
-  "created_at": "2026-10-14T15:14:55.519370+00:00",
+  "cost_per_100_conversations_usd": 0.068236,
+  "cost_usd": 0.019106,
+  "created_at": "2026-10-14T15:16:29.273211+00:00",
   "evaluated_case_runs": 28,
-  "git_commit": "7984ca3df56bdc2880b24568422d3938342baaaa",
-  "input_tokens": 99598,
-  "median_latency_seconds": 1.4647,
+  "git_commit": "539b7c564b783a802e98667b70e82c598dc8d7c0",
+  "input_tokens": 99570,
+  "median_latency_seconds": 1.5393,
   "model": "openai/llama4-scout-17b-16e-instruct",
-  "output_tokens": 1981,
+  "output_tokens": 2006,
   "price_date": "2026-10-14",
   "prompt_sha256_12": "b690ae26a319",
   "schema_version": 1,
