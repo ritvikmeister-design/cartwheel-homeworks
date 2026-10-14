@@ -1,0 +1,8 @@
+{
+  "best_prompt": "/Users/ritviks/Documents/ai-evals-course/cartwheel-homeworks/optimize/results/gepa-best-prompt.txt",
+  "best_score": 1.0,
+  "created_at": "2026-10-14T15:25:13.625891+00:00",
+  "reflection_model": "openai/claude-5-sonnet-gosys",
+  "task_model": "openai/llama4-scout-17b-16e-instruct",
+  "total_evals": 122
+}
