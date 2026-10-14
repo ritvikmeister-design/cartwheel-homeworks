@@ -176,7 +176,7 @@ def model_settings_for(model: Any) -> ModelSettings:
 SNIPPET_CHARS = 300
 
 
-def search_help_center_logic(ctx: AuthContext, query: str, k: int = 2) -> dict[str, Any]:
+def search_help_center_logic(ctx: AuthContext, query: str, k: int = 3) -> dict[str, Any]:
     """BM25 search over the policy corpus. Read tool, no permission check."""
     query = query.strip()
     if not query:
