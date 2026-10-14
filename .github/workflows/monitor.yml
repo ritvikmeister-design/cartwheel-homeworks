@@ -32,7 +32,11 @@ jobs:
             echo "::error::Set these Actions secrets or variables:$missing"
             exit 1
           fi
+      # Scheduled and manual runs start from the default branch (main), which
+      # holds only this workflow; the monitoring code lives on homework-7.
       - uses: actions/checkout@v4
+        with:
+          ref: homework-7
       - uses: astral-sh/setup-uv@v5
       - run: uv sync
 
