@@ -146,7 +146,12 @@ def main() -> None:
                     max_workers=1,
                     raise_on_exception=True,
                 ),
-                reflection=ReflectionConfig(reflection_lm=reflection_model),
+                # The course gateway's Claude endpoint rejects a request without
+                # max_tokens, so set it explicitly (the agent does the same).
+                reflection=ReflectionConfig(
+                    reflection_lm=reflection_model,
+                    reflection_lm_kwargs={"max_tokens": 4096},
+                ),
             ),
         )
     except Exception as exc:
