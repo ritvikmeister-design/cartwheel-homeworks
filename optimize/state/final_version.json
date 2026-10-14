@@ -1,0 +1,641 @@
+{
+  "changed_layers": [
+    "prompt",
+    "tool"
+  ],
+  "comparison_models": [
+    "openai/claude-5-sonnet-gosys",
+    "openai/llama4-maverick-17b-128e-instruct",
+    "openai/llama4-scout-17b-16e-instruct"
+  ],
+  "created_at": "2026-10-14T15:43:39.088864+00:00",
+  "development_model": "openai/llama4-scout-17b-16e-instruct",
+  "development_result": "/Users/ritviks/Documents/ai-evals-course/cartwheel-homeworks/optimize/results/latest-development.json",
+  "development_score": 0.975,
+  "git_commit": "c4d1a76cc1602b15d3d0b66218411f60a2e4c0e6",
+  "grader_sha256": "1bb912303626ac03d87abbd95372f0db5908c6a506f9d05c30616e0dbfc8c2e4",
+  "kind": "final",
+  "method": [
+    "manual"
+  ],
+  "model_selection_sha256": "6fe03f011b9dc936671fa1fc6c6843517c0be00825824ea1bd6ba68c1238ba6c",
+  "prompt_sha256_12": "b690ae26a319",
+  "search_budget": {
+    "maximum_calls": 150,
+    "reservations": [
+      {
+        "calls": 1,
+        "label": "gepa:e-002:1",
+        "reserved_at": "2026-10-14T15:18:48.582887+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-003:1",
+        "reserved_at": "2026-10-14T15:18:50.980791+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-004:1",
+        "reserved_at": "2026-10-14T15:18:52.169979+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:1",
+        "reserved_at": "2026-10-14T15:18:53.519997+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:2",
+        "reserved_at": "2026-10-14T15:18:55.256760+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:3",
+        "reserved_at": "2026-10-14T15:18:56.975066+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:4",
+        "reserved_at": "2026-10-14T15:18:58.595439+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:5",
+        "reserved_at": "2026-10-14T15:18:59.983515+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:1",
+        "reserved_at": "2026-10-14T15:19:01.500376+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:2",
+        "reserved_at": "2026-10-14T15:19:03.065937+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:3",
+        "reserved_at": "2026-10-14T15:19:04.799627+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:4",
+        "reserved_at": "2026-10-14T15:19:06.106354+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:5",
+        "reserved_at": "2026-10-14T15:19:07.452758+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:1",
+        "reserved_at": "2026-10-14T15:19:09.151321+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:2",
+        "reserved_at": "2026-10-14T15:19:11.227532+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:3",
+        "reserved_at": "2026-10-14T15:19:13.553704+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:4",
+        "reserved_at": "2026-10-14T15:19:15.216651+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:5",
+        "reserved_at": "2026-10-14T15:19:17.678224+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:1",
+        "reserved_at": "2026-10-14T15:19:19.459076+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:2",
+        "reserved_at": "2026-10-14T15:19:20.840829+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:3",
+        "reserved_at": "2026-10-14T15:19:22.274427+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:4",
+        "reserved_at": "2026-10-14T15:19:23.999390+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:5",
+        "reserved_at": "2026-10-14T15:19:25.760449+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:1",
+        "reserved_at": "2026-10-14T15:19:27.276717+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:2",
+        "reserved_at": "2026-10-14T15:19:28.625542+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:3",
+        "reserved_at": "2026-10-14T15:19:30.148985+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:4",
+        "reserved_at": "2026-10-14T15:19:31.583804+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:5",
+        "reserved_at": "2026-10-14T15:19:33.130616+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:1",
+        "reserved_at": "2026-10-14T15:19:34.656142+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:3",
+        "reserved_at": "2026-10-14T15:19:36.099463+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:5",
+        "reserved_at": "2026-10-14T15:19:37.526514+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:1",
+        "reserved_at": "2026-10-14T15:19:54.120797+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:3",
+        "reserved_at": "2026-10-14T15:19:55.844378+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:5",
+        "reserved_at": "2026-10-14T15:19:57.297112+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:5",
+        "reserved_at": "2026-10-14T15:19:58.975437+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:3",
+        "reserved_at": "2026-10-14T15:20:00.356245+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-002:1",
+        "reserved_at": "2026-10-14T15:20:01.899939+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:5",
+        "reserved_at": "2026-10-14T15:20:20.655905+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:3",
+        "reserved_at": "2026-10-14T15:20:22.285915+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-002:1",
+        "reserved_at": "2026-10-14T15:20:24.229508+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:5",
+        "reserved_at": "2026-10-14T15:20:25.563154+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:3",
+        "reserved_at": "2026-10-14T15:20:27.149144+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:1",
+        "reserved_at": "2026-10-14T15:20:28.456791+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:5",
+        "reserved_at": "2026-10-14T15:20:42.346848+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:3",
+        "reserved_at": "2026-10-14T15:20:44.401183+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:1",
+        "reserved_at": "2026-10-14T15:20:46.014836+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:2",
+        "reserved_at": "2026-10-14T15:20:48.129278+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:2",
+        "reserved_at": "2026-10-14T15:20:50.116046+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:4",
+        "reserved_at": "2026-10-14T15:20:51.466990+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:2",
+        "reserved_at": "2026-10-14T15:21:04.358536+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:2",
+        "reserved_at": "2026-10-14T15:21:05.957835+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:4",
+        "reserved_at": "2026-10-14T15:21:07.370783+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:3",
+        "reserved_at": "2026-10-14T15:21:08.809000+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-004:1",
+        "reserved_at": "2026-10-14T15:21:10.251514+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:1",
+        "reserved_at": "2026-10-14T15:21:11.559240+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:3",
+        "reserved_at": "2026-10-14T15:21:27.336790+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-004:1",
+        "reserved_at": "2026-10-14T15:21:28.732123+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:1",
+        "reserved_at": "2026-10-14T15:21:30.390348+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:2",
+        "reserved_at": "2026-10-14T15:21:31.946979+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:4",
+        "reserved_at": "2026-10-14T15:21:33.750560+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:4",
+        "reserved_at": "2026-10-14T15:21:35.581565+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:2",
+        "reserved_at": "2026-10-14T15:21:53.226289+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:4",
+        "reserved_at": "2026-10-14T15:21:55.129385+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:4",
+        "reserved_at": "2026-10-14T15:21:56.639321+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-002:1",
+        "reserved_at": "2026-10-14T15:21:58.199862+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-003:1",
+        "reserved_at": "2026-10-14T15:21:59.752715+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-004:1",
+        "reserved_at": "2026-10-14T15:22:01.740851+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:1",
+        "reserved_at": "2026-10-14T15:22:03.138091+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:2",
+        "reserved_at": "2026-10-14T15:22:04.770395+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:3",
+        "reserved_at": "2026-10-14T15:22:06.801866+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:4",
+        "reserved_at": "2026-10-14T15:22:08.865203+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:5",
+        "reserved_at": "2026-10-14T15:22:10.579643+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:1",
+        "reserved_at": "2026-10-14T15:22:12.355664+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:2",
+        "reserved_at": "2026-10-14T15:22:14.110319+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:3",
+        "reserved_at": "2026-10-14T15:22:15.962385+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:4",
+        "reserved_at": "2026-10-14T15:22:17.970026+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:5",
+        "reserved_at": "2026-10-14T15:22:19.850684+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:1",
+        "reserved_at": "2026-10-14T15:22:21.336798+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:2",
+        "reserved_at": "2026-10-14T15:22:23.173189+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:3",
+        "reserved_at": "2026-10-14T15:22:24.847547+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:4",
+        "reserved_at": "2026-10-14T15:22:27.279783+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:5",
+        "reserved_at": "2026-10-14T15:22:29.487967+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:1",
+        "reserved_at": "2026-10-14T15:22:32.046352+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:2",
+        "reserved_at": "2026-10-14T15:22:34.162111+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:3",
+        "reserved_at": "2026-10-14T15:22:36.126762+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:4",
+        "reserved_at": "2026-10-14T15:22:37.669911+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:5",
+        "reserved_at": "2026-10-14T15:22:39.686032+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:1",
+        "reserved_at": "2026-10-14T15:22:41.143113+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:2",
+        "reserved_at": "2026-10-14T15:22:42.553347+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:3",
+        "reserved_at": "2026-10-14T15:22:43.722714+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:4",
+        "reserved_at": "2026-10-14T15:22:44.937170+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:5",
+        "reserved_at": "2026-10-14T15:22:46.157747+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:4",
+        "reserved_at": "2026-10-14T15:22:47.329799+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:2",
+        "reserved_at": "2026-10-14T15:22:49.435913+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:5",
+        "reserved_at": "2026-10-14T15:22:51.279290+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:4",
+        "reserved_at": "2026-10-14T15:23:15.743452+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:2",
+        "reserved_at": "2026-10-14T15:23:17.085529+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:5",
+        "reserved_at": "2026-10-14T15:23:18.620711+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:3",
+        "reserved_at": "2026-10-14T15:23:20.515383+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:4",
+        "reserved_at": "2026-10-14T15:23:22.124343+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:1",
+        "reserved_at": "2026-10-14T15:23:23.740562+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:3",
+        "reserved_at": "2026-10-14T15:23:46.872572+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:4",
+        "reserved_at": "2026-10-14T15:23:48.930080+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:1",
+        "reserved_at": "2026-10-14T15:23:50.923867+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-003:1",
+        "reserved_at": "2026-10-14T15:23:53.300635+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:1",
+        "reserved_at": "2026-10-14T15:23:54.596607+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:2",
+        "reserved_at": "2026-10-14T15:23:56.176123+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-003:1",
+        "reserved_at": "2026-10-14T15:24:17.585461+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-009:1",
+        "reserved_at": "2026-10-14T15:24:18.495272+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:2",
+        "reserved_at": "2026-10-14T15:24:20.521281+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:5",
+        "reserved_at": "2026-10-14T15:24:21.738218+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:5",
+        "reserved_at": "2026-10-14T15:24:23.345123+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:2",
+        "reserved_at": "2026-10-14T15:24:24.878555+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:5",
+        "reserved_at": "2026-10-14T15:24:41.527240+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-008:5",
+        "reserved_at": "2026-10-14T15:24:43.268585+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:2",
+        "reserved_at": "2026-10-14T15:24:45.049639+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:5",
+        "reserved_at": "2026-10-14T15:24:46.544616+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:4",
+        "reserved_at": "2026-10-14T15:24:47.891802+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:3",
+        "reserved_at": "2026-10-14T15:24:49.447482+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-012:5",
+        "reserved_at": "2026-10-14T15:25:08.963266+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-010:4",
+        "reserved_at": "2026-10-14T15:25:10.520924+00:00"
+      },
+      {
+        "calls": 1,
+        "label": "gepa:e-007:3",
+        "reserved_at": "2026-10-14T15:25:11.888665+00:00"
+      }
+    ],
+    "used_calls": 122
+  },
+  "split_membership_sha256": "50a0b24c7e7250d1c39a1b94f1ef14f5f0e8095b4c450efd67d5d88fcfe8268e",
+  "write_pass_5": 0.8
+}
