@@ -1,0 +1,5 @@
+candidate,model,development_score,write_pass_5,cost_per_100_conversations_usd,median_latency_seconds,frontier_status
+hw8-final,openai/llama4-scout-17b-16e-instruct,0.975,0.8,0.066802,1.7075,dominated
+fewer-tokens,openai/llama4-scout-17b-16e-instruct,0.975,0.8,0.067522,1.7084,dominated
+cache-before,openai/llama4-scout-17b-16e-instruct,0.975,0.8,0.068072,1.5145,dominated
+cache-after,openai/llama4-scout-17b-16e-instruct,1.0,1,0.061074,1.403,frontier

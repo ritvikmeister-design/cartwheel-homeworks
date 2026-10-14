@@ -1,0 +1,15 @@
+{
+  "threshold": 0.95,
+  "examples": 40,
+  "agreement_with_oracle": 0.95,
+  "disagreements_with_oracle": 2,
+  "agreement_with_human_labels": 0.975,
+  "proxy_share": 0.95,
+  "cost_per_1000_verdicts_usd": 0.4553,
+  "oracle_only_cost_per_1000_verdicts_usd": 0.6211,
+  "split": "test",
+  "minimum_agreement_with_oracle": 0.95,
+  "meets_requirement": true,
+  "proxy_model": "openai/llama4-scout-17b-16e-instruct",
+  "oracle": "missing_policy_citation_hw5-v1"
+}
